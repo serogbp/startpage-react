@@ -1,5 +1,16 @@
+
+export interface jsonContent {
+	webs: {
+		[key:string]: Web
+	},
+	categories: {
+		[key:string]: Category
+	},
+	categoryOrder: string[]
+}
+
 export interface Web {
-	url: string,
+	id: string,
 	name: string,
 	category: string,
 	image: string,
@@ -17,11 +28,16 @@ export interface WebStats {
 
 
 export interface Category {
-	name: string,
-	index: number,
+	id: string,
+	webIds: string[],
 }
 
 export interface WebsByCategory {
+	columnOrder: String[],
+	columns: column[]
+}
+
+export interface column {
 	[key:string]: Web[]
 }
 

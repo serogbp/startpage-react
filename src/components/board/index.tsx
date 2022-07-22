@@ -2,17 +2,20 @@ import { Group, ScrollArea } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult } from "react-beautiful-dnd"
 import { UseWebs } from "../../hooks/UseWebs"
+import { column, jsonContent, WebsByCategory } from "../../Types"
 import Column from "./column"
 
 export const Board = (() => {
-	const { webs } = UseWebs()
-	const [columns, setColumns] = useState(webs)
-	
+	const useWebs:any = UseWebs()
+	const [state, setState] = useState<jsonContent>(useWebs.getWebs())
+	let columnOrder =
+
+	console.log(state)
 
 	useEffect(() => {
 		// TODO actualizar localstorage
-		console.log(columns)
-	}, [columns])
+		console.log(state)
+	}, [state])
 
 
 	const handlerDragEnd = (result: DropResult) => {
@@ -42,33 +45,38 @@ export const Board = (() => {
 			// La web ha sido droppeada en la misma categoría
 			// Solo cambiar index de la web
 			if (destination.droppableId === source.droppableId) {
-				const newColumn = Array.from(columns[source.droppableId])
-				const web = newColumn[source.index] // Almacenar web modificada
-				newColumn.splice(source.index, 1) // Eliminar antiguo index
-				newColumn.splice(destination.index, 0, web) // Mover web modificada a nuevo index
+				const newColumn = state.categories[source.droppableId]
+				newColumn.webIds.splice(source.index, 1) // Eliminar antiguo index
+				newColumn.webIds.splice(destination.index, 0, draggableId) // Mover web modificada a nuevo index
 
 				const newState = {
-					...columns,
-					[source.droppableId]: newColumn
+					...state,
+					categories: {
+						...state.categories,
+						[source.droppableId]: newColumn
+					}
 				}
-				setColumns(newState)
+				setState(newState)
 			}
 
 			// La web ha sido droppeada en otra categoría
 			// Mover web a otra categoría
 			if (destination.droppableId !== source.droppableId) {
-				const oldColumn = Array.from(columns[source.droppableId])
-				const newColumn = Array.from(columns[destination.droppableId])
-				const web = oldColumn[source.index]
-				oldColumn.splice(source.index,1)
-				newColumn.splice(destination.index, 0, web)
+				console.log(state.categories)
+				const oldColumn = state.categories[source.droppableId]
+				const newColumn = state.categories[destination.droppableId]
+				oldColumn.webIds.splice(source.index,1)
+				newColumn.webIds.splice(destination.index, 0, draggableId)
 
 				const newState = {
-					...columns,
-					[source.droppableId]: oldColumn,
-					[destination.droppableId]: newColumn
+					...state,
+					categories: {
+						...state.categories,
+						[source.droppableId]: oldColumn,
+						[destination.droppableId]: newColumn
+					}
 				}
-				setColumns(newState)
+				setState(newState)
 			}
 		}
 	})
@@ -84,16 +92,15 @@ export const Board = (() => {
 			if (destination.index === source.index)
 				return
 
-			const newColumns = Object.entries(columns)
-			console.log(newColumns)
-			const column = newColumns[source.index]
-			newColumns.splice(source.index, 1)
-			newColumns.splice(destination.index, 0, column)
+			const newCategoryOrder = state.categoryOrder
+			newCategoryOrder.splice(source.index, 1)
+			newCategoryOrder.splice(destination.index, 0, draggableId)
 
-			console.log(newColumns)
-			console.log(newColumns.reduce((category, webs) => ({[category.toString()]:webs}), {}))
-
-			// setColumns(newColumns)
+			const newState = {
+				...state,
+				columnOrder: newCategoryOrder
+			}
+			setState(newState)
 		}
 	})
 
@@ -102,14 +109,14 @@ export const Board = (() => {
 			<DragDropContext onDragEnd={handlerDragEnd}>
 				<Droppable droppableId="board" direction="horizontal" type="column">
 					{(provided) => (
-						<Group sx={{ flexWrap: "nowrap" }} grow spacing="xs" align="top"
-							{...provided.droppableProps}
-							ref={provided.innerRef}
-						>
+						<Group grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef} sx={{ flexWrap: "nowrap" }}>
 							{
-								Object.getOwnPropertyNames(columns).map((category, index) => {
-									return (
-										<Column key={category} name={category} webs={columns[category]} index={index} />
+
+								state.categoryOrder.map((categoryId, index) => {
+									const category = state.categories[categoryId]
+									const webs = category.webIds.map(webId => state.webs[webId])
+									return(
+										<Column key={categoryId} name={category.id} webs={webs} index={index}/>
 									)
 								})
 							}

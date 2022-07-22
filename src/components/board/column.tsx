@@ -26,11 +26,12 @@ const Column = memo((props: Props) => {
 							<Stack
 								{...provided.droppableProps}
 								ref={provided.innerRef}
+								style={{minWidth:200, minHeight:100}}
 							>
 								{
 									props.webs.map((web, index) => {
 										return (
-											<DraggableElement key={web.url} draggableId={web.url} index={index}>
+											<DraggableElement key={web.id} draggableId={web.id} index={index}>
 												<ColumnItem web={web} />
 											</DraggableElement>
 										)
