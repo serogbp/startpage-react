@@ -9,6 +9,7 @@ export interface Web {
 }
 
 
+
 export interface WebStats {
 	timesClicked: number,
 }
@@ -21,15 +22,8 @@ export interface Category {
 }
 
 export interface WebsByCategory {
-	[key:string]: Web[],
-
+	[key:string]: Web[]
 }
-interface Person {
-	[key: string]: any;
-	age: number;
-	name: string;
-	country?: string;
-  }
 
 export interface WebFilter {
 	type: string,

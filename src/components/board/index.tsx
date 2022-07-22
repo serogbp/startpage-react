@@ -1,12 +1,13 @@
 import { Group, ScrollArea } from "@mantine/core"
 import { useEffect, useState } from "react"
-import { DragDropContext, DropResult } from "react-beautiful-dnd"
+import { Droppable, DragDropContext, DropResult } from "react-beautiful-dnd"
 import { UseWebs } from "../../hooks/UseWebs"
 import Column from "./column"
 
 export const Board = (() => {
 	const { webs } = UseWebs()
 	const [columns, setColumns] = useState(webs)
+	
 
 	useEffect(() => {
 		// TODO actualizar localstorage
@@ -14,7 +15,20 @@ export const Board = (() => {
 	}, [columns])
 
 
-	const onDragEnd = ((result: DropResult) => {
+	const handlerDragEnd = (result: DropResult) => {
+		switch (result.type) {
+			case "columnItem":
+				columnItemDragEnd(result)
+				break
+			case "column":
+				columnDragEnd(result)
+				break
+			default:
+				break
+		}
+	}
+
+	const columnItemDragEnd = ((result: DropResult) => {
 		const { source, destination, draggableId } = result
 		// Si hace drop en una zona no permitida
 		if (!destination) {
@@ -59,19 +73,50 @@ export const Board = (() => {
 		}
 	})
 
+	const columnDragEnd = ((result: DropResult) => {
+		const { source, destination, draggableId } = result
+		// Si hace drop en una zona no permitida
+		if (!destination) {
+			return
+		}
+		else {
+			// Si hace drop en la posición original
+			if (destination.index === source.index)
+				return
+
+			const newColumns = Object.entries(columns)
+			console.log(newColumns)
+			const column = newColumns[source.index]
+			newColumns.splice(source.index, 1)
+			newColumns.splice(destination.index, 0, column)
+
+			console.log(newColumns)
+			console.log(newColumns.reduce((category, webs) => ({[category.toString()]:webs}), {}))
+
+			// setColumns(newColumns)
+		}
+	})
 
 	return (
 		<ScrollArea>
-			<DragDropContext onDragEnd={onDragEnd}>
-				<Group sx={{ flexWrap: "nowrap" }} grow spacing="xs" align="top">
-					{
-						Object.getOwnPropertyNames(columns).map((category) => {
-							return (
-								<Column key={category} name={category} webs={columns[category]} />
-							)
-						})
-					}
-				</Group>
+			<DragDropContext onDragEnd={handlerDragEnd}>
+				<Droppable droppableId="board" direction="horizontal" type="column">
+					{(provided) => (
+						<Group sx={{ flexWrap: "nowrap" }} grow spacing="xs" align="top"
+							{...provided.droppableProps}
+							ref={provided.innerRef}
+						>
+							{
+								Object.getOwnPropertyNames(columns).map((category, index) => {
+									return (
+										<Column key={category} name={category} webs={columns[category]} index={index} />
+									)
+								})
+							}
+							{provided.placeholder}
+						</Group>
+					)}
+				</Droppable>
 			</DragDropContext>
 		</ScrollArea>
 	)
