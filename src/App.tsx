@@ -1,6 +1,7 @@
 import { AppShell, useMantineTheme } from '@mantine/core'
 import './App.css'
 import { Board } from './components/board'
+import { UseWebs } from './hooks/UseWebs';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
 				},
 			}}
 		>
-			<Board />
+			<Board webs={UseWebs().getWebs()}/>
 		</AppShell>
 	)
 }

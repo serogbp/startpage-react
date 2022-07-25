@@ -60,7 +60,7 @@ const ColumnItem = memo((props: Props) => {
 					<Text weight={500}>
 						{web.name}
 					</Text>
-					{web.url}
+					url: {web.id}
 				</Stack>
 			</Card.Section>
 		</Card>

@@ -5,16 +5,17 @@ import { UseWebs } from "../../hooks/UseWebs"
 import { column, jsonContent, WebsByCategory } from "../../Types"
 import Column from "./column"
 
-export const Board = (() => {
-	const useWebs:any = UseWebs()
-	const [state, setState] = useState<jsonContent>(useWebs.getWebs())
-	let columnOrder =
+interface Props {
+	webs: jsonContent
+}
 
-	console.log(state)
+export const Board = ((props:Props) => {
+	const useWebs:any = UseWebs()
+	const [state, setState] = useState<jsonContent>(props.webs)
+
 
 	useEffect(() => {
 		// TODO actualizar localstorage
-		console.log(state)
 	}, [state])
 
 
@@ -111,7 +112,6 @@ export const Board = (() => {
 					{(provided) => (
 						<Group grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef} sx={{ flexWrap: "nowrap" }}>
 							{
-
 								state.categoryOrder.map((categoryId, index) => {
 									const category = state.categories[categoryId]
 									const webs = category.webIds.map(webId => state.webs[webId])

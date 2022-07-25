@@ -20,7 +20,7 @@ const WebService: WebServiceType = {
 	getWebs: () => {
 		//return JSON.parse(localStorage.getItem(WEBS) ?? '[]')
 		// return JSON.parse(initialData)
-		return initialData
+		return getInitialData()
 	},
 
 
@@ -89,3 +89,39 @@ const initialData: jsonContent = {
 	},
 	categoryOrder: ['column-1', 'column-2', 'column-3'],
 }
+
+const getInitialData = (() => {
+	console.log("getInitialData")
+	let cosa: jsonContent = {
+		webs: {},
+		categories: {},
+		categoryOrder: []
+	}
+
+	const CATEGORIES = 20
+	const WEBS = 100
+
+	for (var i = 0; i < CATEGORIES * WEBS; i++) {
+		cosa.webs[`task-${i}`] = {
+			id: `task-${i}`,
+			name: `task-${i}`,
+		}
+	}
+
+	const getTaskIds = (index: number) => {
+		let ids: string[] = []
+		for (var i = WEBS * index; i < WEBS * index + WEBS; i++) {
+			ids.push(`task-${i}`)
+		}
+		return ids
+	}
+
+	for (var i = 0; i < CATEGORIES; i++) {
+		cosa.categories[`category-${i}`] = {
+			id: `category-${i}`,
+			webIds: getTaskIds(i)
+		}
+		cosa.categoryOrder.push(`category-${i}`)
+	}
+	return cosa
+})
