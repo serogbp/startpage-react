@@ -1,8 +1,7 @@
-import { Group, ScrollArea } from "@mantine/core"
+import { Group } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult } from "react-beautiful-dnd"
-import { UseWebs } from "../../hooks/UseWebs"
-import { column, jsonContent, WebsByCategory } from "../../Types"
+import { jsonContent } from "../../Types"
 import Column from "./column"
 
 interface Props {
@@ -10,7 +9,6 @@ interface Props {
 }
 
 export const Board = ((props:Props) => {
-	const useWebs:any = UseWebs()
 	const [state, setState] = useState<jsonContent>(props.webs)
 
 
@@ -106,7 +104,6 @@ export const Board = ((props:Props) => {
 	})
 
 	return (
-		<ScrollArea>
 			<DragDropContext onDragEnd={handlerDragEnd}>
 				<Droppable droppableId="board" direction="horizontal" type="column">
 					{(provided) => (
@@ -125,6 +122,5 @@ export const Board = ((props:Props) => {
 					)}
 				</Droppable>
 			</DragDropContext>
-		</ScrollArea>
 	)
 })
