@@ -1,4 +1,4 @@
-import { Stack } from "@mantine/core"
+import { ScrollArea, Stack } from "@mantine/core"
 import { useState, memo } from "react"
 import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
@@ -48,8 +48,7 @@ const ItemList = memo((props: ItemListProps) => {
 			)}>
 			{(provided) => (
 
-				<Stack
-					ref={provided.innerRef}
+				<div ref={provided.innerRef}
 					{...provided.droppableProps}>
 					<Virtuoso
 						useWindowScroll
@@ -71,7 +70,9 @@ const ItemList = memo((props: ItemListProps) => {
 							)
 						}}
 					/>
-				</Stack>
+				</div>
+
+
 
 			)}
 		</Droppable>

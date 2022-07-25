@@ -1,4 +1,4 @@
-import { Group } from "@mantine/core"
+import { Group, ScrollArea } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult } from "react-beautiful-dnd"
 import { jsonContent } from "../../Types"
@@ -104,6 +104,7 @@ export const BoardVirtual = ((props: Props) => {
 	})
 
 	return (
+		<ScrollArea>
 			<DragDropContext onDragEnd={handlerDragEnd}>
 				<Droppable droppableId="board" direction="horizontal" type="column">
 					{(provided) => (
@@ -123,5 +124,7 @@ export const BoardVirtual = ((props: Props) => {
 					)}
 				</Droppable>
 			</DragDropContext>
+		</ScrollArea>
+
 	)
 })
