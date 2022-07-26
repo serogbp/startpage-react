@@ -1,9 +1,7 @@
-import { ScrollArea, Stack } from "@mantine/core"
-import { useState, memo } from "react"
+import { useState, memo, useCallback, useEffect } from "react"
 import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import ColumnItem from "./columnItem"
-import DraggableElement from "../dnd/Draggable"
 import { Virtuoso } from "react-virtuoso"
 
 interface Props {
@@ -11,8 +9,6 @@ interface Props {
 	webs: Web[],
 	index: number
 }
-
-
 const Column = memo((props: Props) => {
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
@@ -35,6 +31,30 @@ interface ItemListProps {
 	webs: Web[]
 }
 const ItemList = memo((props: ItemListProps) => {
+	// @ts-ignore
+	const HeightPreservingItem = useCallback(({ children, ...props }) => {
+		const [size, setSize] = useState(0);
+		const knownSize = props["data-known-size"];
+		useEffect(() => {
+			setSize((prevSize) => {
+				return knownSize == 0 ? prevSize : knownSize;
+			});
+		}, [knownSize]);
+		// check style.css for the height-preserving-container rule
+		return (
+			<div
+				{...props}
+				className="height-preserving-container"
+				style={{
+					// @ts-ignore
+					"--child-height": `${size}px`
+				}}
+			>
+				{children}
+			</div>
+		);
+	}, []);
+
 	return (
 		<Droppable droppableId={props.name} direction="vertical" type="columnItem" mode="virtual"
 			renderClone={(provided, snapshot, rubric) => (
@@ -48,9 +68,18 @@ const ItemList = memo((props: ItemListProps) => {
 			)}>
 			{(provided) => (
 
+
+				// TODO: BUG ZERO-SIZE
+
+
+
 				<div ref={provided.innerRef}
 					{...provided.droppableProps}>
 					<Virtuoso
+						components={
+							// @ts-ignore
+							{Item: HeightPreservingItem}
+						}
 						useWindowScroll
 						style={{ width: 200, overflow: 'visible' }}
 						totalCount={props.webs.length}
@@ -80,24 +109,5 @@ const ItemList = memo((props: ItemListProps) => {
 })
 
 
-
-interface ColumnContentProps {
-	webs: Web[]
-}
-const ColumnContent = memo((props: ColumnContentProps) => {
-	return (
-		<>
-			{
-				props.webs.map((web, index) => {
-					return (
-						<DraggableElement key={web.id} draggableId={web.id} index={index}>
-							<ColumnItem web={web} />
-						</DraggableElement>
-					)
-				})
-			}
-		</>
-	)
-})
 
 export default Column
