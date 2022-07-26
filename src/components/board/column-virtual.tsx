@@ -3,6 +3,7 @@ import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import ColumnItem from "./columnItem"
 import { Virtuoso } from "react-virtuoso"
+import { useMantineTheme } from "@mantine/core"
 
 interface Props {
 	name: string,
@@ -10,14 +11,21 @@ interface Props {
 	index: number
 }
 const ColumnVirtual = memo((props: Props) => {
+	const theme = useMantineTheme();
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (
 				<div
 					{...provided.draggableProps}
 					ref={provided.innerRef}>
-					<p {...provided.dragHandleProps}>{props.name}</p>
-					<ItemList name={props.name} webs={props.webs} />
+
+					{/* Otro div porque si pongo los estilos en el de arriba, se rompe el drag and drop */}
+					<div style={{
+						backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
+						padding: ".5em", }}>
+						<p {...provided.dragHandleProps} >{props.name}</p>
+						<ItemList name={props.name} webs={props.webs} />
+					</div>
 				</div>
 			)}
 		</Draggable>
@@ -75,7 +83,7 @@ const ItemList = memo((props: ItemListProps) => {
 					<Virtuoso
 						components={
 							// @ts-ignore
-							{Item: HeightPreservingItem}
+							{ Item: HeightPreservingItem }
 						}
 						useWindowScroll
 						style={{ width: 200, overflow: 'visible' }}
@@ -102,7 +110,6 @@ const ItemList = memo((props: ItemListProps) => {
 		</Droppable>
 	)
 })
-
 
 
 export default ColumnVirtual

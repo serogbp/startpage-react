@@ -13,6 +13,7 @@ const useStyles = createStyles((theme) => ({
 		padding: theme.spacing.md,
 		width: 200,
 		minHeight: 100,
+		marginBottom: 8,
 
 		'&:hover': {
 			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[2],
