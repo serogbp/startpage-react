@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult } from "react-beautiful-dnd"
 import { jsonContent } from "../../Types"
 import Column from "./column"
+import ColumnVirtual from "./column-virtual"
 
 interface Props {
 	webs: jsonContent
@@ -114,7 +115,8 @@ export const Board = ((props:Props) => {
 									const category = state.categories[categoryId]
 									const webs = category.webIds.map(webId => state.webs[webId])
 									return(
-										<Column key={categoryId} name={category.id} webs={webs} index={index}/>
+										// <Column key={categoryId} name={category.id} webs={webs} index={index}/>
+										<ColumnVirtual key={categoryId} name={category.id} webs={webs} index={index}/>
 									)
 								})
 							}

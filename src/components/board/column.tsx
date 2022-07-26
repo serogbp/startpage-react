@@ -10,8 +10,6 @@ interface Props {
 	webs: Web[],
 	index: number
 }
-
-
 const Column = memo((props: Props) => {
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
@@ -43,7 +41,7 @@ const ItemList = memo((props: ItemListProps) => {
 					ref={provided.innerRef}
 					style={{ minWidth: 200, minHeight: 100 }}
 				>
-					<ColumnContent webs={props.webs} />
+					<Items webs={props.webs} />
 					{provided.placeholder}
 				</Stack>
 
@@ -57,7 +55,7 @@ const ItemList = memo((props: ItemListProps) => {
 interface ColumnContentProps {
 	webs: Web[]
 }
-const ColumnContent = memo((props: ColumnContentProps) => {
+const Items = memo((props: ColumnContentProps) => {
 	return (
 		<>
 			{

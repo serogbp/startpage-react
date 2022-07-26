@@ -9,7 +9,7 @@ interface Props {
 	webs: Web[],
 	index: number
 }
-const Column = memo((props: Props) => {
+const ColumnVirtual = memo((props: Props) => {
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (
@@ -58,6 +58,7 @@ const ItemList = memo((props: ItemListProps) => {
 	return (
 		<Droppable droppableId={props.name} direction="vertical" type="columnItem" mode="virtual"
 			renderClone={(provided, snapshot, rubric) => (
+
 				<div
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
@@ -65,13 +66,9 @@ const ItemList = memo((props: ItemListProps) => {
 				>
 					<ColumnItem web={props.webs[rubric.source.index]} />
 				</div>
+
 			)}>
 			{(provided) => (
-
-
-				// TODO: BUG ZERO-SIZE
-
-
 
 				<div ref={provided.innerRef}
 					{...provided.droppableProps}>
@@ -101,8 +98,6 @@ const ItemList = memo((props: ItemListProps) => {
 					/>
 				</div>
 
-
-
 			)}
 		</Droppable>
 	)
@@ -110,4 +105,4 @@ const ItemList = memo((props: ItemListProps) => {
 
 
 
-export default Column
+export default ColumnVirtual
