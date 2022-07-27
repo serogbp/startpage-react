@@ -6,7 +6,6 @@ import { UseWebs } from './hooks/UseWebs';
 
 
 function App() {
-	const theme = useMantineTheme();
 	const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
 		key: 'mantine-color-scheme',
 		defaultValue: 'light',
@@ -22,22 +21,11 @@ function App() {
 				withNormalizeCSS withGlobalStyles
 				theme={{ colorScheme: `${colorScheme}` }}>
 
-					{/* <ModalsProvider>
+				{/* <ModalsProvider>
 						<Spotlight> */}
+				<Board webs={UseWebs().getWebs()} />
 
-							<AppShell
-								fixed
-								styles={{
-									main: {
-										background: colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-										width: "auto"
-									},
-								}}
-							>
-								<Board webs={UseWebs().getWebs()} />
-							</AppShell>
-
-						{/* </Spotlight>
+				{/* </Spotlight>
 					</ModalsProvider> */}
 			</MantineProvider>
 		</ColorSchemeProvider >

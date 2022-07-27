@@ -11,7 +11,7 @@ const useStyles = createStyles((theme) => ({
 	card: {
 		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
 		padding: theme.spacing.md,
-		width: 200,
+		width: "auto",
 		minHeight: 100,
 		marginBottom: 8,
 
@@ -49,6 +49,8 @@ const ColumnItem = memo((props: Props) => {
 	const [web, setWeb] = useState<Web>(props.web)
 	const [hover, setHover] = useState(false)
 	const { classes } = useStyles()
+
+	// TODO hacer click abre enlace
 
 	return (
 		<Card
