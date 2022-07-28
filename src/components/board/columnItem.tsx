@@ -1,6 +1,7 @@
 import { Card, createStyles, Stack, Text } from "@mantine/core";
 import { memo, useState } from "react";
 import { Web } from "../../Types";
+import { sleep } from "../../utils/utils";
 
 
 interface Props {
@@ -46,24 +47,33 @@ const useStyles = createStyles((theme) => ({
 
 
 const ColumnItem = memo((props: Props) => {
-	const [web, setWeb] = useState<Web>(props.web)
 	const [hover, setHover] = useState(false)
 	const { classes } = useStyles()
 
-	// TODO hacer click abre enlace
+	const handleClick = () => {
+		// Abrir enlace
+		const link = document.createElement('a');
+		link.target = '_blank';
+		link.href = props.web.id;
+		link.rel = "noopener noreferrer nofollow";
+		link.click()
+
+		// TODO update stats
+	}
 
 	return (
 		<Card
 			withBorder radius="sm" className={classes.card}
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
+			onClick={() => handleClick()}
 		>
 			<Card.Section>
 				<Stack spacing="sm" p="sm">
 					<Text weight={500}>
-						{web.name}
+						{props.web.name}
 					</Text>
-					url: {web.id}
+					url: {props.web.id}
 				</Stack>
 			</Card.Section>
 		</Card>
