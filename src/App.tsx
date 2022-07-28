@@ -2,6 +2,7 @@ import { AppShell, ColorScheme, ColorSchemeProvider, MantineProvider, useMantine
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import './App.css'
 import { Board } from './components/board'
+import { Spotlight } from './components/Spotlight';
 import { UseWebs } from './hooks/UseWebs';
 
 
@@ -21,12 +22,12 @@ function App() {
 				withNormalizeCSS withGlobalStyles
 				theme={{ colorScheme: `${colorScheme}` }}>
 
-				{/* <ModalsProvider>
-						<Spotlight> */}
-				<Board webs={UseWebs().getWebs()} />
+				{/* <ModalsProvider> */}
+				<Spotlight>
+					<Board webs={UseWebs().getWebs()} />
 
-				{/* </Spotlight>
-					</ModalsProvider> */}
+				</Spotlight>
+				{/* </ModalsProvider> */}
 			</MantineProvider>
 		</ColorSchemeProvider >
 
