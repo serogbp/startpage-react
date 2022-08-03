@@ -10,14 +10,14 @@ interface Props {
 
 const useStyles = createStyles((theme) => ({
 	card: {
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
 		padding: theme.spacing.md,
 		width: "auto",
-		minHeight: 100,
+		minHeight: 10,
 		marginBottom: 8,
 
 		'&:hover': {
-			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[2],
+			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
 		},
 	},
 
@@ -64,16 +64,17 @@ const ColumnItem = memo((props: Props) => {
 	return (
 		<Card
 			withBorder radius="sm" className={classes.card}
+			shadow="xs"
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
 			onClick={() => handleClick()}
 		>
 			<Card.Section>
 				<Stack spacing="sm" p="sm">
-					<Text weight={500}>
+					<Text weight={500}	size="sm">
 						{props.web.name}
 					</Text>
-					url: {props.web.id}
+					<Text size="sm">url: {props.web.id}</Text>
 				</Stack>
 			</Card.Section>
 		</Card>

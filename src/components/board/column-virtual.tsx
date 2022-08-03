@@ -3,7 +3,8 @@ import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import ColumnItem from "./columnItem"
 import { Virtuoso } from "react-virtuoso"
-import { ScrollArea, useMantineTheme } from "@mantine/core"
+import { createStyles, useMantineTheme } from "@mantine/core"
+import AddWebButton from "./AddWebButton"
 
 interface Props {
 	name: string,
@@ -23,8 +24,22 @@ window.addEventListener("error", (e) => {
 	}
 });
 
+const useStyles = createStyles((theme) => ({
+	column: {
+		display: "flex",
+		flexDirection: "column",
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[1],
+		padding: "8px",
+		height: "100%",
+		borderRadius: theme.radius.sm
+	}
+}))
+
 const ColumnVirtual = memo((props: Props) => {
-	const theme = useMantineTheme();
+	const theme = useMantineTheme()
+	const { classes } = useStyles(
+
+	)
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (
@@ -32,19 +47,10 @@ const ColumnVirtual = memo((props: Props) => {
 					{...provided.draggableProps}
 					ref={provided.innerRef}>
 
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
-							padding: ".5em",
-							height:"100%"
-
-						}}
-					>
+					<div className={classes.column}>
 						<p {...provided.dragHandleProps} >{props.name}</p>
 						<ItemList name={props.name} webs={props.webs} />
-
+						<AddWebButton />
 					</div>
 				</div>
 
@@ -99,34 +105,34 @@ const ItemList = memo((props: ItemListProps) => {
 			)}>
 			{(provided) => (
 
-					<Virtuoso
-						components={
-							// @ts-ignore
-							{ Item: HeightPreservingItem }
-						}
-						//@ts-ignore
-						scrollerRef={provided.innerRef}
-						style={{
-							width: 200
-							// overflowX:"hidden",
+				<Virtuoso
+					components={
+						// @ts-ignore
+						{ Item: HeightPreservingItem }
+					}
+					//@ts-ignore
+					scrollerRef={provided.innerRef}
+					style={{
+						width: 200,
+						// overflowX:"hidden",
 					}}
-						totalCount={props.webs.length}
-						data={props.webs}
-						itemContent={index => {
-							return (
-								<Draggable draggableId={props.webs[index].id} index={index} key={props.webs[index].id}>
-									{(provided) => (
-										<div
-											{...provided.draggableProps}
-											{...provided.dragHandleProps}
-											ref={provided.innerRef}>
-											<ColumnItem web={props.webs[index]} />
-										</div>
-									)}
-								</Draggable>
-							)
-						}}
-					/>
+					totalCount={props.webs.length}
+					data={props.webs}
+					itemContent={index => {
+						return (
+							<Draggable draggableId={props.webs[index].id} index={index} key={props.webs[index].id}>
+								{(provided) => (
+									<div
+										{...provided.draggableProps}
+										{...provided.dragHandleProps}
+										ref={provided.innerRef}>
+										<ColumnItem web={props.webs[index]} />
+									</div>
+								)}
+							</Draggable>
+						)
+					}}
+				/>
 
 			)}
 		</Droppable>

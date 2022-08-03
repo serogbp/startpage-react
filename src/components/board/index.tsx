@@ -1,4 +1,4 @@
-import { Group, ScrollArea, useMantineTheme } from "@mantine/core"
+import { createStyles, Group, ScrollArea, useMantineTheme } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult, DragStart, ResponderProvided } from "react-beautiful-dnd"
 import { jsonContent } from "../../Types"
@@ -9,9 +9,21 @@ interface Props {
 	webs: jsonContent
 }
 
+
+const useStyles = createStyles((theme) => ({
+	board: {
+		flexWrap: "nowrap",
+		height: "100%",
+		background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.blue[3],
+		padding: theme.spacing.md,
+
+	}
+}))
+
+
 export const Board = ((props: Props) => {
 	const [state, setState] = useState<jsonContent>(props.webs)
-	const theme = useMantineTheme();
+	const { classes } = useStyles()
 
 	useEffect(() => {
 		// TODO actualizar localstorage
@@ -113,13 +125,9 @@ export const Board = ((props: Props) => {
 		<DragDropContext onDragEnd={handlerDragEnd} onDragStart={handlerDragStart}>
 			<Droppable droppableId="board" direction="horizontal" type="column">
 				{(provided) => (
-					<Group grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef}
-						style={{
-							flexWrap: "nowrap",
-							height: "100%",
-							background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-						}}>
+					<Group className={classes.board} grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef}>
 						{
+							// Dibujar columnas
 							state.categoryOrder.map((categoryId, index) => {
 								const category = state.categories[categoryId]
 								const webs = category.webIds.map(webId => state.webs[webId])
