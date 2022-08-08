@@ -1,10 +1,11 @@
 import { useState, memo, useCallback, useEffect } from "react"
-import { Web } from "../../Types"
+import { Web, WebFormMode } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import ColumnItem from "./columnItem"
 import { Virtuoso } from "react-virtuoso"
 import { createStyles, useMantineTheme } from "@mantine/core"
 import AddWebButton from "./AddWebButton"
+import { openContextModal } from "@mantine/modals"
 
 interface Props {
 	name: string,
@@ -37,9 +38,8 @@ const useStyles = createStyles((theme) => ({
 
 const ColumnVirtual = memo((props: Props) => {
 	const theme = useMantineTheme()
-	const { classes } = useStyles(
+	const { classes } = useStyles()
 
-	)
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (
@@ -50,7 +50,7 @@ const ColumnVirtual = memo((props: Props) => {
 					<div className={classes.column}>
 						<p {...provided.dragHandleProps} >{props.name}</p>
 						<ItemList name={props.name} webs={props.webs} />
-						<AddWebButton />
+						<AddWebButton category={props.name}/>
 					</div>
 				</div>
 

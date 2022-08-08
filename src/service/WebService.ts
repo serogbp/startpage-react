@@ -1,13 +1,10 @@
-import { WebFilter, Web, Category, jsonContent } from "../Types"
+import { WebFilter, Web, Category, jsonContent as JsonContent } from "../Types"
 
 
 export type WebServiceType = {
-	getWebs: () => jsonContent,
+	getWebs: () => JsonContent,
 	saveWebs: (webs: Web[]) => void,
 	removeWebs: () => void,
-	getCategories: () => Category[],
-	saveCategories: (categories: Category[]) => void,
-	removeCategories: () => void,
 	getFilter: () => WebFilter,
 	saveFilter: (filter: WebFilter) => void,
 }
@@ -18,6 +15,11 @@ const FILTER = 'filter'
 
 const WebService: WebServiceType = {
 	getWebs: () => {
+		const jsonContent: JsonContent = {
+			webs: {},
+			categories: {},
+			categoryOrder: []
+		}
 		//return JSON.parse(localStorage.getItem(WEBS) ?? '[]')
 		// return JSON.parse(initialData)
 		return getInitialData()
@@ -31,21 +33,6 @@ const WebService: WebServiceType = {
 
 	removeWebs: () => {
 		localStorage.removeItem(WEBS)
-	},
-
-
-	getCategories: () => {
-		return JSON.parse(localStorage.getItem(CATEGORIES) ?? '[]')
-	},
-
-
-	saveCategories: (categories: Category[]) => {
-		localStorage.setItem(CATEGORIES, JSON.stringify(categories))
-	},
-
-
-	removeCategories: () => {
-		localStorage.removeItem(CATEGORIES)
 	},
 
 
@@ -64,14 +51,14 @@ const WebService: WebServiceType = {
 export default WebService
 
 
-const initialData: jsonContent = {
+const initialData: JsonContent = {
 	webs: {
-		'task-1': { id: 'task-1', name: 'Take out the garbage' },
-		'task-2': { id: 'task-2', name: 'Watch my favorite show' },
-		'task-3': { id: 'task-3', name: 'Charge my phone' },
-		'task-4': { id: 'task-4', name: 'Cook dinner' },
-		'task-5': { id: 'task-5', name: 'olee' },
-		'task-6': { id: 'task-6', name: 'aaaaaaa' },
+		'task-1': { id: 'task-1', name: 'Take out the garbage', tags: ["tag1", "tag2"] },
+		'task-2': { id: 'task-2', name: 'Watch my favorite show', tags: ["tag1"] },
+		'task-3': { id: 'task-3', name: 'Charge my phone', tags: ["tag1"] },
+		'task-4': { id: 'task-4', name: 'Cook dinner', tags: ["tag1"] },
+		'task-5': { id: 'task-5', name: 'olee', tags: ["tag1"] },
+		'task-6': { id: 'task-6', name: 'aaaaaaa', tags: ["tag1"] },
 	},
 	categories: {
 		'column-1': {
@@ -92,7 +79,7 @@ const initialData: jsonContent = {
 
 const getInitialData = (() => {
 	console.log("getInitialData")
-	let cosa: jsonContent = {
+	let cosa: JsonContent = {
 		webs: {},
 		categories: {},
 		categoryOrder: []
@@ -105,6 +92,7 @@ const getInitialData = (() => {
 		cosa.webs[`task-${i}`] = {
 			id: `task-${i}`,
 			name: `task-${i}`,
+			tags: ["hula"]
 		}
 	}
 

@@ -14,7 +14,7 @@ export interface Web {
 	name: string,
 	// category: string,
 	// image: string,
-	// tags: string[],
+	tags: string[],
 	// stats: WebStats,
 	// index: number,
 }

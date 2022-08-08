@@ -1,7 +1,9 @@
 import { AppShell, ColorScheme, ColorSchemeProvider, MantineProvider, useMantineTheme } from '@mantine/core'
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import { ModalsProvider } from '@mantine/modals';
 import './App.css'
 import { Board } from './components/board'
+import WebModal from './components/modals/WebModal';
 import { Spotlight } from './components/Spotlight';
 import { UseWebs } from './hooks/UseWebs';
 
@@ -21,13 +23,11 @@ function App() {
 			<MantineProvider
 				withNormalizeCSS withGlobalStyles
 				theme={{ colorScheme: `${colorScheme}` }}>
-
-				{/* <ModalsProvider> */}
-				<Spotlight>
-					<Board webs={UseWebs().getWebs()} />
-
-				</Spotlight>
-				{/* </ModalsProvider> */}
+				<ModalsProvider modals={{ webForm: WebModal}}>
+					<Spotlight>
+						<Board webs={UseWebs().getWebs()} />
+					</Spotlight>
+				</ModalsProvider>
 			</MantineProvider>
 		</ColorSchemeProvider >
 
