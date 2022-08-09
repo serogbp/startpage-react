@@ -1,74 +1,61 @@
-import { Stack } from "@mantine/core"
-import { useState, memo } from "react"
+import { useState, memo, useCallback, useEffect } from "react"
 import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
+import { Virtuoso } from "react-virtuoso"
+import { createStyles, useMantineTheme } from "@mantine/core"
 import ColumnItem from "./columnItem"
-import DraggableElement from "../dnd/Draggable"
+
 
 interface Props {
 	name: string,
-	webs: Web[],
-	index: number
+	index: number,
+	children?: JSX.Element | JSX.Element[]
 }
+
+// Virtuoso's resize observer can this error,
+// which is caught by DnD and aborts dragging.
+window.addEventListener("error", (e) => {
+	if (
+		e.message ===
+		"ResizeObserver loop completed with undelivered notifications." ||
+		e.message === "ResizeObserver loop limit exceeded"
+	) {
+		e.stopImmediatePropagation();
+	}
+});
+
+const useStyles = createStyles((theme) => ({
+	column: {
+		display: "flex",
+		flexDirection: "column",
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[1],
+		padding: "8px",
+		height: "100%",
+		borderRadius: theme.radius.sm
+	}
+}))
+
 const Column = memo((props: Props) => {
+	const theme = useMantineTheme()
+	const { classes } = useStyles()
+
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (
 				<div
 					{...provided.draggableProps}
 					ref={provided.innerRef}>
-					<p {...provided.dragHandleProps}>{props.name}</p>
-					<ItemList name={props.name} webs={props.webs}/>
+
+					<div className={classes.column}>
+						<p {...provided.dragHandleProps} >{props.name}</p>
+						{props.children}
+					</div>
 				</div>
+
 			)}
 		</Draggable>
 	)
 })
 
-
-
-interface ItemListProps {
-	name: string,
-	webs: Web[]
-}
-const ItemList = memo((props: ItemListProps) => {
-	return (
-		<Droppable droppableId={props.name} direction="vertical" type="columnItem">
-			{(provided) => (
-
-				<Stack
-					{...provided.droppableProps}
-					ref={provided.innerRef}
-					style={{ minWidth: 200, minHeight: 100 }}
-				>
-					<Items webs={props.webs} />
-					{provided.placeholder}
-				</Stack>
-
-			)}
-		</Droppable>
-	)
-})
-
-
-
-interface ColumnContentProps {
-	webs: Web[]
-}
-const Items = memo((props: ColumnContentProps) => {
-	return (
-		<>
-			{
-				props.webs.map((web, index) => {
-					return (
-						<DraggableElement key={web.id} draggableId={web.id} index={index}>
-							<ColumnItem web={web} />
-						</DraggableElement>
-					)
-				})
-			}
-		</>
-	)
-})
 
 export default Column

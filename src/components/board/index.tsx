@@ -1,9 +1,10 @@
 import { createStyles, Group, ScrollArea, useMantineTheme } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult, DragStart, ResponderProvided } from "react-beautiful-dnd"
-import { jsonContent } from "../../Types"
+import { jsonContent, Web } from "../../Types"
+import AddWebButton from "./AddWebButton"
 import Column from "./column"
-import ColumnVirtual from "./column-virtual"
+import ColumnItemList from "./ColumnItemList"
 
 interface Props {
 	webs: jsonContent
@@ -34,6 +35,38 @@ export const Board = ((props: Props) => {
 		console.log(initial)
 		console.log(provided)
 	}
+
+	const handleAddWeb = (web: Web, category: string) => {
+		console.log("ADD")
+		return
+		const newWebs = {
+			...state.webs,
+			[web.id]: web
+		}
+		const newWebIds = [...state.categories[category].webIds, web.id]
+		const newCategories = {
+			...state.categories,
+			[category]: {
+				...state.categories[category],
+				webIds: newWebIds
+			}
+		}
+		const newState: jsonContent = {
+			...state,
+			webs: newWebs,
+			categories: newCategories
+		}
+		setState(newState)
+	}
+
+	const handleUpdateWeb = (newWeb: Web, oldWeb: Web, newCategory: string) => {
+
+	}
+
+	const handleDeleteWeb = (web: Web) => {
+
+	}
+
 
 	const handlerDragEnd = (result: DropResult) => {
 		switch (result.type) {
@@ -132,8 +165,11 @@ export const Board = ((props: Props) => {
 								const category = state.categories[categoryId]
 								const webs = category.webIds.map(webId => state.webs[webId])
 								return (
-									// <Column key={categoryId} name={category.id} webs={webs} index={index}/>
-									<ColumnVirtual key={categoryId} name={category.id} webs={webs} index={index} />
+
+									<Column key={categoryId} name={categoryId} index={index}>
+										<ColumnItemList droppableId={categoryId} webs={webs}/>
+										<AddWebButton category={categoryId} handlers={{add:handleAddWeb, update:handleUpdateWeb, delete:handleDeleteWeb}}/>
+									</Column>
 								)
 							})
 						}

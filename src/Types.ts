@@ -12,7 +12,7 @@ export interface jsonContent {
 export interface Web {
 	id: string,
 	name: string,
-	// category: string,
+	category: string,
 	// image: string,
 	tags: string[],
 	// stats: WebStats,

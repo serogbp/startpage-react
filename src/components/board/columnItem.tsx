@@ -1,7 +1,7 @@
-import { Card, createStyles, Stack, Text } from "@mantine/core";
-import { memo, useState } from "react";
-import { Web } from "../../Types";
-import { sleep } from "../../utils/utils";
+import { Card, createStyles, Stack, Text } from "@mantine/core"
+import { memo, useState } from "react"
+import { Web } from "../../Types"
+
 
 
 interface Props {
@@ -43,7 +43,7 @@ const useStyles = createStyles((theme) => ({
 		right: 0,
 		padding: 8
 	},
-}));
+}))
 
 
 const ColumnItem = memo((props: Props) => {
@@ -52,10 +52,10 @@ const ColumnItem = memo((props: Props) => {
 
 	const handleClick = () => {
 		// Abrir enlace
-		const link = document.createElement('a');
-		link.target = '_blank';
-		link.href = props.web.id;
-		link.rel = "noopener noreferrer nofollow";
+		const link = document.createElement('a')
+		link.target = '_blank'
+		link.href = props.web.id
+		link.rel = "noopener noreferrer nofollow"
 		link.click()
 
 		// TODO update stats
