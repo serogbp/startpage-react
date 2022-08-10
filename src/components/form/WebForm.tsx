@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface FormValues {
-	id: string,
+	url: string,
 	name: string,
 	category: string,
 	tags: string[]
@@ -25,12 +25,15 @@ interface FormValues {
 
 const WebForm = memo((props: Props) => {
 	const webHook = UseWebs()
+	const [categoryData, setCategoryData] = useState<string[]>(webHook.getWebs().categoryOrder)
+	const [tagsData, setTagsData] = useState<string[]>(webHook.getUniqueTags())
 	const [mode, setMode] = useState(props.mode)
+
+	console.log(webHook.getUniqueTags())
+
 	const { web } = props
 	const theme = useMantineTheme()
 
-	const categoryData = webHook.getWebs().categoryOrder
-	const tagsData = webHook.getUniqueTags()
 
 	// Al pulsar en el boton, pasas a modificar en el formulario la web duplicada
 	const duplicateMessage = (duplicateWeb: Web, category: string) => {
@@ -59,84 +62,78 @@ const WebForm = memo((props: Props) => {
 		// if (Object.entries(formValues.errors).length === 0) props.setOpened(false)
 	}
 
-	return (
-		<FormBody
-			categoryData={categoryData}
-			tagsData={tagsData}
-			mode={mode}
-		/>
-	)
-})
-
-
-export default WebForm
-
-
-interface FormProps {
-	categoryData: string[],
-	tagsData: string[],
-	mode: WebFormMode,
-}
-
-
-const FormBody = memo((props: FormProps) => {
-	const [categoryData, setCategoryData] = useState<string[]>(props.categoryData)
-	const [tagsData, setTagsData] = useState<string[]>(props.tagsData)
-	const { mode } = props
-
 	const formValues = useForm<FormValues>({
 		initialValues: {
-			id: "",
+			url: "",
 			name: "",
-			// TODO autocompletar si la categoria de props no es nula
-			category: "",
+			category: props.category ? props.category : "",
 			tags: []
 		},
 
 	})
 
 	const onBlurInputUrl = () => {
-		formValues.validateField('url')
-		autoCompleteInputName()
+		if (formValues.values.url !== "")
+			autoCompleteInputName()
 	}
 	const autoCompleteInputName = () => {
-		const { id, name } = formValues.values
-		if (urlRegex.test(id) && name === '') {
-			formValues.setFieldValue('name', getDomain(id))
+		const { url, name } = formValues.values
+		if (urlRegex.test(url) && name === '') {
+			formValues.setFieldValue('name', getDomain(url))
 		}
 	}
 
 
-	const handleAdd = (web: Web, category: string) => signalJs.emit(Signals.addWeb, web, category)
+	const handleAdd = () => {
+		// TODO check duplicate
+		// TODO si hay duplicate, mostrar error
+		const web: Web = {
+			id: 0,
+			url: formValues.values.url,
+			name: formValues.values.name,
+			tags: formValues.values.tags,
+		}
+
+		signalJs.emit(Signals.addWeb, web, formValues.values.category)
+
+	}
 	const handleUpdate = (newWeb: Web, oldWeb: Web, category: string) => signalJs.emit(Signals.updateWeb, newWeb, oldWeb, category)
 	const handleDelete = (web: Web) => signalJs.emit(Signals.deleteWeb, web)
 
+
+	const handleSubmit = (values: FormValues) => {
+		if (Object.keys(formValues.errors).length === 0) {
+			console.log("no hay errores")
+		} else {
+			console.log("hay errores")
+		}
+	}
 
 	return (
 		<form>
 			<Stack spacing='xs'>
 				<FocusTrap active={true}>
 					<TextInput
-						type="url"
-						autoFocus
-						required
 						label="Url"
+						type="url"
+						required
 						placeholder="https://www.example.com"
-						{...formValues.getInputProps('id')}
+						{...formValues.getInputProps('url')}
 						onBlur={() => onBlurInputUrl()}
 						data-autofocus
 					/>
 
 					<TextInput
-						required
 						label="Name"
+						required
 						placeholder="Example"
 						{...formValues.getInputProps('name')}
 					/>
 					<Select
 						label="Category"
+						disabled={props.category ? true : false}
 						placeholder="Pick one"
-						data={props.categoryData}
+						data={categoryData}
 						{...formValues.getInputProps('category')}
 						required
 						searchable
@@ -146,12 +143,12 @@ const FormBody = memo((props: FormProps) => {
 					<MultiSelect
 						label="Tags"
 						placeholder="Pick all tags you like"
-						data={props.tagsData}
+						data={tagsData}
 						{...formValues.getInputProps('tags')}
 						searchable
 						clearable
 						getCreateLabel={(query) => `Create ${query}`}
-						onCreate={(query) => setTagsData([...props.tagsData, query])}
+						onCreate={(query) => setTagsData([...tagsData, query])}
 					/>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
@@ -162,10 +159,13 @@ const FormBody = memo((props: FormProps) => {
 					</Group>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.add}>
-							<Button onClick={() => signalJs.emit('basic', "ejemplo de signal")}>Add new web</Button>
+						<Button onClick={() => handleAdd()}>Add new web</Button>
 					</Group>
 				</FocusTrap>
 			</Stack>
 		</form>
 	)
 })
+
+
+export default WebForm

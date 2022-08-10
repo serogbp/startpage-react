@@ -22,8 +22,7 @@ export const UseWebs = (() => {
 	}
 
 	function getUniqueTags() {
-		console.log(Object.values(webs.webs).map(web => web))
-		return Object.values(webs.webs).map(web => web.tags).flat().filter(onlyUnique)
+		return webs.webs.map(web => web.tags).flat().filter(onlyUnique)
 	}
 
 

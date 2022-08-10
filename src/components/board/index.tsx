@@ -46,8 +46,7 @@ export const Board = ((props: Props) => {
 	}
 
 	const handleAddWeb = (web: Web, category: string) => {
-		console.log("ADD")
-		return
+		web.id = state.webs.length
 		const newWebs = {
 			...state.webs,
 			[web.id]: web
@@ -175,9 +174,12 @@ export const Board = ((props: Props) => {
 								const webs = category.webIds.map(webId => state.webs[webId])
 								return (
 
-									<Column key={categoryId} name={categoryId} index={index}>
+										<Column key={categoryId} name={categoryId} index={index}>
 										<ColumnItemList droppableId={categoryId} webs={webs} />
 										<AddWebButton category={categoryId} />
+										{/* TODO usar component composition  para pasar el form a addwebutton
+											usar signal-js para cerrar el popover cuando emita el form
+										*/}
 									</Column>
 								)
 							})
