@@ -106,7 +106,7 @@ export const Board = ((props: Props) => {
 			if (destination.droppableId === source.droppableId) {
 				const newColumn = state.categories[source.droppableId]
 				newColumn.webIds.splice(source.index, 1) // Eliminar antiguo index
-				newColumn.webIds.splice(destination.index, 0, draggableId) // Mover web modificada a nuevo index
+				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId)) // Mover web modificada a nuevo index
 
 				const newState = {
 					...state,
@@ -125,7 +125,7 @@ export const Board = ((props: Props) => {
 				const oldColumn = state.categories[source.droppableId]
 				const newColumn = state.categories[destination.droppableId]
 				oldColumn.webIds.splice(source.index, 1)
-				newColumn.webIds.splice(destination.index, 0, draggableId)
+				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId))
 
 				const newState = {
 					...state,

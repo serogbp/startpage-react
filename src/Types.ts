@@ -1,8 +1,6 @@
 
 export interface jsonContent {
-	webs: {
-		[key:string]: Web
-	},
+	webs: Web[],
 	categories: {
 		[key:string]: Category
 	},
@@ -10,9 +8,10 @@ export interface jsonContent {
 }
 
 export interface Web {
-	id: string,
+	id: number,
+	url: string,
 	name: string,
-	category: string,
+	// category: string,
 	// image: string,
 	tags: string[],
 	// stats: WebStats,
@@ -29,7 +28,7 @@ export interface WebStats {
 
 export interface Category {
 	id: string,
-	webIds: string[],
+	webIds: number[],
 }
 
 export interface WebsByCategory {

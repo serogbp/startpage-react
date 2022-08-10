@@ -1,4 +1,5 @@
 import { WebFilter, Web, Category, jsonContent as JsonContent } from "../Types"
+import onlyUnique from "../utils/utils"
 
 
 export type WebServiceType = {
@@ -15,13 +16,16 @@ const FILTER = 'filter'
 
 const WebService: WebServiceType = {
 	getWebs: () => {
+		//return JSON.parse(localStorage.getItem(WEBS) ?? '[]')
+		//return JSON.parse(initialData)
+
+		// return initialData
+
 		const jsonContent: JsonContent = {
-			webs: {},
+			webs: [],
 			categories: {},
 			categoryOrder: []
 		}
-		//return JSON.parse(localStorage.getItem(WEBS) ?? '[]')
-		// return JSON.parse(initialData)
 		return getInitialData()
 	},
 
@@ -50,66 +54,37 @@ const WebService: WebServiceType = {
 
 export default WebService
 
-
-const initialData: JsonContent = {
-	webs: {
-		'task-1': { id: 'task-1', name: 'Take out the garbage', tags: ["tag1", "tag2"] },
-		'task-2': { id: 'task-2', name: 'Watch my favorite show', tags: ["tag1"] },
-		'task-3': { id: 'task-3', name: 'Charge my phone', tags: ["tag1"] },
-		'task-4': { id: 'task-4', name: 'Cook dinner', tags: ["tag1"] },
-		'task-5': { id: 'task-5', name: 'olee', tags: ["tag1"] },
-		'task-6': { id: 'task-6', name: 'aaaaaaa', tags: ["tag1"] },
-	},
-	categories: {
-		'column-1': {
-			id: 'column-1',
-			webIds: ['task-1', 'task-2'],
-		},
-		'column-2': {
-			id: 'column-2',
-			webIds: ['task-3', 'task-4'],
-		},
-		'column-3': {
-			id: 'column-3',
-			webIds: ['task-5', 'task-6'],
-		},
-	},
-	categoryOrder: ['column-1', 'column-2', 'column-3'],
-}
-
 const getInitialData = (() => {
+	const miArray = [
+		{}
+	]
 	console.log("getInitialData")
 	let cosa: JsonContent = {
-		webs: {},
+		webs: [],
 		categories: {},
 		categoryOrder: []
 	}
 
-	const CATEGORIES = 20
-	const WEBS = 100
-
-	for (var i = 0; i < CATEGORIES * WEBS; i++) {
-		cosa.webs[`task-${i}`] = {
-			id: `task-${i}`,
-			name: `task-${i}`,
-			tags: ["hula"]
+	cosa.webs = miArray.map((web, index) => {
+		return {
+			id: index,
+			url: web.url,
+			name: web.name,
+			tags: web.tags
 		}
-	}
+	})
 
-	const getTaskIds = (index: number) => {
-		let ids: string[] = []
-		for (var i = WEBS * index; i < WEBS * index + WEBS; i++) {
-			ids.push(`task-${i}`)
-		}
-		return ids
-	}
+	cosa.categoryOrder = miArray.map(web => web.category).flat().filter(onlyUnique)
 
-	for (var i = 0; i < CATEGORIES; i++) {
-		cosa.categories[`category-${i}`] = {
-			id: `category-${i}`,
-			webIds: getTaskIds(i)
+	cosa.categoryOrder.forEach(category => {
+		const websDeEstaCategoria = miArray.filter(web => web.category === category)
+		const webIds = cosa.webs.filter(web => websDeEstaCategoria.find(web2 => web2.url === web.url)).map(web => web.id)
+		cosa.categories[category] = {
+			id: category,
+			webIds: webIds
 		}
-		cosa.categoryOrder.push(`category-${i}`)
-	}
+	})
+
+	console.log(cosa)
 	return cosa
 })

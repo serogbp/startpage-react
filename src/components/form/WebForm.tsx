@@ -155,8 +155,8 @@ const FormBody = memo((props: FormProps) => {
 					/>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
-						<DeleteButtonTooltip clicksRemaining={2} handleDelete={handlers.delete()} />
-						<Button onClick={() => { handlers.update() }}>Update web</Button>
+						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => signalJs.emit('basic', "TODO handleDelete WebForm")} />
+						<Button onClick={() => signalJs.emit('basic', "TODO handleUpdate WebForm")}>Update web</Button>
 						{/* TODO: Usar en version movil */}
 						{/* <DeleteButtonModal web={web} handleDelete={handleDelete} setOpened={props.setOpened}/> */}
 					</Group>

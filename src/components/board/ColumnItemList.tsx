@@ -64,7 +64,7 @@ const ColumnItemList = memo((props: Props) => {
 					data={props.webs}
 					itemContent={index => {
 						return (
-							<Draggable draggableId={props.webs[index].id} index={index} key={props.webs[index].id}>
+							<Draggable draggableId={props.webs[index].id.toString()} index={index} key={props.webs[index].id}>
 								{(provided) => (
 									<div
 										{...provided.draggableProps}

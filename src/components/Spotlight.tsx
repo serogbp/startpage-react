@@ -6,14 +6,14 @@ import { UseWebs } from "../hooks/UseWebs";
 
 export function Spotlight(props:any) {
 	const webs = Object.values(UseWebs().getWebs().webs)
-	
+
 	// TODO ordenar webs por numero de veces abiertos
 	//const actions: SpotlightAction[] = context.webs.sort((a,b) => b.stats.timesClicked - a.stats.timesClicked).map(web => {
 	const actions: SpotlightAction[] = webs.map(web => {
 		return {
 			title: web.name,
-			description: web.id,
-			onTrigger: () => openWeb(web.id),
+			description: web.url,
+			onTrigger: () => openWeb(web.url),
 			icon: <Home size={18} />,
 		}
 	})

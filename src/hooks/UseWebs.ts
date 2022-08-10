@@ -28,7 +28,7 @@ export const UseWebs = (() => {
 
 
 	function isWebDuplicated(web: Web) {
-		return Object.values(webs.webs).filter(web => web.id === web.id)
+		return Object.values(webs.webs).filter(web => web.url === web.url)
 	}
 
 

@@ -54,7 +54,7 @@ const ColumnItem = memo((props: Props) => {
 		// Abrir enlace
 		const link = document.createElement('a')
 		link.target = '_blank'
-		link.href = props.web.id
+		link.href = props.web.url
 		link.rel = "noopener noreferrer nofollow"
 		link.click()
 
@@ -74,7 +74,7 @@ const ColumnItem = memo((props: Props) => {
 					<Text weight={500}	size="sm">
 						{props.web.name}
 					</Text>
-					<Text size="sm">url: {props.web.id}</Text>
+					<Text size="sm">{props.web.url}</Text>
 				</Stack>
 			</Card.Section>
 		</Card>
