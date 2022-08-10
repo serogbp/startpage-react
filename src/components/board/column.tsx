@@ -3,7 +3,8 @@ import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import { Virtuoso } from "react-virtuoso"
 import { createStyles, useMantineTheme } from "@mantine/core"
-import ColumnItem from "./columnItem"
+import ColumnItem from "./ColumnItem"
+import signalJs from "signal-js"
 
 
 interface Props {
@@ -38,7 +39,7 @@ const useStyles = createStyles((theme) => ({
 const Column = memo((props: Props) => {
 	const theme = useMantineTheme()
 	const { classes } = useStyles()
-
+	
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (

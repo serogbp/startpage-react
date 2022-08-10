@@ -15,11 +15,6 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
 	category: string,
-	handlers: {
-		add: Function,
-		update: Function,
-		delete: Function
-	}
 }
 
 const AddWebButton = (props: Props) => {
@@ -45,7 +40,7 @@ const AddWebButton = (props: Props) => {
 					<CloseButton onClick={() => setOpened(false)} />
 				</Group>
 
-				<WebForm mode={WebFormMode.add} category={props.category} setOpened={setOpened} handlers={props.handlers} />
+				<WebForm mode={WebFormMode.add} category={props.category} setOpened={setOpened} />
 
 			</Popover.Dropdown>
 		</Popover>

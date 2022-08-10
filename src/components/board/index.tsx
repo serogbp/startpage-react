@@ -1,9 +1,11 @@
 import { createStyles, Group, ScrollArea, useMantineTheme } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult, DragStart, ResponderProvided } from "react-beautiful-dnd"
+import signalJs from 'signal-js'
+import Signals from "../../Signals"
 import { jsonContent, Web } from "../../Types"
 import AddWebButton from "./AddWebButton"
-import Column from "./column"
+import Column from "./Column"
 import ColumnItemList from "./ColumnItemList"
 
 interface Props {
@@ -25,6 +27,13 @@ const useStyles = createStyles((theme) => ({
 export const Board = ((props: Props) => {
 	const [state, setState] = useState<jsonContent>(props.webs)
 	const { classes } = useStyles()
+
+	signalJs.on(Signals.addWeb, (web, category) => handleAddWeb(web, category))
+	signalJs.on(Signals.updateWeb, (newWeb, oldWeb, category) => handleUpdateWeb(newWeb, oldWeb, category))
+	signalJs.on(Signals.deleteWeb, (web, category) => handleDeleteWeb(web))
+
+
+	signalJs.on('basic', arg => console.log(arg))
 
 	useEffect(() => {
 		// TODO actualizar localstorage
@@ -167,8 +176,8 @@ export const Board = ((props: Props) => {
 								return (
 
 									<Column key={categoryId} name={categoryId} index={index}>
-										<ColumnItemList droppableId={categoryId} webs={webs}/>
-										<AddWebButton category={categoryId} handlers={{add:handleAddWeb, update:handleUpdateWeb, delete:handleDeleteWeb}}/>
+										<ColumnItemList droppableId={categoryId} webs={webs} />
+										<AddWebButton category={categoryId} />
 									</Column>
 								)
 							})

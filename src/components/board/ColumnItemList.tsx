@@ -1,7 +1,7 @@
 import { useState, memo, useCallback, useEffect } from "react"
 import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
-import ColumnItem from "./columnItem"
+import ColumnItem from "./ColumnItem"
 import { Virtuoso } from "react-virtuoso"
 
 
