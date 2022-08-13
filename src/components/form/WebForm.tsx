@@ -102,7 +102,7 @@ const WebForm = memo((props: Props) => {
 	const handleUpdate = () => {
 		const oldWeb = props.web
 		const newWeb: Web = {
-			id: 0,
+			id: oldWeb?.id || 0,
 			url: formValues.values.url,
 			name: formValues.values.name,
 			tags: formValues.values.tags,
@@ -135,7 +135,7 @@ const WebForm = memo((props: Props) => {
 	}
 
 	return (
-		<form onSubmit={formValues.onSubmit((event) => handleSubmit(event))}>
+		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(event))}>
 			<Stack spacing='xs'>
 				<FocusTrap active={true}>
 					<TextInput
@@ -178,7 +178,7 @@ const WebForm = memo((props: Props) => {
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
 						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} />
-						<Button onClick={() => signalJs.emit('basic', "TODO handleUpdate WebForm")}>Update web</Button>
+						<Button onClick={() => handleUpdate()}>Update web</Button>
 					</Group>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.add}>

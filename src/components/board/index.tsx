@@ -59,6 +59,7 @@ export const Board = ((props: Props) => {
 
 	const handleAddWeb = (web: Web, category: string) => {
 		web.id = state.webs.length
+		console.log(web.id)
 		const newWebs = {
 			...state.webs,
 			[web.id]: web
@@ -79,8 +80,22 @@ export const Board = ((props: Props) => {
 		setState(newState)
 	}
 
-	const handleUpdateWeb = (newWeb: Web, oldWeb: Web, newCategory: string, oldCategory: string) => {
+
+	const handleUpdateWeb = (updatedWeb: Web, oldWeb: Web, newCategory: string, oldCategory: string) => {
+		if (newCategory !== oldCategory) {
+			// TODO mover id de columna
+		}
+
+		const newState = {
+			...state,
+			webs: {
+				...state.webs,
+				[updatedWeb.id]: updatedWeb
+			}
+		}
+		setState(newState)
 	}
+
 
 	const handleDeleteWeb = (web: Web, category: string) => {
 		const newWebs = state.webs
@@ -117,6 +132,7 @@ export const Board = ((props: Props) => {
 				break
 		}
 	}
+
 
 	const columnItemDragEnd = ((result: DropResult) => {
 		const { source, destination, draggableId } = result
@@ -168,6 +184,7 @@ export const Board = ((props: Props) => {
 		}
 	})
 
+
 	const columnDragEnd = ((result: DropResult) => {
 		const { source, destination, draggableId } = result
 		// Si hace drop en una zona no permitida
@@ -203,7 +220,7 @@ export const Board = ((props: Props) => {
 								const webs = category.webIds.map(webId => state.webs[webId])
 								return (
 
-										<Column key={categoryId} name={categoryId} index={index}>
+									<Column key={categoryId} name={categoryId} index={index}>
 										<ColumnItemList droppableId={categoryId} webs={webs} />
 										<AddWebButton category={categoryId} />
 										{/* TODO usar component composition  para pasar el form a addwebutton
