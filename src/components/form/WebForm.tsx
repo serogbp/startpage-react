@@ -9,10 +9,10 @@ import signalJs from 'signal-js'
 import Signals from "../../Signals"
 
 interface Props {
-	setOpened: Function,
 	web?: Web,
 	category?: string,
 	mode: WebFormMode,
+	closeModal: Function
 }
 
 interface FormValues {
@@ -28,10 +28,6 @@ const WebForm = memo((props: Props) => {
 	const [categoryData, setCategoryData] = useState<string[]>(webHook.getWebs().categoryOrder)
 	const [tagsData, setTagsData] = useState<string[]>(webHook.getUniqueTags())
 	const [mode, setMode] = useState(props.mode)
-
-	console.log(webHook.getUniqueTags())
-
-	const { web } = props
 	const theme = useMantineTheme()
 
 
@@ -64,10 +60,10 @@ const WebForm = memo((props: Props) => {
 
 	const formValues = useForm<FormValues>({
 		initialValues: {
-			url: "",
-			name: "",
+			url: props.web ? props.web.url : "" ,
+			name: props.web ? props.web.name : "" ,
 			category: props.category ? props.category : "",
-			tags: []
+			tags: props.web ? props.web.tags : [] ,
 		},
 
 	})
@@ -85,6 +81,10 @@ const WebForm = memo((props: Props) => {
 
 
 	const handleAdd = () => {
+		formValues.validate()
+		if (Object.keys(formValues.errors).length !== 0) return
+
+
 		// TODO check duplicate
 		// TODO si hay duplicate, mostrar error
 		const web: Web = {
@@ -95,22 +95,47 @@ const WebForm = memo((props: Props) => {
 		}
 
 		signalJs.emit(Signals.addWeb, web, formValues.values.category)
-
+		props.closeModal()
 	}
-	const handleUpdate = (newWeb: Web, oldWeb: Web, category: string) => signalJs.emit(Signals.updateWeb, newWeb, oldWeb, category)
-	const handleDelete = (web: Web) => signalJs.emit(Signals.deleteWeb, web)
 
 
-	const handleSubmit = (values: FormValues) => {
-		if (Object.keys(formValues.errors).length === 0) {
-			console.log("no hay errores")
-		} else {
-			console.log("hay errores")
+	const handleUpdate = () => {
+		const oldWeb = props.web
+		const newWeb: Web = {
+			id: 0,
+			url: formValues.values.url,
+			name: formValues.values.name,
+			tags: formValues.values.tags,
+		}
+		const oldCategory = props.category
+		const newCategory = formValues.values.category
+		signalJs.emit(Signals.updateWeb, newWeb, oldWeb, newCategory, oldCategory)
+		props.closeModal()
+	}
+
+
+	const handleDelete = () => {
+		signalJs.emit(Signals.deleteWeb, props.web, props.category)
+		props.closeModal()
+	}
+
+
+	const handleSubmit = (event: any) => {
+		event.preventDefault()
+		switch (mode) {
+			case WebFormMode.add:
+				handleAdd()
+				break;
+			case WebFormMode.update:
+				handleUpdate()
+				break;
+			default:
+				break;
 		}
 	}
 
 	return (
-		<form>
+		<form onSubmit={formValues.onSubmit((event) => handleSubmit(event))}>
 			<Stack spacing='xs'>
 				<FocusTrap active={true}>
 					<TextInput
@@ -131,7 +156,7 @@ const WebForm = memo((props: Props) => {
 					/>
 					<Select
 						label="Category"
-						disabled={props.category ? true : false}
+						disabled={props.category && mode === WebFormMode.add ? true : false}
 						placeholder="Pick one"
 						data={categoryData}
 						{...formValues.getInputProps('category')}
@@ -152,14 +177,13 @@ const WebForm = memo((props: Props) => {
 					/>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
-						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => signalJs.emit('basic', "TODO handleDelete WebForm")} />
+						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} />
 						<Button onClick={() => signalJs.emit('basic', "TODO handleUpdate WebForm")}>Update web</Button>
-						{/* TODO: Usar en version movil */}
-						{/* <DeleteButtonModal web={web} handleDelete={handleDelete} setOpened={props.setOpened}/> */}
 					</Group>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.add}>
-						<Button onClick={() => handleAdd()}>Add new web</Button>
+						{/* <Button onClick={() => handleAdd()}>Add new web</Button> */}
+						<Button type="submit">Add new web</Button>
 					</Group>
 				</FocusTrap>
 			</Stack>

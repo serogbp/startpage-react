@@ -1,11 +1,14 @@
-import { Card, createStyles, Stack, Text } from "@mantine/core"
+import { ActionIcon, Box, Card, createStyles, Stack, Text, Tooltip } from "@mantine/core"
+import { openContextModal } from "@mantine/modals"
 import { memo, useState } from "react"
-import { Web } from "../../Types"
+import { Dots, Pencil } from "tabler-icons-react"
+import { Web, WebFormMode } from "../../Types"
 
 
 
 interface Props {
 	web: Web
+	category: string
 }
 
 const useStyles = createStyles((theme) => ({
@@ -49,6 +52,7 @@ const useStyles = createStyles((theme) => ({
 const ColumnItem = memo((props: Props) => {
 	const [hover, setHover] = useState(false)
 	const { classes } = useStyles()
+	const urlIsLong = props.web.url.length > 25
 
 	const handleClick = () => {
 		// Abrir enlace
@@ -61,6 +65,25 @@ const ColumnItem = memo((props: Props) => {
 		// TODO update stats
 	}
 
+	const handleClickSettings = (event: any) => {
+		event.preventDefault()
+		event.stopPropagation()
+		setHover(false)
+		openContextModal({
+			title: "Edit web",
+			modal: "webForm",
+			centered: true,
+			trapFocus: true,
+			innerProps: {
+				props: {
+					mode: WebFormMode.update,
+					category: props.category,
+					web: props.web
+				}
+			}
+		})
+	}
+
 	return (
 		<Card
 			withBorder radius="sm" className={classes.card}
@@ -71,10 +94,31 @@ const ColumnItem = memo((props: Props) => {
 		>
 			<Card.Section>
 				<Stack spacing="sm" p="sm">
-					<Text weight={500}	size="sm">
+
+					<Text weight={500} size="sm">
 						{props.web.name}
 					</Text>
-					<Text size="sm">{props.web.url}</Text>
+
+					<Tooltip
+						label={props.web.url}
+						color="blue"
+						position="bottom"
+						withArrow
+						openDelay={200}
+						events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}>
+
+						<Text size="sm" color="dimmed" className={classes.url}>
+							{props.web.url}
+						</Text>
+
+					</Tooltip>
+
+					<Box hidden={!hover} className={classes.settings}>
+						<ActionIcon onClick={handleClickSettings} variant="light" >
+							<Pencil size={16} />
+						</ActionIcon>
+					</Box>
+
 				</Stack>
 			</Card.Section>
 		</Card>

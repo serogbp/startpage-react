@@ -16,7 +16,7 @@ export const DeleteButtonTooltip = (props: Props) => {
 	}
 
 	const resetCounter = () => {
-		setCounter(props.clicksRemaining)
+		if (counter > 0) setCounter(props.clicksRemaining)
 	}
 
 	useEffect(() => {

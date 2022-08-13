@@ -1,4 +1,4 @@
-import { Button, CloseButton, createStyles, Dialog, Group, Modal, Popover, Text, Tooltip, UnstyledButton, useMantineTheme } from "@mantine/core"
+import { Button, CloseButton, createStyles, Dialog, Group, Modal, Popover, Space, Text, Tooltip, UnstyledButton, useMantineTheme } from "@mantine/core"
 import { useState } from "react";
 import { WebFormMode } from "../../Types";
 import WebForm from "../form/WebForm";
@@ -21,13 +21,16 @@ const AddWebButton = (props: Props) => {
 	const [opened, setOpened] = useState(false)
 	const { classes } = useStyles()
 
+	const closeModal = () => {
+		setOpened(false)
+	}
 
 	return (
 		<Popover width={300} trapFocus position="top" withArrow shadow="xl" opened={opened} onChange={setOpened}>
 			<Popover.Target>
 
 				<Button variant="subtle" color={opened! ? "red" : "gray"} onClick={() => setOpened(!opened)} className={classes.button}>
-					{opened ? "Cancel" : "Add a web"}
+					<Text color="dimmed">{opened ? "Cancel" : "Add a web"}</Text>
 				</Button>
 
 			</Popover.Target>
@@ -40,7 +43,9 @@ const AddWebButton = (props: Props) => {
 					<CloseButton onClick={() => setOpened(false)} />
 				</Group>
 
-				<WebForm mode={WebFormMode.add} category={props.category} setOpened={setOpened} />
+				<Space h="md"/>
+
+				<WebForm closeModal={closeModal} mode={WebFormMode.add} category={props.category} setOpened={setOpened} />
 
 			</Popover.Dropdown>
 		</Popover>

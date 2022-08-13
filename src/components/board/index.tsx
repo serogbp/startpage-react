@@ -23,14 +23,26 @@ const useStyles = createStyles((theme) => ({
 	}
 }))
 
+// Virtuoso's resize observer can this error,
+// which is caught by DnD and aborts dragging.
+window.addEventListener("error", (e) => {
+	if (
+		e.message ===
+		"ResizeObserver loop completed with undelivered notifications." ||
+		e.message === "ResizeObserver loop limit exceeded"
+	) {
+		e.stopImmediatePropagation();
+	}
+});
+
 
 export const Board = ((props: Props) => {
 	const [state, setState] = useState<jsonContent>(props.webs)
 	const { classes } = useStyles()
 
 	signalJs.on(Signals.addWeb, (web, category) => handleAddWeb(web, category))
-	signalJs.on(Signals.updateWeb, (newWeb, oldWeb, category) => handleUpdateWeb(newWeb, oldWeb, category))
-	signalJs.on(Signals.deleteWeb, (web, category) => handleDeleteWeb(web))
+	signalJs.on(Signals.updateWeb, (newWeb, oldWeb, newCategory, oldCategory) => handleUpdateWeb(newWeb, oldWeb, newCategory, oldCategory))
+	signalJs.on(Signals.deleteWeb, (web, category) => handleDeleteWeb(web, category))
 
 
 	signalJs.on('basic', arg => console.log(arg))
@@ -67,12 +79,29 @@ export const Board = ((props: Props) => {
 		setState(newState)
 	}
 
-	const handleUpdateWeb = (newWeb: Web, oldWeb: Web, newCategory: string) => {
-
+	const handleUpdateWeb = (newWeb: Web, oldWeb: Web, newCategory: string, oldCategory: string) => {
 	}
 
-	const handleDeleteWeb = (web: Web) => {
+	const handleDeleteWeb = (web: Web, category: string) => {
+		const newWebs = state.webs
+		delete newWebs[web.id]
 
+		const newCategories = {
+			...state.categories,
+			[category]: {
+				...state.categories[category],
+				webIds: state.categories[category].webIds.filter(id => id !== web.id)
+			}
+		}
+
+		const newState: jsonContent = {
+			...state,
+			webs: newWebs,
+			categories: newCategories,
+			categoryOrder: state.categoryOrder
+		}
+
+		setState(newState)
 	}
 
 

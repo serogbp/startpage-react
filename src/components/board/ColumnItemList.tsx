@@ -43,7 +43,7 @@ const ColumnItemList = memo((props: Props) => {
 					{...provided.dragHandleProps}
 					ref={provided.innerRef}
 				>
-					<ColumnItem web={props.webs[rubric.source.index]} />
+					<ColumnItem web={props.webs[rubric.source.index]} category={props.droppableId}/>
 				</div>
 
 			)}>
@@ -70,7 +70,7 @@ const ColumnItemList = memo((props: Props) => {
 										{...provided.draggableProps}
 										{...provided.dragHandleProps}
 										ref={provided.innerRef}>
-										<ColumnItem web={props.webs[index]} />
+										<ColumnItem web={props.webs[index]} category={props.droppableId}/>
 									</div>
 								)}
 							</Draggable>
