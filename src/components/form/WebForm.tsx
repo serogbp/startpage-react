@@ -81,9 +81,6 @@ const WebForm = memo((props: Props) => {
 
 
 	const handleAdd = () => {
-		formValues.validate()
-		if (Object.keys(formValues.errors).length !== 0) return
-
 
 		// TODO check duplicate
 		// TODO si hay duplicate, mostrar error
@@ -109,7 +106,7 @@ const WebForm = memo((props: Props) => {
 		}
 		const oldCategory = props.category
 		const newCategory = formValues.values.category
-		signalJs.emit(Signals.updateWeb, newWeb, oldWeb, newCategory, oldCategory)
+		signalJs.emit(Signals.updateWeb, newWeb, newCategory, oldCategory)
 		props.closeModal()
 	}
 
@@ -178,9 +175,8 @@ const WebForm = memo((props: Props) => {
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
 						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} />
-						<Button onClick={() => handleUpdate()}>Update web</Button>
+						<Button type="submit">Update web</Button>
 					</Group>
-
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.add}>
 						{/* <Button onClick={() => handleAdd()}>Add new web</Button> */}
 						<Button type="submit">Add new web</Button>

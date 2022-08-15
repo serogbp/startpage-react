@@ -84,7 +84,6 @@ const getInitialData = (() => {
 			webIds: webIds
 		}
 	})
-
-	console.log(cosa)
+	
 	return cosa
 })

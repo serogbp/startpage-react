@@ -25,7 +25,7 @@ function App() {
 				theme={{ colorScheme: `${colorScheme}` }}>
 				<ModalsProvider modals={{ webForm: WebModal}}>
 					<Spotlight>
-						<Board webs={UseWebs().getWebs()} />
+						<Board />
 					</Spotlight>
 				</ModalsProvider>
 			</MantineProvider>

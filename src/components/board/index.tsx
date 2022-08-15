@@ -1,16 +1,13 @@
-import { createStyles, Group, ScrollArea, useMantineTheme } from "@mantine/core"
+import { createStyles, Group } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { Droppable, DragDropContext, DropResult, DragStart, ResponderProvided } from "react-beautiful-dnd"
 import signalJs from 'signal-js'
+import { UseWebs } from "../../hooks/UseWebs"
 import Signals from "../../Signals"
 import { jsonContent, Web } from "../../Types"
 import AddWebButton from "./AddWebButton"
 import Column from "./Column"
 import ColumnItemList from "./ColumnItemList"
-
-interface Props {
-	webs: jsonContent
-}
 
 
 const useStyles = createStyles((theme) => ({
@@ -36,30 +33,36 @@ window.addEventListener("error", (e) => {
 });
 
 
-export const Board = ((props: Props) => {
-	const [state, setState] = useState<jsonContent>(props.webs)
+export const Board = (() => {
+	const [state, setState] = useState<jsonContent>(UseWebs().getWebs())
 	const { classes } = useStyles()
 
-	signalJs.on(Signals.addWeb, (web, category) => handleAddWeb(web, category))
-	signalJs.on(Signals.updateWeb, (newWeb, oldWeb, newCategory, oldCategory) => handleUpdateWeb(newWeb, oldWeb, newCategory, oldCategory))
+	// Forma hack de que funcionen los signals
+	signalJs.clear(Signals.addWeb)
+	signalJs.clear(Signals.updateWeb)
+	signalJs.clear(Signals.deleteWeb)
+	signalJs.on(Signals.addWeb, (newWeb, category) => handleAddWeb(newWeb, category))
+	signalJs.on(Signals.updateWeb, (newWeb, destinationCategory, sourceCategory) => handleUpdateWeb(newWeb, destinationCategory, sourceCategory))
 	signalJs.on(Signals.deleteWeb, (web, category) => handleDeleteWeb(web, category))
 
 
-	signalJs.on('basic', arg => console.log(arg))
+	useEffect(() => {
+		// INFO no funciona asi pero me gustaría entender por qué
+		// Por ejemplo con la signal de addWeb, la primera vez añade la nueva web. Pero el resto de veces solo modifica la primera web creada. (Al coger el length de state.webs sale siempre el valor de antes de hacer un handleAddWeb)
+		// signalJs.on(Signals.addWeb, (webFormEmitSignal) => handleAddWeb(webFormEmitSignal))
+		// signalJs.on(Signals.updateWeb, (newWeb, oldWeb, destinationCategory, sourceCategory) => handleUpdateWeb(newWeb, oldWeb, destinationCategory, sourceCategory))
+		// signalJs.on(Signals.deleteWeb, (web, category) => handleDeleteWeb(web, category))
+	}, [])
+
 
 	useEffect(() => {
 		// TODO actualizar localstorage
 	}, [state])
 
-	const handlerDragStart = (initial: DragStart, provided: ResponderProvided) => {
-		console.log("DRAG START")
-		console.log(initial)
-		console.log(provided)
-	}
 
 	const handleAddWeb = (web: Web, category: string) => {
-		web.id = state.webs.length
-		console.log(web.id)
+		web.id = Object.keys(state.webs).length
+
 		const newWebs = {
 			...state.webs,
 			[web.id]: web
@@ -81,13 +84,29 @@ export const Board = ((props: Props) => {
 	}
 
 
-	const handleUpdateWeb = (updatedWeb: Web, oldWeb: Web, newCategory: string, oldCategory: string) => {
-		if (newCategory !== oldCategory) {
-			// TODO mover id de columna
+	const handleUpdateWeb = (updatedWeb: Web, destinationCategory: string, originCategory: string) => {
+		let newCategories = {
+			...state.categories
+		}
+
+		// Mover de columna
+		if (destinationCategory !== originCategory) {
+			const oldColumn = state.categories[originCategory]
+			oldColumn.webIds = oldColumn.webIds.filter(item => item !== updatedWeb.id)
+
+			const newColumn = state.categories[destinationCategory]
+			newColumn.webIds = [...newColumn.webIds, updatedWeb.id]
+
+			newCategories = {
+				...state.categories,
+				[originCategory]: oldColumn,
+				[destinationCategory]: newColumn,
+			}
 		}
 
 		const newState = {
 			...state,
+			categories: newCategories,
 			webs: {
 				...state.webs,
 				[updatedWeb.id]: updatedWeb
@@ -117,6 +136,13 @@ export const Board = ((props: Props) => {
 		}
 
 		setState(newState)
+	}
+
+
+	const handlerDragStart = (initial: DragStart, provided: ResponderProvided) => {
+		console.log("DRAG START")
+		console.log(initial)
+		console.log(provided)
 	}
 
 
@@ -165,10 +191,10 @@ export const Board = ((props: Props) => {
 			// La web ha sido droppeada en otra categoría
 			// Mover web a otra categoría
 			if (destination.droppableId !== source.droppableId) {
-				console.log(state.categories)
 				const oldColumn = state.categories[source.droppableId]
-				const newColumn = state.categories[destination.droppableId]
 				oldColumn.webIds.splice(source.index, 1)
+
+				const newColumn = state.categories[destination.droppableId]
 				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId))
 
 				const newState = {
@@ -207,6 +233,7 @@ export const Board = ((props: Props) => {
 			setState(newState)
 		}
 	})
+
 
 	return (
 		<DragDropContext onDragEnd={handlerDragEnd} onDragStart={handlerDragStart}>

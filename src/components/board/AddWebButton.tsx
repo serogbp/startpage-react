@@ -45,7 +45,7 @@ const AddWebButton = (props: Props) => {
 
 				<Space h="md"/>
 
-				<WebForm closeModal={closeModal} mode={WebFormMode.add} category={props.category} setOpened={setOpened} />
+				<WebForm closeModal={closeModal} mode={WebFormMode.add} category={props.category} />
 
 			</Popover.Dropdown>
 		</Popover>
