@@ -11,6 +11,6 @@ interface Props {
 export default function WebModal({ context, id, innerProps }: ContextModalProps<{ props:Props }>) {
 	const { props } = innerProps
 	return (
-			<WebForm closeModal={() => context.closeModal(id)} web={props.web} mode={props.mode} category={props.category} />
+			<WebForm handleClose={() => context.closeModal(id)} web={props.web} mode={props.mode} category={props.category} />
 	)
 }

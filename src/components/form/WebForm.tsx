@@ -1,18 +1,18 @@
 import { Button, FocusTrap, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledButton, useMantineTheme } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { memo, useEffect, useState } from "react"
-import { UseWebs } from "../../hooks/UseWebs"
+import { memo, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
 import { getDomain, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 import signalJs from 'signal-js'
 import Signals from "../../Signals"
+import { UseWebs } from "../../hooks/UseWebs"
 
 interface Props {
 	web?: Web,
 	category?: string,
+	handleClose?: Function,
 	mode: WebFormMode,
-	closeModal: Function
 }
 
 interface FormValues {
@@ -55,6 +55,7 @@ const WebForm = memo((props: Props) => {
 	}
 
 	const closeForm = () => {
+		if (props.handleClose !== undefined) props.handleClose()
 		// if (Object.entries(formValues.errors).length === 0) props.setOpened(false)
 	}
 
@@ -92,7 +93,7 @@ const WebForm = memo((props: Props) => {
 		}
 
 		signalJs.emit(Signals.addWeb, web, formValues.values.category)
-		props.closeModal()
+		closeForm()
 	}
 
 
@@ -107,13 +108,13 @@ const WebForm = memo((props: Props) => {
 		const oldCategory = props.category
 		const newCategory = formValues.values.category
 		signalJs.emit(Signals.updateWeb, newWeb, newCategory, oldCategory)
-		props.closeModal()
+		closeForm()
 	}
 
 
 	const handleDelete = () => {
 		signalJs.emit(Signals.deleteWeb, props.web, props.category)
-		props.closeModal()
+		closeForm()
 	}
 
 

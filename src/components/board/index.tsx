@@ -4,9 +4,11 @@ import { Droppable, DragDropContext } from "react-beautiful-dnd"
 import signalJs from 'signal-js'
 import UseBoard from "../../hooks/UseBoard"
 import Signals from "../../Signals"
-import AddWebButton from "./AddWebButton"
+import ColumnFooter from "./ColumnFooter"
 import Column from "./Column"
 import ColumnItemList from "./ColumnItemList"
+import WebForm from "../form/WebForm"
+import { WebFormMode } from "../../Types"
 
 
 const useStyles = createStyles((theme) => ({
@@ -68,10 +70,7 @@ export const Board = (() => {
 
 									<Column key={categoryId} name={categoryId} index={index}>
 										<ColumnItemList droppableId={categoryId} webs={webs} />
-										<AddWebButton category={categoryId} />
-										{/* TODO usar component composition  para pasar el form a addwebutton
-											usar signal-js para cerrar el popover cuando emita el form
-										*/}
+										<ColumnFooter category={categoryId}/>
 									</Column>
 								)
 							})

@@ -21,13 +21,14 @@ export const UseWebs = (() => {
 		// return webs
 	}
 
+
 	function getUniqueTags() {
-		return webs.webs.map(web => web.tags).flat().filter(onlyUnique)
+		return Object.values(webs.webs).map(web => web.tags).flat().filter(onlyUnique)
 	}
 
 
-	function isWebDuplicated(web: Web) {
-		return Object.values(webs.webs).filter(web => web.url === web.url)
+	function isUrlDuplicated(url: string) {
+		return Object.values(webs.webs).filter(web => web.url === url)
 	}
 
 
@@ -38,8 +39,11 @@ export const UseWebs = (() => {
 		return null
 	}
 
+
 	return {
 		getWebs,
-		getUniqueTags
+		getUniqueTags,
+		isWebDuplicated: isUrlDuplicated,
+		getCategory
 	}
 })

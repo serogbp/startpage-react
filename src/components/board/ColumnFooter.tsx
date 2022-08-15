@@ -1,6 +1,6 @@
-import { Button, CloseButton, createStyles, Dialog, Group, Modal, Popover, Space, Text, Tooltip, UnstyledButton, useMantineTheme } from "@mantine/core"
-import { useState } from "react";
-import { WebFormMode } from "../../Types";
+import { Button, CloseButton, createStyles, Group, Popover, Space, Text } from "@mantine/core"
+import React, { memo, useState } from "react";
+import { JsonContent, WebFormMode } from "../../Types";
 import WebForm from "../form/WebForm";
 
 const useStyles = createStyles((theme) => ({
@@ -17,11 +17,11 @@ interface Props {
 	category: string,
 }
 
-const AddWebButton = (props: Props) => {
+const ColumnFooter = memo((props: Props) => {
 	const [opened, setOpened] = useState(false)
 	const { classes } = useStyles()
 
-	const closeModal = () => {
+	const onClose = () => {
 		setOpened(false)
 	}
 
@@ -43,13 +43,13 @@ const AddWebButton = (props: Props) => {
 					<CloseButton onClick={() => setOpened(false)} />
 				</Group>
 
-				<Space h="md"/>
+				<Space h="md" />
 
-				<WebForm closeModal={closeModal} mode={WebFormMode.add} category={props.category} />
+				<WebForm handleClose={onClose} mode={WebFormMode.add} category={props.category} />
 
 			</Popover.Dropdown>
 		</Popover>
 	)
-}
+})
 
-export default AddWebButton
+export default ColumnFooter
