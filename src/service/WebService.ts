@@ -1,4 +1,4 @@
-import { WebFilter, Web, Category, jsonContent as JsonContent } from "../Types"
+import { WebFilter, Web, Category, JsonContent as JsonContent } from "../Types"
 import onlyUnique from "../utils/utils"
 
 
@@ -84,6 +84,6 @@ const getInitialData = (() => {
 			webIds: webIds
 		}
 	})
-	
+
 	return cosa
 })

@@ -1,5 +1,5 @@
 
-export interface jsonContent {
+export interface JsonContent {
 	webs: Web[],
 	categories: {
 		[key:string]: Category

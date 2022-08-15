@@ -1,6 +1,6 @@
 import { useState } from "react"
 import WebService from "../service/WebService"
-import { jsonContent, Web, WebsByCategory } from "../Types"
+import { JsonContent, Web, WebsByCategory } from "../Types"
 import onlyUnique from "../utils/utils"
 
 export const UseWebs = (() => {

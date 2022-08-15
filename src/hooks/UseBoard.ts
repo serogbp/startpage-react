@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
 import { UseWebs } from "./UseWebs"
-import { jsonContent, Web } from "../Types"
+import { JsonContent, Web } from "../Types"
 
 export default function UseBoard() {
 	const [state, setState] = useState<jsonContent>(UseWebs().getWebs())
@@ -27,7 +27,7 @@ export default function UseBoard() {
 				webIds: newWebIds
 			}
 		}
-		const newState: jsonContent = {
+		const newState: JsonContent = {
 			...state,
 			webs: newWebs,
 			categories: newCategories
@@ -80,7 +80,7 @@ export default function UseBoard() {
 			}
 		}
 
-		const newState: jsonContent = {
+		const newState: JsonContent = {
 			...state,
 			webs: newWebs,
 			categories: newCategories,
