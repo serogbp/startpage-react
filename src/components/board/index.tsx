@@ -7,14 +7,14 @@ import Signals from "../../Signals"
 import ColumnFooter from "./ColumnFooter"
 import Column from "./Column"
 import ColumnItemList from "./ColumnItemList"
-import WebForm from "../form/WebForm"
-import { WebFormMode } from "../../Types"
+
 
 
 const useStyles = createStyles((theme) => ({
 	board: {
 		flexWrap: "nowrap",
 		height: "100%",
+		minWidth: "100vw",
 		background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.blue[3],
 		padding: theme.spacing.md,
 

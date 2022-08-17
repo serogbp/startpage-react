@@ -3,13 +3,25 @@ import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import ColumnItem from "./ColumnItem"
 import { Virtuoso } from "react-virtuoso"
+import { createStyles } from "@mantine/core"
 
 
 interface Props {
 	droppableId: string,
 	webs: Web[]
 }
+
+const useStyles = createStyles((theme) => ({
+	columnList: {
+		marginLeft: ".5em",
+		marginRight: ".5em",
+	}
+}))
+
+
 const ColumnItemList = memo((props: Props) => {
+	const { classes } = useStyles()
+
 	// @ts-ignore
 	const HeightPreservingItem = useCallback(({ children, ...props }) => {
 		const [size, setSize] = useState(0);
@@ -43,7 +55,7 @@ const ColumnItemList = memo((props: Props) => {
 					{...provided.dragHandleProps}
 					ref={provided.innerRef}
 				>
-					<ColumnItem web={props.webs[rubric.source.index]} category={props.droppableId}/>
+					<ColumnItem web={props.webs[rubric.source.index]} category={props.droppableId} />
 				</div>
 
 			)}>
@@ -57,8 +69,9 @@ const ColumnItemList = memo((props: Props) => {
 					//@ts-ignore
 					scrollerRef={provided.innerRef}
 					style={{
-						width: 200,
-						// overflowX:"hidden",
+						width: 250,
+						overflowY:"auto",
+						scrollbarWidth: "thin"
 					}}
 					totalCount={props.webs.length}
 					data={props.webs}
@@ -70,7 +83,9 @@ const ColumnItemList = memo((props: Props) => {
 										{...provided.draggableProps}
 										{...provided.dragHandleProps}
 										ref={provided.innerRef}>
-										<ColumnItem web={props.webs[index]} category={props.droppableId}/>
+										<div className={classes.columnList}>
+											<ColumnItem web={props.webs[index]} category={props.droppableId} />
+										</div>
 									</div>
 								)}
 							</Draggable>

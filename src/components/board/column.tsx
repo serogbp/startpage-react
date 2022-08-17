@@ -15,9 +15,13 @@ const useStyles = createStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column",
 		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[1],
-		padding: "8px",
 		height: "100%",
 		borderRadius: theme.radius.sm
+	},
+	title: {
+		textAlign: "center",
+		margin: 0,
+		padding: "1em"
 	}
 }))
 
@@ -33,7 +37,7 @@ const Column = memo((props: Props) => {
 					ref={provided.innerRef}>
 
 					<div className={classes.column}>
-						<p {...provided.dragHandleProps} >{props.name}</p>
+						<p {...provided.dragHandleProps} className={classes.title}>{props.name}</p>
 						{props.children}
 					</div>
 				</div>
