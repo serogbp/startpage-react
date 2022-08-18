@@ -28,22 +28,19 @@ export const UseWebs = (() => {
 
 
 	function isUrlDuplicated(url: string) {
-		return Object.values(webs.webs).filter(web => web.url === url)
+		return Object.values(webs.webs).find(web => web.url === url)
 	}
 
 
 	function getCategory(web: Web) {
-		Object.values(webs.categories).forEach(category => {
-			if (web.id in category.webIds) return category.id
-		})
-		return null
+		return Object.values(webs.categories).find(category => web.id in category.webIds)?.id || ""
 	}
 
 
 	return {
 		getWebs,
 		getUniqueTags,
-		isWebDuplicated: isUrlDuplicated,
+		isUrlDuplicated,
 		getCategory
 	}
 })

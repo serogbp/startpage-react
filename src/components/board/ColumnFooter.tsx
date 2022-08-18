@@ -1,6 +1,6 @@
 import { Button, CloseButton, createStyles, Group, Popover, Space, Text } from "@mantine/core"
-import React, { memo, useState } from "react";
-import { JsonContent, WebFormMode } from "../../Types";
+import { memo, useState } from "react";
+import { WebFormMode } from "../../Types";
 import WebForm from "../form/WebForm";
 
 const useStyles = createStyles((theme) => ({

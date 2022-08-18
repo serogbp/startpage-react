@@ -1,6 +1,6 @@
 import { Button, FocusTrap, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledButton, useMantineTheme } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { memo, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
 import { getDomain, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
@@ -8,9 +8,10 @@ import signalJs from 'signal-js'
 import Signals from "../../Signals"
 import { UseWebs } from "../../hooks/UseWebs"
 
+
 interface Props {
 	web?: Web,
-	category?: string,
+	category: string,
 	handleClose?: Function,
 	mode: WebFormMode,
 }
@@ -24,25 +25,51 @@ interface FormValues {
 
 
 const WebForm = memo((props: Props) => {
-	const webHook = UseWebs()
-	const [categoryData, setCategoryData] = useState<string[]>(webHook.getWebs().categoryOrder)
-	const [tagsData, setTagsData] = useState<string[]>(webHook.getUniqueTags())
+	const useWebs = UseWebs()
+	const [web, setWeb] = useState<Web>()
+	const [category, setCategory] = useState(props.category)
+	const [categoryData, setCategoryData] = useState<string[]>(useWebs.getWebs().categoryOrder)
+	const [tagsData, setTagsData] = useState<string[]>(useWebs.getUniqueTags())
 	const [mode, setMode] = useState(props.mode)
 	const theme = useMantineTheme()
 
+	let duplicateWeb = web // Populada con la función isDuplicate()
+
+
+	useEffect(() => {
+		setWeb(props.web ? props.web : {
+			id: 0,
+			name: "",
+			url: "",
+			tags: [],
+		})
+	}, [])
+
+	useEffect(() => {
+		if (web) {
+			formValues.setValues({
+				url: web.url,
+				name: web.name,
+				category: category,
+				tags: web.tags,
+			})
+		}
+	}, [web])
 
 	// Al pulsar en el boton, pasas a modificar en el formulario la web duplicada
-	const duplicateMessage = (duplicateWeb: Web, category: string) => {
+	const duplicateMessage = () => {
+		const newCategory = useWebs.getCategory(duplicateWeb!)
 		return (
 			<>
 				<Text>
-					Already exists in the category {category}.
+					Already exists in the category {newCategory}.
 				</Text>
 				<UnstyledButton
 					onClick={(event: any) => {
 						event.preventDefault()
+						setCategory(newCategory)
+						setWeb(duplicateWeb!)
 						setMode(WebFormMode.update)
-						// setWeb(duplicateWeb)
 					}}
 					style={{
 						color: theme.colors.blue[5],
@@ -56,23 +83,47 @@ const WebForm = memo((props: Props) => {
 
 	const closeForm = () => {
 		if (props.handleClose !== undefined) props.handleClose()
-		// if (Object.entries(formValues.errors).length === 0) props.setOpened(false)
 	}
 
 	const formValues = useForm<FormValues>({
 		initialValues: {
-			url: props.web ? props.web.url : "" ,
-			name: props.web ? props.web.name : "" ,
-			category: props.category ? props.category : "",
-			tags: props.web ? props.web.tags : [] ,
+			url: "",
+			name: "",
+			tags: [],
+			category: "",
 		},
-
+		validate: {
+			url: (value) => isDuplicate(value) ? duplicateMessage() : null
+		}
 	})
+
+
+	const getFormValues = (): Web => {
+		return {
+			id: web?.id || 0, // Si web no es nulo es modo update
+			url: formValues.values.url,
+			name: formValues.values.name,
+			tags: formValues.values.tags,
+		}
+	}
+
+	const isDuplicate = (url: string) => {
+		// Si estas modificando una web sin cambiar su url no es duplicado
+		if (web?.url === url)
+			return false
+		else {
+			duplicateWeb = useWebs.isUrlDuplicated(url)!
+			return (duplicateWeb !== undefined)
+		}
+	}
+
 
 	const onBlurInputUrl = () => {
 		if (formValues.values.url !== "")
 			autoCompleteInputName()
 	}
+
+
 	const autoCompleteInputName = () => {
 		const { url, name } = formValues.values
 		if (urlRegex.test(url) && name === '') {
@@ -82,30 +133,15 @@ const WebForm = memo((props: Props) => {
 
 
 	const handleAdd = () => {
-
-		// TODO check duplicate
-		// TODO si hay duplicate, mostrar error
-		const web: Web = {
-			id: 0,
-			url: formValues.values.url,
-			name: formValues.values.name,
-			tags: formValues.values.tags,
-		}
-
+		const web = getFormValues()
 		signalJs.emit(Signals.addWeb, web, formValues.values.category)
 		closeForm()
 	}
 
 
 	const handleUpdate = () => {
-		const oldWeb = props.web
-		const newWeb: Web = {
-			id: oldWeb?.id || 0,
-			url: formValues.values.url,
-			name: formValues.values.name,
-			tags: formValues.values.tags,
-		}
-		const oldCategory = props.category
+		const newWeb = getFormValues()
+		const oldCategory = category
 		const newCategory = formValues.values.category
 		signalJs.emit(Signals.updateWeb, newWeb, newCategory, oldCategory)
 		closeForm()
@@ -113,7 +149,7 @@ const WebForm = memo((props: Props) => {
 
 
 	const handleDelete = () => {
-		signalJs.emit(Signals.deleteWeb, props.web, props.category)
+		signalJs.emit(Signals.deleteWeb, web, props.category)
 		closeForm()
 	}
 
@@ -152,17 +188,21 @@ const WebForm = memo((props: Props) => {
 						placeholder="Example"
 						{...formValues.getInputProps('name')}
 					/>
-					<Select
-						label="Category"
-						disabled={props.category && mode === WebFormMode.add ? true : false}
-						placeholder="Pick one"
-						data={categoryData}
-						{...formValues.getInputProps('category')}
-						required
-						searchable
-						getCreateLabel={(query) => `Create ${query}`}
-						onCreate={(query) => setCategoryData([...categoryData, query])}
-					/>
+
+					<div hidden={props.category && mode === WebFormMode.add ? true : false}>
+						<Select
+							label="Category"
+							disabled={props.category && mode === WebFormMode.add ? true : false}
+							placeholder="Pick one"
+							data={categoryData}
+							{...formValues.getInputProps('category')}
+							required
+							searchable
+							getCreateLabel={(query) => `Create ${query}`}
+							onCreate={(query) => setCategoryData([...categoryData, query])}
+						/>
+					</div>
+
 					<MultiSelect
 						label="Tags"
 						placeholder="Pick all tags you like"
@@ -170,6 +210,7 @@ const WebForm = memo((props: Props) => {
 						{...formValues.getInputProps('tags')}
 						searchable
 						clearable
+						creatable
 						getCreateLabel={(query) => `Create ${query}`}
 						onCreate={(query) => setTagsData([...tagsData, query])}
 					/>
@@ -178,10 +219,11 @@ const WebForm = memo((props: Props) => {
 						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} />
 						<Button type="submit">Update web</Button>
 					</Group>
+
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.add}>
-						{/* <Button onClick={() => handleAdd()}>Add new web</Button> */}
 						<Button type="submit">Add new web</Button>
 					</Group>
+
 				</FocusTrap>
 			</Stack>
 		</form>

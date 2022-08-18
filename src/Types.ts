@@ -45,6 +45,12 @@ export interface WebFilter {
 	value: string,
 }
 
+export interface WebFormValues {
+	url: string,
+	name: string,
+	category: string,
+	tags: string[]
+}
 
 export enum WebFormMode {
 	add,

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
 import { UseWebs } from "./UseWebs"
 import { JsonContent, Web } from "../Types"
-import onlyUnique from "../utils/utils"
 
 export default function UseBoard() {
 	const [state, setState] = useState<JsonContent>(UseWebs().getWebs())
