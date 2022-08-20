@@ -3,6 +3,7 @@ import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import { ModalsProvider } from '@mantine/modals';
 import './App.css'
 import { Board } from './components/board'
+import ModalSettings from './components/modals/ModalSettings';
 import WebModal from './components/modals/WebModal';
 import { Spotlight } from './components/Spotlight';
 import { UseWebs } from './hooks/UseWebs';
@@ -23,7 +24,7 @@ function App() {
 			<MantineProvider
 				withNormalizeCSS withGlobalStyles
 				theme={{ colorScheme: `${colorScheme}` }}>
-				<ModalsProvider modals={{ webForm: WebModal}}>
+				<ModalsProvider modals={{ webForm: WebModal, settings: ModalSettings}}>
 					<Spotlight>
 						<Board />
 					</Spotlight>

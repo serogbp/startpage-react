@@ -2,6 +2,7 @@ import {Search, Home } from "tabler-icons-react";
 import { SpotlightProvider, } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { UseWebs } from "../hooks/UseWebs";
+import { openContextModal } from "@mantine/modals";
 
 
 export function Spotlight(props:any) {
@@ -18,6 +19,24 @@ export function Spotlight(props:any) {
 		}
 	})
 
+	const fixedActions: SpotlightAction[] = [
+		{
+			id: "settings",
+			title: "Settings",
+			description: "Open the app settings",
+			onTrigger: () => {
+				openContextModal({
+					title: "Settings",
+					modal: "settings",
+					centered: true,
+					trapFocus: true,
+					innerProps: { },
+					size: "xl"
+				})
+			}
+		}
+	]
+
 
 	const openWeb = (url: string) => {
 		const link = document.createElement('a');
@@ -30,7 +49,7 @@ export function Spotlight(props:any) {
 
 	return (
 		<SpotlightProvider
-			actions={actions}
+			actions={fixedActions}
 			searchIcon={<Search size={18} />}
 			searchPlaceholder="Search..."
 			shortcut={['mod + P', 'mod + K', '/']}

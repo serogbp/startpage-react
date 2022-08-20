@@ -56,3 +56,9 @@ export enum WebFormMode {
 	add,
 	update
 }
+
+export interface Settings {
+	colorScheme: string,
+	accentColor: string,
+	useSystemTheme: boolean
+}
