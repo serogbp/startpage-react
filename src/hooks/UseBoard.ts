@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react"
 import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
 import { UseWebs } from "./UseWebs"
 import { JsonContent, Web } from "../Types"
+import { useLocalStorage } from "@mantine/hooks"
 
 export default function UseBoard() {
-	const [state, setState] = useState<JsonContent>(UseWebs().getWebs())
+	const [state, setState] = useLocalStorage({
+		key: "webs",
+		defaultValue: UseWebs().getWebs()
+	})
 
-
-	useEffect(() => {
-		// TODO actualizar localstorage
-	}, [state])
 
 
 	const handleAddWeb = (web: Web, category: string) => {
