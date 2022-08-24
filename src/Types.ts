@@ -62,3 +62,10 @@ export interface Settings {
 	accentColor: string,
 	useSystemTheme: boolean
 }
+
+export enum SettingsJsonNames {
+	colorScheme = "color-scheme",
+	accentColor = "accent-color",
+	useSystemTheme = "use-system-theme"
+
+}

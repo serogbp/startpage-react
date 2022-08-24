@@ -10,7 +10,6 @@ export default function UseBoard() {
 	})
 
 
-
 	const handleAddWeb = (web: Web, category: string) => {
 		web.id = Object.keys(state.webs).length
 

@@ -5,20 +5,18 @@ import { Settings } from "../../Types";
 
 
 interface Props {
-	useSettings: any
+	settings: any
 }
 
 
 export default function AppSettingsAppearance(props:Props) {
-	const [checked, setChecked] = useState(props.useSettings.useSystemTheme)
 
-	useEffect(()=> {
-		props.useSettings.setUseSystemTheme(checked)
-	}, [checked])
+
+
 
 	return (
 		<>
-			<Select disabled={checked} value={props.useSettings.settings.colorScheme} onChange={props.useSettings.setColorScheme} label="Theme"
+			<Select disabled={props.settings.useSystemTheme} value={props.settings.colorScheme} onChange={props.settings.setColorScheme} label="Theme"
 				data={[
 					{ value: 'light', label: 'Light' },
 					{ value: 'dark', label: 'Dark' },
@@ -28,7 +26,9 @@ export default function AppSettingsAppearance(props:Props) {
 
 			<Space h="sm"/>
 
-			<Checkbox label="Use system theme" checked={checked} onChange={(event) => setChecked(event.currentTarget.checked)}  />
+			<Checkbox label="Use system theme" checked={props.settings.useSystemTheme} onChange={(event) => props.settings.setUseSystemTheme(event.currentTarget.checked)}  />
+
+			<Space h="sm"/>
 		</>
 	)
 }

@@ -1,12 +1,12 @@
 import { Checkbox, Select, Tabs, Text } from "@mantine/core"
 import { Database, MessageCircle, Photo, Settings } from "tabler-icons-react"
-import UseSettings from "../../hooks/UseSettings"
+import { useSettings } from "../../hooks/UseSettings"
 import AppSettingsAppearance from "./AppSettingsAppearance"
 
 
 // export default function ModalSettings({ context, id, innerProps }: ContextModalProps<{ props: Props }>) {
 export default function AppSettings() {
-	const useSettings = UseSettings()
+	const settings = useSettings()
 
 	return (
 		<Tabs orientation="vertical" defaultValue={"appearance"}>
@@ -17,7 +17,7 @@ export default function AppSettings() {
 			</Tabs.List>
 
 			<Tabs.Panel value="appearance" pl="xl">
-				<AppSettingsAppearance useSettings={useSettings}/>
+				<AppSettingsAppearance settings={settings}/>
 			</Tabs.Panel>
 
 			<Tabs.Panel value="data" pl="xl">
