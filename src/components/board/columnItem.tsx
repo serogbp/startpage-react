@@ -2,6 +2,7 @@ import { ActionIcon, Box, Card, createStyles, Stack, Text, Tooltip } from "@mant
 import { openContextModal } from "@mantine/modals"
 import { memo, useState } from "react"
 import { Dots, Pencil } from "tabler-icons-react"
+import { useSettings } from "../../hooks/UseSettings"
 import { Web, WebFormMode } from "../../Types"
 
 
@@ -50,6 +51,7 @@ const useStyles = createStyles((theme) => ({
 
 
 const ColumnItem = memo((props: Props) => {
+	const settings = useSettings()
 	const [hover, setHover] = useState(false)
 	const { classes } = useStyles()
 	const urlIsLong = props.web.url.length > 25
@@ -101,7 +103,7 @@ const ColumnItem = memo((props: Props) => {
 
 					<Tooltip
 						label={props.web.url}
-						color="blue"
+						color={settings.accentColor}
 						position="bottom"
 						withArrow
 						openDelay={200}

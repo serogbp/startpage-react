@@ -3,10 +3,28 @@ import { useColorScheme, useLocalStorage } from "@mantine/hooks";
 import { createContext, useContext, useEffect } from "react";
 import signalJs from "signal-js";
 import Signals from "../Signals";
-import { Settings, SettingsJsonNames } from "../Types";
 
 
-const defaultSettings: Settings = {
+enum SettingsJsonNames {
+	colorScheme = "color-scheme",
+	accentColor = "accent-color",
+	useSystemTheme = "use-system-theme"
+
+}
+
+
+interface SettingsHelper {
+	colorScheme: ColorScheme;
+    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void;
+    useSystemTheme: boolean;
+    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void;
+    accentColor: string;
+    setAccentColor: (val: string | ((prevState: string) => string)) => void;
+}
+
+
+
+const defaultSettings = {
 	colorScheme: "light" ,
 	useSystemTheme: false,
 	accentColor: "blue"
@@ -27,14 +45,6 @@ export function useSettings() {
 	return context
 }
 
-interface SettingsHelper {
-	colorScheme: ColorScheme;
-    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void;
-    useSystemTheme: boolean;
-    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void;
-    accentColor: string;
-    setAccentColor: (val: string | ((prevState: string) => string)) => void;
-}
 
 function settingsHelper() {
 	const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({

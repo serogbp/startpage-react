@@ -41,7 +41,10 @@ export default function StyleProvider({ children }: { children: JSX.Element | JS
 		<ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
 			<MantineProvider
 				withNormalizeCSS withGlobalStyles
-				theme={{ colorScheme: `${colorScheme}` }}>
+				theme={{
+					colorScheme: `${colorScheme}`,
+					primaryColor: settings.accentColor
+				}}>
 				{children}
 			</MantineProvider>
 		</ColorSchemeProvider>
