@@ -1,6 +1,7 @@
 import { Tabs } from "@mantine/core"
 import { Database, Photo, Settings } from "tabler-icons-react"
-import AppSettingsAppearance from "./AppSettingsAppearance"
+import AppSettingsAppearance from "./panels/AppSettingsAppearance"
+import AppSettingsData from "./panels/AppSettingsData"
 
 
 export default function AppSettings() {
@@ -13,16 +14,30 @@ export default function AppSettings() {
 			</Tabs.List>
 
 			<Tabs.Panel value="appearance" pl="xl">
-				<AppSettingsAppearance />
+				<SameHeightPanel>
+					<AppSettingsAppearance />
+				</SameHeightPanel>
 			</Tabs.Panel>
 
 			<Tabs.Panel value="data" pl="xl">
-				Opciones de los datos
+				<SameHeightPanel>
+					<AppSettingsData />
+				</SameHeightPanel>
 			</Tabs.Panel>
 
 			<Tabs.Panel value="settings" pl="xl">
-				Settings tab content
+				<SameHeightPanel>
+					Settings tab content
+				</SameHeightPanel>
 			</Tabs.Panel>
 		</Tabs>
+	)
+}
+
+const SameHeightPanel = ({children}: {children: JSX.Element | JSX.Element[] | string}) => {
+	return(
+		<div style={{minHeight:500}}>
+			{children}
+		</div>
 	)
 }

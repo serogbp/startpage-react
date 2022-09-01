@@ -1,7 +1,9 @@
 import { Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineColor, Divider, Group, MantineColor, Radio, Select, Space, Stack, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { useSettings } from "../../hooks/UseSettings";
-import { capitalizeFirstLetter } from "../../utils/utils";
+import { useSettings } from "../../../hooks/UseSettings";
+import { capitalizeFirstLetter } from "../../../utils/utils";
+import MyDivider from "../common/MyDivider";
+import MyPanel from "../common/MyPanel";
 
 
 export default function AppSettingsAppearance() {
@@ -14,33 +16,20 @@ export default function AppSettingsAppearance() {
 	)
 }
 
-const MyDivider = () => {
-	return (
-		<>
-			<Space h="xl" />
-			<Divider />
-			<Space h="xl" />
-		</>
-	)
-}
 
 const Theme = () => {
 	const settings = useSettings()
 	return (
-		<Group position="apart" align="top">
-			<Text>Theme</Text>
-			<Stack>
-
-				<Select disabled={settings.useSystemTheme} value={settings.colorScheme} onChange={(value) => settings.setColorScheme(value as ColorScheme)} label="Color scheme"
-					data={[
-						{ value: 'light', label: 'Light' },
-						{ value: 'dark', label: 'Dark' },
-					]}
-				/>
-				<Text size="xs" color="dimmed">You can change the color scheme with the Ctrl + J shortcut.</Text>
-				<Checkbox label="Use system theme" checked={settings.useSystemTheme} onChange={(event) => settings.setUseSystemTheme(event.currentTarget.checked)} />
-			</Stack>
-		</Group>
+		<MyPanel title={"Theme"}>
+			<Select disabled={settings.useSystemTheme} value={settings.colorScheme} onChange={(value) => settings.setColorScheme(value as ColorScheme)} label="Color scheme"
+				data={[
+					{ value: 'light', label: 'Light' },
+					{ value: 'dark', label: 'Dark' },
+				]}
+			/>
+			<Text size="xs" color="dimmed">You can change the color scheme with the Ctrl + J shortcut.</Text>
+			<Checkbox label="Use system theme" checked={settings.useSystemTheme} onChange={(event) => settings.setUseSystemTheme(event.currentTarget.checked)} />
+		</MyPanel>
 	)
 }
 
@@ -68,30 +57,27 @@ const AccentColor = () => {
 
 	useEffect(() => {
 		settings.setAccentColor(toggleColor)
-	},[toggleColor])
+	}, [toggleColor])
 
 
 	return (
-		<Group position="apart" align="top">
-			<Text>Accent color</Text>
-			<Stack>
-				<Group spacing="xs">
-					{
-						colors.map(color => (
-							<ColorSwatch
-								key={color.name}
-								component="button"
-								color={color.color}
-								onClick={() => setToggleColor(color.name.toLowerCase())}
-								sx={{ color: '#fff', cursor: 'pointer' }}
-							>
-								{color.name.toLowerCase() === toggleColor  && <CheckIcon width={10} />}
-							</ColorSwatch>
-						))
-					}
-				</Group>
-				<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor)}</Text>
-			</Stack>
-		</Group>
+		<MyPanel title={"Accent color"}>
+			<Group spacing="xs">
+				{
+					colors.map(color => (
+						<ColorSwatch
+							key={color.name}
+							component="button"
+							color={color.color}
+							onClick={() => setToggleColor(color.name.toLowerCase())}
+							sx={{ color: '#fff', cursor: 'pointer' }}
+						>
+							{color.name.toLowerCase() === toggleColor && <CheckIcon width={10} />}
+						</ColorSwatch>
+					))
+				}
+			</Group>
+			<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor)}</Text>
+		</MyPanel >
 	)
 }
