@@ -1,5 +1,6 @@
+import { defaultWebs } from "../hooks/UseBoard"
 import { WebFilter, Web, Category, JsonContent as JsonContent } from "../Types"
-import onlyUnique from "../utils/utils"
+import onlyUnique, { download } from "../utils/utils"
 
 
 export type WebServiceType = {
@@ -8,6 +9,8 @@ export type WebServiceType = {
 	removeWebs: () => void,
 	getFilter: () => WebFilter,
 	saveFilter: (filter: WebFilter) => void,
+	exportWebs: () => void,
+	importWebs: (json: File) => Promise<unknown>
 }
 
 const WEBS = 'webs'
@@ -48,11 +51,40 @@ const WebService: WebServiceType = {
 
 	saveFilter: (filter: WebFilter) => {
 		localStorage.setItem(FILTER, JSON.stringify(filter))
+	},
+
+	exportWebs: () => {
+		const date = new Date();
+		// File name format yyyy-mm-dd-startpage.json
+		const fileName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-startpage.json";
+		const data = localStorage.getItem(WEBS)
+		download(data, fileName, "text/plain")
+	},
+
+
+	importWebs: (json:File) => {
+		return new Promise((resolve, reject) => {
+			json.text().then((value) => {
+				// let currentWebs: JsonContent = JSON.parse(localStorage.getItem(WEBS) ?? '[]')
+				const lsWebs = localStorage.getItem(WEBS)
+				let currentWebs: JsonContent = lsWebs ? JSON.parse(lsWebs) : defaultWebs()
+				let websToImport: JsonContent = JSON.parse(value)
+				currentWebs = {
+					webs: {...currentWebs.webs, ...websToImport.webs},
+					categories: {...currentWebs.categories, ...websToImport.categories},
+					categoryOrder: [...currentWebs.categoryOrder, ...websToImport.categoryOrder],
+				}
+				resolve("")
+			})
+		})
 	}
 }
 
 
 export default WebService
+
+
+
 
 const getInitialData = (() => {
 	const miArray = [

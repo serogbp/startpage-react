@@ -1,25 +1,27 @@
-import { ColorScheme, useMantineColorScheme } from "@mantine/core";
-import { useColorScheme, useLocalStorage } from "@mantine/hooks";
-import { createContext, useContext, useEffect } from "react";
-import signalJs from "signal-js";
-import Signals from "../Signals";
+import { ColorScheme, useMantineColorScheme } from "@mantine/core"
+import { useColorScheme, useLocalStorage } from "@mantine/hooks"
+import { createContext, useContext, useEffect } from "react"
+import signalJs from "signal-js"
+import Signals from "../Signals"
 
 
 enum SettingsJsonNames {
 	colorScheme = "color-scheme",
 	accentColor = "accent-color",
-	useSystemTheme = "use-system-theme"
-
+	useSystemTheme = "use-system-theme",
+	keepWebsWhenImport = "keep-webs-when-import"
 }
 
 
 interface SettingsHelper {
-	colorScheme: ColorScheme;
-    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void;
-    useSystemTheme: boolean;
-    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void;
-    accentColor: string;
-    setAccentColor: (val: string | ((prevState: string) => string)) => void;
+	colorScheme: ColorScheme
+    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
+    useSystemTheme: boolean
+    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
+    accentColor: string
+    setAccentColor: (val: string | ((prevState: string) => string)) => void
+	keepWebsWhenImport: boolean
+	setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void;
 }
 
 
@@ -27,7 +29,8 @@ interface SettingsHelper {
 const defaultSettings = {
 	colorScheme: "light" ,
 	useSystemTheme: false,
-	accentColor: "blue"
+	accentColor: "blue",
+	keepWebsWhenImport: true,
 }
 
 
@@ -62,6 +65,11 @@ function settingsHelper() {
 		defaultValue: defaultSettings.accentColor
 	})
 
+	const [keepWebsWhenImport, setKeepWebsWhenImport] = useLocalStorage<boolean>({
+		key: SettingsJsonNames.keepWebsWhenImport,
+		defaultValue: defaultSettings.keepWebsWhenImport
+	})
+
 
 	useEffect(() => {
 		signalJs.emit(Signals.toggleColorScheme, colorScheme)
@@ -81,5 +89,7 @@ function settingsHelper() {
 		setUseSystemTheme,
 		accentColor,
 		setAccentColor,
+		keepWebsWhenImport,
+		setKeepWebsWhenImport,
 	})
 }

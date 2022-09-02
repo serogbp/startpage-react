@@ -196,3 +196,12 @@ export default function UseBoard() {
 		handlerDragStart,
 	}
 }
+
+
+export const defaultWebs = (): JsonContent => {
+	return {
+		webs: [],
+		categories: {},
+		categoryOrder: []
+	}
+}

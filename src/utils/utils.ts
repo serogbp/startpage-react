@@ -33,8 +33,9 @@ export const arrayMove = (arr: any, old_index: number, new_index: number) => {
 	arr.splice(new_index, 0, arr.splice(old_index, 1)[0])
 }
 
+
 // Comprueba si 2 arrays tienen los mismos items
-export const arrayCompare = ((_arr1:Web[], _arr2:Web[]) => {
+export const arrayCompare = ((_arr1: Web[], _arr2: Web[]) => {
 	if (
 		!Array.isArray(_arr1)
 		|| !Array.isArray(_arr2)
@@ -54,3 +55,13 @@ export const arrayCompare = ((_arr1:Web[], _arr2:Web[]) => {
 	}
 	return true
 })
+
+
+export function download(content: any, fileName: string, contentType: string) {
+	var a = document.createElement("a")
+	var file = new Blob([content], { type: contentType })
+	a.href = URL.createObjectURL(file)
+	a.download = fileName
+	a.click()
+	URL.revokeObjectURL(a.href)
+}
