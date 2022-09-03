@@ -2,8 +2,39 @@ import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
 import { UseWebs } from "./UseWebs"
 import { JsonContent, Web } from "../Types"
 import { useLocalStorage } from "@mantine/hooks"
+import { createContext, useContext } from "react"
 
-export default function UseBoard() {
+
+interface BoardHelper {
+	state: JsonContent;
+	setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void;
+	columnDragEnd: (result: DropResult) => void;
+	columnItemDragEnd: (result: DropResult) => void;
+	handleAddWeb: (web: Web, category: string) => void;
+	handleDeleteWeb: (web: Web, category: string) => void;
+	handleUpdateWeb: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void;
+	handlerDragEnd: (result: DropResult) => void;
+	handlerDragStart: (initial: DragStart, provided: ResponderProvided) => void;
+
+}
+
+
+const BoardContext = createContext<BoardHelper | undefined>(undefined)
+
+
+export function BoardProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
+	return <BoardContext.Provider value={boardHelper()}>{children}</BoardContext.Provider>
+}
+
+
+export function useBoard() {
+	const context = useContext(BoardContext)
+	if (context === undefined) throw new Error("useSettings must bed used within a SettingsProvider")
+	return context
+}
+
+
+function boardHelper() {
 	const [state, setState] = useLocalStorage({
 		key: "webs",
 		defaultValue: UseWebs().getWebs()
@@ -187,6 +218,7 @@ export default function UseBoard() {
 
 	return {
 		state,
+		setState,
 		columnDragEnd,
 		columnItemDragEnd,
 		handleAddWeb,
@@ -194,14 +226,5 @@ export default function UseBoard() {
 		handleUpdateWeb,
 		handlerDragEnd,
 		handlerDragStart,
-	}
-}
-
-
-export const defaultWebs = (): JsonContent => {
-	return {
-		webs: [],
-		categories: {},
-		categoryOrder: []
 	}
 }

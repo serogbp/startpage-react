@@ -2,11 +2,12 @@ import { createStyles, Group } from "@mantine/core"
 import { useEffect } from "react"
 import { Droppable, DragDropContext } from "react-beautiful-dnd"
 import signalJs from 'signal-js'
-import UseBoard from "../../hooks/UseBoard"
 import Signals from "../../Signals"
 import ColumnFooter from "./ColumnFooter"
 import Column from "./Column"
 import ColumnItemList from "./ColumnItemList"
+import { JsonContent } from "../../Types"
+import { useBoard } from "../../hooks/UseBoard"
 
 
 
@@ -35,7 +36,7 @@ window.addEventListener("error", (e) => {
 
 
 export const Board = (() => {
-	const board = UseBoard()
+	const board = useBoard()
 	const { classes } = useStyles()
 
 	// Hack para que funcionen los signals con los renders
@@ -45,7 +46,8 @@ export const Board = (() => {
 	signalJs.on(Signals.addWeb, (newWeb, category) => board.handleAddWeb(newWeb, category))
 	signalJs.on(Signals.updateWeb, (newWeb, destinationCategory, sourceCategory) => board.handleUpdateWeb(newWeb, destinationCategory, sourceCategory))
 	signalJs.on(Signals.deleteWeb, (web, category) => board.handleDeleteWeb(web, category))
-
+	signalJs.clear(Signals.updateBoardState)
+	signalJs.on(Signals.updateBoardState, (newState: JsonContent) => board.setState(newState))
 
 	useEffect(() => {
 		// INFO no funciona correctamente aquí
@@ -70,7 +72,7 @@ export const Board = (() => {
 
 									<Column key={categoryId} name={categoryId} index={index}>
 										<ColumnItemList droppableId={categoryId} webs={webs} />
-										<ColumnFooter category={categoryId}/>
+										<ColumnFooter category={categoryId} />
 									</Column>
 								)
 							})

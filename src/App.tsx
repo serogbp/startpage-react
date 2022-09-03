@@ -9,6 +9,7 @@ import ModalSettings from './components/modals/ModalSettings';
 import WebModal from './components/modals/WebModal';
 import { Spotlight } from './components/Spotlight';
 import StyleProvider from './components/StyleProvider';
+import { BoardProvider } from './hooks/UseBoard';
 import { SettingsProvider } from './hooks/UseSettings';
 
 
@@ -16,13 +17,15 @@ import { SettingsProvider } from './hooks/UseSettings';
 function App() {
 	return (
 		<SettingsProvider>
-			<StyleProvider>
-				<ModalsProvider modals={{ webForm: WebModal, settings: ModalSettings }}>
-					<Spotlight>
-						<Board />
-					</Spotlight>
-				</ModalsProvider>
-			</StyleProvider>
+			<BoardProvider>
+				<StyleProvider>
+					<ModalsProvider modals={{ webForm: WebModal, settings: ModalSettings }}>
+						<Spotlight>
+							<Board />
+						</Spotlight>
+					</ModalsProvider>
+				</StyleProvider>
+			</BoardProvider>
 		</SettingsProvider>
 	)
 }

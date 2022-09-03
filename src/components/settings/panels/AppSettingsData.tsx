@@ -2,7 +2,6 @@ import { Button, Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineCo
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import { Book, Download, Phone, Upload, X } from "tabler-icons-react";
-import UseBoard from "../../../hooks/UseBoard";
 import { useSettings } from "../../../hooks/UseSettings";
 import WebService from "../../../service/WebService";
 import { capitalizeFirstLetter } from "../../../utils/utils";
@@ -26,7 +25,7 @@ export default function AppSettingsData() {
 
 const Export = () => {
 	const handleClick = () => {
-		webService.exportWebs()
+		webService.exportJson()
 	}
 	return (
 		<MyPanel title={"Export"}>
@@ -54,7 +53,8 @@ const Import = () => {
 		setLoading(true)
 		if (!settings.keepWebsWhenImport)
 			webService.removeWebs()
-		webService.importWebs(files[0]).then(() => setLoading(false))
+		webService.importJson(files[0])
+			.then(() => setLoading(false))
 	}
 
 	return (

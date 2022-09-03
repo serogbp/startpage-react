@@ -4,7 +4,14 @@ export interface JsonContent {
 	categories: {
 		[key:string]: Category
 	},
-	categoryOrder: string[]
+	categoryOrder: string[],
+	jsonVersion: number
+}
+
+export interface JsonContentDeprecated {
+	name: string,
+	category: string,
+	url: string
 }
 
 export interface Web {

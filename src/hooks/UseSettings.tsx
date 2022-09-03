@@ -1,5 +1,5 @@
-import { ColorScheme, useMantineColorScheme } from "@mantine/core"
-import { useColorScheme, useLocalStorage } from "@mantine/hooks"
+import { ColorScheme } from "@mantine/core"
+import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext, useEffect } from "react"
 import signalJs from "signal-js"
 import Signals from "../Signals"
@@ -15,11 +15,11 @@ enum SettingsJsonNames {
 
 interface SettingsHelper {
 	colorScheme: ColorScheme
-    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
-    useSystemTheme: boolean
-    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
-    accentColor: string
-    setAccentColor: (val: string | ((prevState: string) => string)) => void
+	setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
+	useSystemTheme: boolean
+	setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
+	accentColor: string
+	setAccentColor: (val: string | ((prevState: string) => string)) => void
 	keepWebsWhenImport: boolean
 	setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void;
 }
@@ -27,7 +27,7 @@ interface SettingsHelper {
 
 
 const defaultSettings = {
-	colorScheme: "light" ,
+	colorScheme: "light",
 	useSystemTheme: false,
 	accentColor: "blue",
 	keepWebsWhenImport: true,
@@ -37,7 +37,7 @@ const defaultSettings = {
 const SettingsContext = createContext<SettingsHelper | undefined>(undefined)
 
 
-export function SettingsProvider({children} : {children: JSX.Element | JSX.Element[]}) {
+export function SettingsProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
 	return <SettingsContext.Provider value={settingsHelper()}>{children}</SettingsContext.Provider>
 }
 
