@@ -1,4 +1,4 @@
-import { createStyles, Group } from "@mantine/core"
+import { createStyles, Group, useMantineTheme } from "@mantine/core"
 import { useEffect } from "react"
 import { Droppable, DragDropContext } from "react-beautiful-dnd"
 import signalJs from 'signal-js'
@@ -8,6 +8,7 @@ import Column from "./Column"
 import ColumnItemList from "./ColumnItemList"
 import { JsonContent } from "../../Types"
 import { useBoard } from "../../hooks/UseBoard"
+import { useSettings } from "../../hooks/UseSettings"
 
 
 
@@ -16,7 +17,6 @@ const useStyles = createStyles((theme) => ({
 		flexWrap: "nowrap",
 		height: "100%",
 		minWidth: "100vw",
-		background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.blue[3],
 		padding: theme.spacing.md,
 
 	}
@@ -36,6 +36,8 @@ window.addEventListener("error", (e) => {
 
 
 export const Board = (() => {
+	const settings = useSettings()
+	const theme = useMantineTheme()
 	const board = useBoard()
 	const { classes } = useStyles()
 
@@ -62,7 +64,7 @@ export const Board = (() => {
 		<DragDropContext onDragEnd={board.handlerDragEnd} onDragStart={board.handlerDragStart}>
 			<Droppable droppableId="board" direction="horizontal" type="column">
 				{(provided) => (
-					<Group className={classes.board} grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef}>
+					<Group className={classes.board} grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef} style={{backgroundColor:theme.colorScheme === 'dark' ? theme.colors.dark[8] : settings.backgroundColor}}>
 						{
 							// Dibujar columnas
 							board.state.categoryOrder.map((categoryId, index) => {

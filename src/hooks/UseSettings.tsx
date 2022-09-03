@@ -8,6 +8,7 @@ import Signals from "../Signals"
 enum SettingsJsonNames {
 	colorScheme = "color-scheme",
 	accentColor = "accent-color",
+	backgroundColor = "background-color",
 	useSystemTheme = "use-system-theme",
 	keepWebsWhenImport = "keep-webs-when-import"
 }
@@ -15,13 +16,15 @@ enum SettingsJsonNames {
 
 interface SettingsHelper {
 	colorScheme: ColorScheme
-	setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
-	useSystemTheme: boolean
-	setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
-	accentColor: string
-	setAccentColor: (val: string | ((prevState: string) => string)) => void
-	keepWebsWhenImport: boolean
-	setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void;
+    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
+    useSystemTheme: boolean
+    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
+    accentColor: string
+    setAccentColor: (val: string | ((prevState: string) => string)) => void
+    backgroundColor: string
+    setBackgroundColor: (val: string | ((prevState: string) => string)) => void
+    keepWebsWhenImport: boolean
+    setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void
 }
 
 
@@ -30,6 +33,7 @@ const defaultSettings = {
 	colorScheme: "light",
 	useSystemTheme: false,
 	accentColor: "blue",
+	backgroundColor: "blue",
 	keepWebsWhenImport: true,
 }
 
@@ -65,6 +69,11 @@ function settingsHelper() {
 		defaultValue: defaultSettings.accentColor
 	})
 
+	const [backgroundColor, setBackgroundColor] = useLocalStorage<string>({
+		key: SettingsJsonNames.backgroundColor,
+		defaultValue: defaultSettings.backgroundColor
+	})
+
 	const [keepWebsWhenImport, setKeepWebsWhenImport] = useLocalStorage<boolean>({
 		key: SettingsJsonNames.keepWebsWhenImport,
 		defaultValue: defaultSettings.keepWebsWhenImport
@@ -89,6 +98,8 @@ function settingsHelper() {
 		setUseSystemTheme,
 		accentColor,
 		setAccentColor,
+		backgroundColor,
+		setBackgroundColor,
 		keepWebsWhenImport,
 		setKeepWebsWhenImport,
 	})
