@@ -7,13 +7,15 @@ import MyPanel from "../common/MyPanel";
 
 
 export default function AppSettingsAppearance() {
+	const settings = useSettings()
 	return (
 		<>
 			<Theme />
 			<MyDivider />
-			<AccentColor />
+			{ (settings.colorScheme === "light" as ColorScheme) && <BackgroundColorLight/> }
+			{ (settings.colorScheme === "dark" as ColorScheme) && <BackgroundColorDark/> }
 			<MyDivider />
-			<BackgroundColor/>
+			<AccentColor />
 		</>
 	)
 }
@@ -86,9 +88,9 @@ const AccentColor = () => {
 }
 
 
-const BackgroundColor = () => {
+const BackgroundColorLight = () => {
 	const settings = useSettings()
-	const [toggleColor, setToggleColor] = useState(settings.backgroundColor)
+	const [toggleColor, setToggleColor] = useState(settings.backgroundColorLight)
 	const theme = useMantineTheme()
 	const colors = [
 		{ toggle: false, name: "White", color: theme.colors.gray[0] },
@@ -107,7 +109,55 @@ const BackgroundColor = () => {
 	]
 
 	useEffect(() => {
-		settings.setBackgroundColor(toggleColor)
+		settings.setBackgroundColorLight(toggleColor)
+	}, [toggleColor])
+
+	return (
+		<MyPanel title={"Background color"}>
+			<Group spacing="xs">
+				{
+					colors.map(color => (
+						<ColorSwatch
+							key={color.name}
+							component="button"
+							color={color.color}
+							onClick={() => setToggleColor(color.color)}
+							size={20}
+							sx={{ color: '#fff', cursor: 'pointer' }}
+						>
+							{color.color === toggleColor && <CheckIcon width={10} />}
+						</ColorSwatch>
+					))
+				}
+			</Group>
+			<Text size="xs" color="dimmed">{capitalizeFirstLetter(colors.find(color => color.color == toggleColor)?.name ?? "")}</Text>
+		</MyPanel >
+	)
+}
+
+
+const BackgroundColorDark = () => {
+	const settings = useSettings()
+	const [toggleColor, setToggleColor] = useState(settings.backgroundColorDark)
+	const theme = useMantineTheme()
+	const colors = [
+		{ toggle: false, name: "Black", color: theme.colors.dark[7] },
+		{ toggle: false, name: "Red", color: theme.colors.red[9] },
+		{ toggle: false, name: "Pink", color: theme.colors.pink[9] },
+		{ toggle: false, name: "Grape", color: theme.colors.grape[9] },
+		{ toggle: false, name: "Violet", color: theme.colors.violet[9] },
+		{ toggle: false, name: "Indigo", color: theme.colors.indigo[9] },
+		{ toggle: false, name: "Blue", color: theme.colors.blue[9] },
+		{ toggle: false, name: "Cyan", color: theme.colors.cyan[9] },
+		{ toggle: false, name: "Teal", color: theme.colors.teal[9] },
+		{ toggle: false, name: "Green", color: theme.colors.green[9] },
+		{ toggle: false, name: "Lime", color: theme.colors.lime[9] },
+		{ toggle: false, name: "Yellow", color: theme.colors.yellow[9] },
+		{ toggle: false, name: "Orange", color: theme.colors.orange[9] },
+	]
+
+	useEffect(() => {
+		settings.setBackgroundColorDark(toggleColor)
 	}, [toggleColor])
 
 	return (

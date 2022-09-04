@@ -14,7 +14,7 @@ interface Props {
 
 const useStyles = createStyles((theme) => ({
 	card: {
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
 		padding: theme.spacing.md,
 		width: "auto",
 		minHeight: 10,

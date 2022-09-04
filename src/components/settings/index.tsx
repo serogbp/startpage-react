@@ -10,7 +10,6 @@ export default function AppSettings() {
 			<Tabs.List>
 				<Tabs.Tab value="appearance" icon={<Photo size={16} />}>Appearance</Tabs.Tab>
 				<Tabs.Tab value="data" icon={<Database size={16} />}>Data</Tabs.Tab>
-				<Tabs.Tab value="settings" icon={<Settings size={16} />}>Settings</Tabs.Tab>
 			</Tabs.List>
 
 			<Tabs.Panel value="appearance" pl="xl">
@@ -24,12 +23,7 @@ export default function AppSettings() {
 					<AppSettingsData />
 				</SameHeightPanel>
 			</Tabs.Panel>
-
-			<Tabs.Panel value="settings" pl="xl">
-				<SameHeightPanel>
-					Settings tab content
-				</SameHeightPanel>
-			</Tabs.Panel>
+			
 		</Tabs>
 	)
 }

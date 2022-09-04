@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
 	column: {
 		display: "flex",
 		flexDirection: "column",
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[1],
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
 		height: "100%",
 		borderRadius: theme.radius.sm
 	},

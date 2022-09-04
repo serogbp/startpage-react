@@ -64,7 +64,13 @@ export const Board = (() => {
 		<DragDropContext onDragEnd={board.handlerDragEnd} onDragStart={board.handlerDragStart}>
 			<Droppable droppableId="board" direction="horizontal" type="column">
 				{(provided) => (
-					<Group className={classes.board} grow spacing="xs" align="top" {...provided.droppableProps} ref={provided.innerRef} style={{backgroundColor:theme.colorScheme === 'dark' ? theme.colors.dark[8] : settings.backgroundColor}}>
+					<Group
+						className={classes.board}
+						grow
+						spacing="xs"
+						align="top" {...provided.droppableProps}
+						ref={provided.innerRef}
+						style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}>
 						{
 							// Dibujar columnas
 							board.state.categoryOrder.map((categoryId, index) => {
@@ -83,6 +89,6 @@ export const Board = (() => {
 					</Group>
 				)}
 			</Droppable>
-		</DragDropContext>
+		</DragDropContext >
 	)
 })

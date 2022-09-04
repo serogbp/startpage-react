@@ -8,7 +8,8 @@ import Signals from "../Signals"
 enum SettingsJsonNames {
 	colorScheme = "color-scheme",
 	accentColor = "accent-color",
-	backgroundColor = "background-color",
+	backgroundColorLight = "background-color-light",
+	backgroundColorDark = "background-color-dark",
 	useSystemTheme = "use-system-theme",
 	keepWebsWhenImport = "keep-webs-when-import"
 }
@@ -21,8 +22,10 @@ interface SettingsHelper {
     setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
     accentColor: string
     setAccentColor: (val: string | ((prevState: string) => string)) => void
-    backgroundColor: string
-    setBackgroundColor: (val: string | ((prevState: string) => string)) => void
+    backgroundColorLight: string
+    setBackgroundColorLight: (val: string | ((prevState: string) => string)) => void
+    backgroundColorDark: string
+    setBackgroundColorDark: (val: string | ((prevState: string) => string)) => void
     keepWebsWhenImport: boolean
     setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void
 }
@@ -33,7 +36,8 @@ const defaultSettings = {
 	colorScheme: "light",
 	useSystemTheme: false,
 	accentColor: "blue",
-	backgroundColor: "#74c0fc",
+	backgroundColorLight: "#74c0fc",
+	backgroundColorDark: "#141517",
 	keepWebsWhenImport: true,
 }
 
@@ -69,9 +73,14 @@ function settingsHelper() {
 		defaultValue: defaultSettings.accentColor
 	})
 
-	const [backgroundColor, setBackgroundColor] = useLocalStorage<string>({
-		key: SettingsJsonNames.backgroundColor,
-		defaultValue: defaultSettings.backgroundColor
+	const [backgroundColorLight, setBackgroundColorLight] = useLocalStorage<string>({
+		key: SettingsJsonNames.backgroundColorLight,
+		defaultValue: defaultSettings.backgroundColorLight
+	})
+
+	const [backgroundColorDark, setBackgroundColorDark] = useLocalStorage<string>({
+		key: SettingsJsonNames.backgroundColorDark,
+		defaultValue: defaultSettings.backgroundColorDark
 	})
 
 	const [keepWebsWhenImport, setKeepWebsWhenImport] = useLocalStorage<boolean>({
@@ -98,8 +107,10 @@ function settingsHelper() {
 		setUseSystemTheme,
 		accentColor,
 		setAccentColor,
-		backgroundColor,
-		setBackgroundColor,
+		backgroundColorLight: backgroundColorLight,
+		setBackgroundColorLight: setBackgroundColorLight,
+		backgroundColorDark: backgroundColorDark,
+		setBackgroundColorDark: setBackgroundColorDark,
 		keepWebsWhenImport,
 		setKeepWebsWhenImport,
 	})
