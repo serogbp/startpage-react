@@ -33,7 +33,7 @@ const defaultSettings = {
 	colorScheme: "light",
 	useSystemTheme: false,
 	accentColor: "blue",
-	backgroundColor: "blue",
+	backgroundColor: "#74c0fc",
 	keepWebsWhenImport: true,
 }
 
