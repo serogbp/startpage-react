@@ -107,7 +107,9 @@ const ColumnItem = memo((props: Props) => {
 						position="bottom"
 						withArrow
 						openDelay={200}
-						events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}>
+						events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}
+						withinPortal={true}
+						>
 
 						<Text size="sm" color="dimmed" className={classes.url}>
 							{props.web.url}
