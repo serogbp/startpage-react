@@ -18,17 +18,19 @@ enum SettingsJsonNames {
 
 interface SettingsHelper {
 	colorScheme: ColorScheme
-    setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
-    useSystemTheme: boolean
-    setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
-    accentColor: string
-    setAccentColor: (val: string | ((prevState: string) => string)) => void
-    backgroundColorLight: string
-    setBackgroundColorLight: (val: string | ((prevState: string) => string)) => void
-    backgroundColorDark: string
-    setBackgroundColorDark: (val: string | ((prevState: string) => string)) => void
-    columnWidth: number
-    setColumnWidth: (val: number | ((prevState: number) => number)) => void
+	setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
+	useSystemTheme: boolean
+	setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
+	keepWebsWhenImport: boolean
+	setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void
+	accentColor: string
+	setAccentColor: (val: string | ((prevState: string) => string)) => void
+	backgroundColorLight: string
+	setBackgroundColorLight: (val: string | ((prevState: string) => string)) => void
+	backgroundColorDark: string
+	setBackgroundColorDark: (val: string | ((prevState: string) => string)) => void
+	columnWidth: number
+	setColumnWidth: (val: number | ((prevState: number) => number)) => void
 }
 
 

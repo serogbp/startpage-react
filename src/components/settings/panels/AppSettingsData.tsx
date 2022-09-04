@@ -2,9 +2,11 @@ import { Button, Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineCo
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import { Book, Download, Phone, Upload, X } from "tabler-icons-react";
+import { useBoard } from "../../../hooks/UseBoard";
 import { useSettings } from "../../../hooks/UseSettings";
 import WebService from "../../../service/WebService";
 import { capitalizeFirstLetter } from "../../../utils/utils";
+import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip";
 import MyDivider from "../common/MyDivider";
 import MyPanel from "../common/MyPanel";
 
@@ -18,6 +20,8 @@ export default function AppSettingsData() {
 			<Export />
 			<MyDivider />
 			<Import />
+			<MyDivider />
+			<DeleteAll />
 		</>
 	)
 }
@@ -95,6 +99,17 @@ const Import = () => {
 			<Checkbox label="Keep your current webs" checked={settings.keepWebsWhenImport} onChange={(event) => settings.setKeepWebsWhenImport(event.currentTarget.checked)} />
 			<Text size="xs" color="dimmed">{settings.keepWebsWhenImport ? "Your webs will not be deleted" : "Your webs will be replaced with the imported ones"}</Text>
 
+		</MyPanel>
+	)
+}
+
+
+const DeleteAll = () => {
+	const board = useBoard()
+	return (
+		<MyPanel title="Danger zone" danger={true}>
+			<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => board.deleteAllWebs()} text={"Delete all webs"} variant={"filled"}/>
+			<Text size="xs" color="dimmed">This action cannot be undone</Text>
 		</MyPanel>
 	)
 }

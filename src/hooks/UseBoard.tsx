@@ -6,16 +6,16 @@ import { createContext, useContext } from "react"
 
 
 interface BoardHelper {
-	state: JsonContent;
-	setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void;
-	columnDragEnd: (result: DropResult) => void;
-	columnItemDragEnd: (result: DropResult) => void;
-	handleAddWeb: (web: Web, category: string) => void;
-	handleDeleteWeb: (web: Web, category: string) => void;
-	handleUpdateWeb: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void;
-	handlerDragEnd: (result: DropResult) => void;
-	handlerDragStart: (initial: DragStart, provided: ResponderProvided) => void;
-
+	state: JsonContent
+	setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void
+	columnDragEnd: (result: DropResult) => void
+	columnItemDragEnd: (result: DropResult) => void
+	handleAddWeb: (web: Web, category: string) => void
+	handleDeleteWeb: (web: Web, category: string) => void
+	handleUpdateWeb: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void
+	handlerDragEnd: (result: DropResult) => void
+	handlerDragStart: (initial: DragStart, provided: ResponderProvided) => void
+	deleteAllWebs: () => void
 }
 
 
@@ -216,6 +216,10 @@ function boardHelper() {
 	}
 
 
+	const deleteAllWebs = () => {
+		setState(defaultJsonContent)
+	}
+
 	return {
 		state,
 		setState,
@@ -226,5 +230,14 @@ function boardHelper() {
 		handleUpdateWeb,
 		handlerDragEnd,
 		handlerDragStart,
+		deleteAllWebs
 	}
+}
+
+
+const defaultJsonContent: JsonContent = {
+	webs: [],
+	categories: {},
+	categoryOrder: [],
+	jsonVersion: 1
 }

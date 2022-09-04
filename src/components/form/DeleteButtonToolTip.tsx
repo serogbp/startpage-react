@@ -3,7 +3,9 @@ import { useEffect, useState } from "react"
 
 interface Props {
 	clicksRemaining: number,
-	handleDelete: () => void
+	handleDelete: () => void,
+	text: string,
+	variant: string
 }
 
 export const DeleteButtonTooltip = (props: Props) => {
@@ -26,7 +28,7 @@ export const DeleteButtonTooltip = (props: Props) => {
 
 	return (
 		<Tooltip label={label} disabled={counter <=0} withArrow position="top" color="red">
-			<Button onClick={handleClick} onMouseLeave={resetCounter} disabled={counter <=0} variant="subtle" color="red">Delete web</Button>
+			<Button onClick={handleClick} onMouseLeave={resetCounter} disabled={counter <=0} variant={props.variant} color="red">{props.text}</Button>
 		</Tooltip>
 	)
 }

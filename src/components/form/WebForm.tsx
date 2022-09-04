@@ -216,7 +216,7 @@ const WebForm = memo((props: Props) => {
 					/>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
-						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} />
+						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} text={"Delete web"} variant={"subtle"}/>
 						<Button type="submit">Update web</Button>
 					</Group>
 
