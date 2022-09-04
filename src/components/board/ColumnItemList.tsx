@@ -4,6 +4,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd"
 import ColumnItem from "./ColumnItem"
 import { Virtuoso } from "react-virtuoso"
 import { createStyles } from "@mantine/core"
+import { useSettings } from "../../hooks/UseSettings"
 
 
 interface Props {
@@ -20,6 +21,7 @@ const useStyles = createStyles((theme) => ({
 
 
 const ColumnItemList = memo((props: Props) => {
+	const settings = useSettings()
 	const { classes } = useStyles()
 
 	// @ts-ignore
@@ -69,7 +71,7 @@ const ColumnItemList = memo((props: Props) => {
 					//@ts-ignore
 					scrollerRef={provided.innerRef}
 					style={{
-						width: 250,
+						width: settings.columnWidth,
 						overflowY:"auto",
 						scrollbarWidth: "thin"
 					}}

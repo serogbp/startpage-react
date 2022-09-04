@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineColor, Divider, Group, MantineColor, Radio, Select, Space, Stack, Text, useMantineTheme } from "@mantine/core";
+import { Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineColor, Divider, Group, MantineColor, Radio, Select, Slider, Space, Stack, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useSettings } from "../../../hooks/UseSettings";
 import { capitalizeFirstLetter } from "../../../utils/utils";
@@ -12,10 +12,12 @@ export default function AppSettingsAppearance() {
 		<>
 			<Theme />
 			<MyDivider />
-			{ (settings.colorScheme === "light" as ColorScheme) && <BackgroundColorLight/> }
-			{ (settings.colorScheme === "dark" as ColorScheme) && <BackgroundColorDark/> }
+			{(settings.colorScheme === "light" as ColorScheme) && <BackgroundColorLight />}
+			{(settings.colorScheme === "dark" as ColorScheme) && <BackgroundColorDark />}
 			<MyDivider />
 			<AccentColor />
+			<MyDivider />
+			<ColumnWidthSlider />
 		</>
 	)
 }
@@ -180,5 +182,24 @@ const BackgroundColorDark = () => {
 			</Group>
 			<Text size="xs" color="dimmed">{capitalizeFirstLetter(colors.find(color => color.color == toggleColor)?.name ?? "")}</Text>
 		</MyPanel >
+	)
+}
+
+
+const ColumnWidthSlider = () => {
+	const settings = useSettings()
+	return (
+		<MyPanel title="Column width">
+			<Select value={settings.columnWidth.toString()} onChange={(value: string) => settings.setColumnWidth(parseInt(value))} label="Column width"
+				data={[
+					{ value: "200", label: 'Small' },
+					{ value: "250", label: 'Default' },
+					{ value: "300", label: 'Medium' },
+					{ value: "350", label: 'Large' },
+					{ value: "400", label: 'XLarge' },
+				]}
+			/>
+		</MyPanel>
+
 	)
 }

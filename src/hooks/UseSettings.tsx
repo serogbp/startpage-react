@@ -11,7 +11,8 @@ enum SettingsJsonNames {
 	backgroundColorLight = "background-color-light",
 	backgroundColorDark = "background-color-dark",
 	useSystemTheme = "use-system-theme",
-	keepWebsWhenImport = "keep-webs-when-import"
+	keepWebsWhenImport = "keep-webs-when-import",
+	columnWidth = "column-width"
 }
 
 
@@ -26,8 +27,8 @@ interface SettingsHelper {
     setBackgroundColorLight: (val: string | ((prevState: string) => string)) => void
     backgroundColorDark: string
     setBackgroundColorDark: (val: string | ((prevState: string) => string)) => void
-    keepWebsWhenImport: boolean
-    setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void
+    columnWidth: number
+    setColumnWidth: (val: number | ((prevState: number) => number)) => void
 }
 
 
@@ -39,6 +40,7 @@ const defaultSettings = {
 	backgroundColorLight: "#74c0fc",
 	backgroundColorDark: "#141517",
 	keepWebsWhenImport: true,
+	columnWidth: 250
 }
 
 
@@ -88,6 +90,11 @@ function settingsHelper() {
 		defaultValue: defaultSettings.keepWebsWhenImport
 	})
 
+	const [columnWidth, setColumnWidth] = useLocalStorage<number>({
+		key: SettingsJsonNames.columnWidth,
+		defaultValue: defaultSettings.columnWidth
+	})
+
 
 	useEffect(() => {
 		signalJs.emit(Signals.toggleColorScheme, colorScheme)
@@ -113,5 +120,7 @@ function settingsHelper() {
 		setBackgroundColorDark: setBackgroundColorDark,
 		keepWebsWhenImport,
 		setKeepWebsWhenImport,
+		columnWidth,
+		setColumnWidth
 	})
 }
