@@ -4,14 +4,10 @@ import { useEffect, useState } from "react";
 import { Book, Download, Phone, Upload, X } from "tabler-icons-react";
 import { useBoard } from "../../../hooks/UseBoard";
 import { useSettings } from "../../../hooks/UseSettings";
-import WebService from "../../../service/WebService";
 import { capitalizeFirstLetter } from "../../../utils/utils";
 import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip";
 import MyDivider from "../common/MyDivider";
 import MyPanel from "../common/MyPanel";
-
-
-const webService = WebService
 
 
 export default function AppSettingsData() {
@@ -28,8 +24,10 @@ export default function AppSettingsData() {
 
 
 const Export = () => {
+	const board = useBoard()
+
 	const handleClick = () => {
-		webService.exportJson()
+		board.exportJson()
 	}
 	return (
 		<MyPanel title={"Export"}>
@@ -49,6 +47,7 @@ const Export = () => {
 
 
 const Import = () => {
+	const board = useBoard()
 	const theme = useMantineTheme()
 	const settings = useSettings()
 	const [loading, setLoading] = useState(false)
@@ -56,8 +55,8 @@ const Import = () => {
 	const handleDrop = (files: File[]) => {
 		setLoading(true)
 		if (!settings.keepWebsWhenImport)
-			webService.removeWebs()
-		webService.importJson(files[0])
+			board.deleteAllWebs()
+		board.importJson(files[0])
 			.then(() => setLoading(false))
 	}
 

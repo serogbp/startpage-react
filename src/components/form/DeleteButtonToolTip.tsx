@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@mantine/core"
+import { Button, ButtonVariant, Tooltip } from "@mantine/core"
 import { useEffect, useState } from "react"
 
 interface Props {
@@ -28,7 +28,7 @@ export const DeleteButtonTooltip = (props: Props) => {
 
 	return (
 		<Tooltip label={label} disabled={counter <=0} withArrow position="top" color="red">
-			<Button onClick={handleClick} onMouseLeave={resetCounter} disabled={counter <=0} variant={props.variant} color="red">{props.text}</Button>
+			<Button onClick={handleClick} onMouseLeave={resetCounter} disabled={counter <=0} variant={props.variant as ButtonVariant} color="red">{props.text}</Button>
 		</Tooltip>
 	)
 }

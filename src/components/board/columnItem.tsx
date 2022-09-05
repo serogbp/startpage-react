@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Card, createStyles, Stack, Text, Tooltip } from "@mantine/core"
 import { openContextModal } from "@mantine/modals"
 import { memo, useState } from "react"
-import { Dots, Pencil } from "tabler-icons-react"
+import { Pencil } from "tabler-icons-react"
 import { useSettings } from "../../hooks/UseSettings"
 import { Web, WebFormMode } from "../../Types"
 

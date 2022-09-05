@@ -1,10 +1,10 @@
 import { useState, memo, useCallback, useEffect } from "react"
 import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
-import ColumnItem from "./ColumnItem"
 import { Virtuoso } from "react-virtuoso"
 import { createStyles } from "@mantine/core"
 import { useSettings } from "../../hooks/UseSettings"
+import ColumnItem from "./ColumnItem"
 
 
 interface Props {

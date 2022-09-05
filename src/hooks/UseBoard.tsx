@@ -1,8 +1,8 @@
 import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
-import { UseWebs } from "./UseWebs"
-import { JsonContent, Web } from "../Types"
+import { JsonContent, JsonContentDeprecated, Web } from "../Types"
 import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext } from "react"
+import onlyUnique, { download } from "../utils/utils"
 
 
 interface BoardHelper {
@@ -16,8 +16,16 @@ interface BoardHelper {
 	handleUpdateCategoryName: (oldName: string, newName: string) => void,
 	handlerDragEnd: (result: DropResult) => void
 	handlerDragStart: (initial: DragStart, provided: ResponderProvided) => void
-	deleteAllWebs: () => void
+	deleteAllWebs: () => void,
+	importJson: (json: File) => Promise<unknown>,
+	exportJson: () => void,
+	getUniqueTags: () => string[],
+	isUrlDuplicated: (url: string) => Web | undefined,
+	getCategory: (web: Web) => string,
 }
+
+
+const WEBS = 'webs'
 
 
 const BoardContext = createContext<BoardHelper | undefined>(undefined)
@@ -38,7 +46,7 @@ export function useBoard() {
 function boardHelper() {
 	const [state, setState] = useLocalStorage({
 		key: "webs",
-		defaultValue: UseWebs().getWebs()
+		defaultValue: getInitialData()
 	})
 
 
@@ -239,6 +247,99 @@ function boardHelper() {
 		setState(defaultJsonContent)
 	}
 
+
+	const exportJson = () => {
+		const date = new Date()
+		// File name format yyyy-mm-dd-startpage.json
+		const fileName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-startpage.json";
+		const data = localStorage.getItem(WEBS)
+		download(data, fileName, "text/plain")
+	}
+
+
+	const importJson = (json: File) => {
+		return new Promise((resolve, reject) => {
+			json.text().then((value) => {
+				// Coger localhost actual, si no hay se coge un valor por defecto
+				const lsWebs = localStorage.getItem(WEBS)
+				let currentWebs: JsonContent = lsWebs ? JSON.parse(lsWebs) : defaultWeb
+
+				const importedJson = JSON.parse(value)
+				// Mirar si el json importado es de la version pre-react de startpage
+				// const websToImport = Object.hasOwn(importedJson, "jsonVersion") ? importedJson : convertJsonToNewFormat(importedJson, maxIndex)
+
+				// Es JSON de versión actual
+				if (Object.hasOwn(importedJson, "jsonVersion")) {
+					const websToImport = importedJson as JsonContent
+					// Merge favoreciendo los datos de las webs que ya había
+					const newState = {
+						...currentWebs,
+						webs: { ...currentWebs.webs, ...websToImport.webs },
+						categories: { ...currentWebs.categories, ...websToImport.categories },
+						categoryOrder: [...currentWebs.categoryOrder, ...websToImport.categoryOrder],
+					}
+					localStorage.setItem(WEBS, JSON.stringify(newState))
+					setState(newState)
+					resolve("")
+				}
+				// Es JSON versión pre-react
+				else {
+					// Número de index mayor del array de webs
+					const maxIndex = Math.max(...currentWebs.webs.map(web => web.id))
+
+					let websToImport = importedJson as JsonContentDeprecated[]
+					// Quitar urls duplicados
+					websToImport = websToImport.filter(x => !(x.url in currentWebs.webs.map(y => y.url)))
+
+					// Añadir categorías del json deprecado, después filtrar valores únicos
+					const newCategoryOrder = [...currentWebs.categoryOrder, ...websToImport.map(web => web.category)].filter(onlyUnique)
+
+					const newCategories = { ...currentWebs.categories }
+					// Añadir categorías del json deprecado que no existan en el actual
+					newCategoryOrder.forEach(category => {
+						if (!currentWebs.categories.hasOwnProperty(category)) {
+							newCategories[category] = {
+								id: category,
+								webIds: []
+							}
+						}
+					})
+
+					const newWebs = [...currentWebs.webs]
+
+					// Para cada nueva web:
+					// Añadir el id al objeto correspondiente dentro de newCategories
+					// Añadir la web al array de newWebs
+					websToImport.forEach((web, i) => {
+						const newWeb: Web = {
+							...defaultWeb,
+							id: i + 1 + maxIndex,
+							url: web.url
+						}
+						newCategories[web.category].webIds.push(newWeb.id)
+						newWebs.push(newWeb)
+					})
+
+				}
+			})
+		})
+	}
+
+
+	const getUniqueTags = () => {
+		return Object.values(state.webs).map(web => web.tags).flat().filter(onlyUnique)
+	}
+
+
+	const isUrlDuplicated = (url: string) => {
+		return Object.values(state.webs).find(web => web.url === url)
+	}
+
+
+	const getCategory = (web: Web) => {
+		return Object.values(state.categories).find(category => web.id in category.webIds)?.id || ""
+	}
+
 	return {
 		state,
 		setState,
@@ -250,7 +351,12 @@ function boardHelper() {
 		handleUpdateCategoryName,
 		handlerDragEnd,
 		handlerDragStart,
-		deleteAllWebs
+		deleteAllWebs,
+		importJson,
+		exportJson,
+		getUniqueTags,
+		isUrlDuplicated,
+		getCategory,
 	}
 }
 
@@ -261,3 +367,59 @@ const defaultJsonContent: JsonContent = {
 	categoryOrder: [],
 	jsonVersion: 1
 }
+
+const defaultWeb: Web = {
+	id: -1,
+	name: "",
+	url: "",
+	tags: []
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const getInitialData = (() => {
+	const miArray = [
+	]
+	console.log("getInitialData")
+	let cosa: JsonContent = {
+		webs: [],
+		categories: {},
+		categoryOrder: [],
+		jsonVersion: 1
+	}
+
+	cosa.webs = miArray.map((web, index) => {
+		return {
+			id: index,
+			url: web.url,
+			name: web.name,
+			tags: web.tags
+		}
+	})
+
+	cosa.categoryOrder = miArray.map(web => web.category).flat().filter(onlyUnique)
+
+	cosa.categoryOrder.forEach(category => {
+		const websDeEstaCategoria = miArray.filter(web => web.category === category)
+		const webIds = cosa.webs.filter(web => websDeEstaCategoria.find(web2 => web2.url === web.url)).map(web => web.id)
+		cosa.categories[category] = {
+			id: category,
+			webIds: webIds
+		}
+	})
+
+	return cosa
+})

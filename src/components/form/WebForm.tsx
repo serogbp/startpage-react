@@ -6,7 +6,7 @@ import { getDomain, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 import signalJs from 'signal-js'
 import Signals from "../../Signals"
-import { UseWebs } from "../../hooks/UseWebs"
+import { useBoard } from "../../hooks/UseBoard"
 
 
 interface Props {
@@ -25,11 +25,11 @@ interface FormValues {
 
 
 const WebForm = memo((props: Props) => {
-	const useWebs = UseWebs()
+	const board = useBoard()
 	const [web, setWeb] = useState<Web>()
 	const [category, setCategory] = useState(props.category)
-	const [categoryData, setCategoryData] = useState<string[]>(useWebs.getWebs().categoryOrder)
-	const [tagsData, setTagsData] = useState<string[]>(useWebs.getUniqueTags())
+	const [categoryData, setCategoryData] = useState<string[]>(board.state.categoryOrder)
+	const [tagsData, setTagsData] = useState<string[]>(board.getUniqueTags())
 	const [mode, setMode] = useState(props.mode)
 	const theme = useMantineTheme()
 
@@ -58,7 +58,7 @@ const WebForm = memo((props: Props) => {
 
 	// Al pulsar en el boton, pasas a modificar en el formulario la web duplicada
 	const duplicateMessage = () => {
-		const newCategory = useWebs.getCategory(duplicateWeb!)
+		const newCategory = board.getCategory(duplicateWeb!)
 		return (
 			<>
 				<Text>
@@ -112,7 +112,7 @@ const WebForm = memo((props: Props) => {
 		if (web?.url === url)
 			return false
 		else {
-			duplicateWeb = useWebs.isUrlDuplicated(url)!
+			duplicateWeb = board.isUrlDuplicated(url)!
 			return (duplicateWeb !== undefined)
 		}
 	}
@@ -171,7 +171,7 @@ const WebForm = memo((props: Props) => {
 	return (
 		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(event))}>
 			<Stack spacing='xs'>
-				
+
 					<TextInput
 						label="Url"
 						type="url"
