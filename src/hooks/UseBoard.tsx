@@ -13,6 +13,7 @@ interface BoardHelper {
 	handleAddWeb: (web: Web, category: string) => void
 	handleDeleteWeb: (web: Web, category: string) => void
 	handleUpdateWeb: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void
+	handleUpdateCategoryName: (oldName: string, newName: string) => void,
 	handlerDragEnd: (result: DropResult) => void
 	handlerDragStart: (initial: DragStart, provided: ResponderProvided) => void
 	deleteAllWebs: () => void
@@ -117,6 +118,24 @@ function boardHelper() {
 		}
 
 		setState(newState)
+	}
+
+
+	const handleUpdateCategoryName = (oldName: string, newName: string) => {
+		const newCategories = {
+			...state.categories,
+			[newName]: {
+				...state.categories[oldName],
+				id: newName
+			}
+		}
+
+		delete newCategories[oldName]
+
+		setState({
+			...state,
+			categories:{ ...newCategories }
+		})
 	}
 
 
@@ -228,6 +247,7 @@ function boardHelper() {
 		handleAddWeb,
 		handleDeleteWeb,
 		handleUpdateWeb,
+		handleUpdateCategoryName,
 		handlerDragEnd,
 		handlerDragStart,
 		deleteAllWebs

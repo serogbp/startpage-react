@@ -1,6 +1,7 @@
 import { memo } from "react"
 import { Draggable } from "react-beautiful-dnd"
 import { createStyles, useMantineTheme } from "@mantine/core"
+import { ColumnTitle } from "./ColumnTitle"
 
 
 interface Props {
@@ -10,8 +11,9 @@ interface Props {
 }
 
 
-const useStyles = createStyles((theme) => ({
+export const useStyles = createStyles((theme) => ({
 	column: {
+		position: "relative",
 		display: "flex",
 		flexDirection: "column",
 		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
@@ -22,12 +24,27 @@ const useStyles = createStyles((theme) => ({
 		textAlign: "center",
 		margin: 0,
 		padding: "1em"
+	},
+	titleContainer: {
+		'&hover': {
+			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[2],
+		}
+	},
+	settings: {
+		position: "absolute",
+		top: 0,
+		right: 0,
+		padding: "1em",
 	}
 }))
 
 const Column = memo((props: Props) => {
 	const theme = useMantineTheme()
 	const { classes } = useStyles()
+
+	const handleClick = () => {
+		// TODO popover
+	}
 
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
@@ -37,7 +54,7 @@ const Column = memo((props: Props) => {
 					ref={provided.innerRef}>
 
 					<div className={classes.column}>
-						<p {...provided.dragHandleProps} className={classes.title}>{props.name}</p>
+						<ColumnTitle name={props.name} dragHandleProps={provided.dragHandleProps} />
 						{props.children}
 					</div>
 				</div>

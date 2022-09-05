@@ -171,7 +171,7 @@ const WebForm = memo((props: Props) => {
 	return (
 		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(event))}>
 			<Stack spacing='xs'>
-				<FocusTrap active={true}>
+				
 					<TextInput
 						label="Url"
 						type="url"
@@ -180,6 +180,7 @@ const WebForm = memo((props: Props) => {
 						{...formValues.getInputProps('url')}
 						onBlur={() => onBlurInputUrl()}
 						data-autofocus
+						style={{width:"100%"}}
 					/>
 
 					<TextInput
@@ -187,6 +188,7 @@ const WebForm = memo((props: Props) => {
 						required
 						placeholder="Example"
 						{...formValues.getInputProps('name')}
+						style={{width:"100%"}}
 					/>
 
 					<div hidden={props.category && mode === WebFormMode.add ? true : false}>
@@ -224,7 +226,6 @@ const WebForm = memo((props: Props) => {
 						<Button type="submit">Add new web</Button>
 					</Group>
 
-				</FocusTrap>
 			</Stack>
 		</form>
 	)

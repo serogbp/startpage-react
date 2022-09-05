@@ -17,7 +17,7 @@ const useStyles = createStyles((theme) => ({
 		flexWrap: "nowrap",
 		height: "100%",
 		minWidth: "100vw",
-		padding: theme.spacing.md,
+		padding: theme.spacing.xs,
 
 	}
 }))

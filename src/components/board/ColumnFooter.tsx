@@ -5,11 +5,10 @@ import WebForm from "../form/WebForm";
 
 const useStyles = createStyles((theme) => ({
 	button: {
-		marginTop: theme.spacing.sm,
 		paddingTop: theme.spacing.lg,
 		paddingBottom: theme.spacing.lg,
 		height: "auto",
-		border: 0
+		border: 0,
 	},
 }))
 
