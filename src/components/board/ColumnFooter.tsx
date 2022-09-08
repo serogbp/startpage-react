@@ -1,16 +1,8 @@
-import { Button, CloseButton, createStyles, Group, Popover, Space, Text } from "@mantine/core"
+import { Button, CloseButton, Group, Popover, Space, Text } from "@mantine/core"
 import { memo, useState } from "react";
 import { WebFormMode } from "../../Types";
 import WebForm from "../form/WebForm";
-
-const useStyles = createStyles((theme) => ({
-	button: {
-		paddingTop: theme.spacing.lg,
-		paddingBottom: theme.spacing.lg,
-		height: "auto",
-		border: 0,
-	},
-}))
+import { useStyles } from "../../hooks/UseStyles"
 
 interface Props {
 	category: string,
@@ -28,7 +20,7 @@ const ColumnFooter = memo((props: Props) => {
 		<Popover width={300} trapFocus position="top" withArrow shadow="xl" opened={opened} onChange={setOpened}>
 			<Popover.Target>
 
-				<Button variant="subtle" color={opened! ? "red" : "gray"} onClick={() => setOpened(!opened)} className={classes.button}>
+				<Button variant="subtle" color={opened! ? "red" : "gray"} onClick={() => setOpened(!opened)} className={classes.columnFooter_Button}>
 					<Text color="dimmed">{opened ? "Cancel" : "Add a web"}</Text>
 				</Button>
 

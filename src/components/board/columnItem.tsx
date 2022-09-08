@@ -1,8 +1,9 @@
-import { ActionIcon, Box, Card, createStyles, Stack, Text, Tooltip } from "@mantine/core"
+import { ActionIcon, Box, Card, Stack, Text, Tooltip } from "@mantine/core"
 import { openContextModal } from "@mantine/modals"
 import { memo, useState } from "react"
 import { Pencil } from "tabler-icons-react"
 import { useSettings } from "../../hooks/UseSettings"
+import { useStyles } from "../../hooks/UseStyles"
 import { Web, WebFormMode } from "../../Types"
 
 
@@ -12,42 +13,6 @@ interface Props {
 	category: string
 }
 
-const useStyles = createStyles((theme) => ({
-	card: {
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
-		padding: theme.spacing.md,
-		width: "auto",
-		minHeight: 10,
-		marginBottom: 8,
-
-		'&:hover': {
-			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
-		},
-	},
-
-	body: {
-		padding: theme.spacing.md,
-	},
-
-	name: {
-		overflow: "hidden",
-		whiteSpace: "normal",
-
-	},
-
-	url: {
-		overflow: "hidden",
-		whiteSpace: "nowrap",
-		textOverflow: "ellipsis"
-	},
-
-	settings: {
-		position: "absolute",
-		top: 0,
-		right: 0,
-		padding: 8
-	},
-}))
 
 
 const ColumnItem = memo((props: Props) => {
@@ -88,7 +53,7 @@ const ColumnItem = memo((props: Props) => {
 
 	return (
 		<Card
-			withBorder radius="sm" className={classes.card}
+			withBorder radius="sm" className={classes.columnItem_Card}
 			shadow="xs"
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
@@ -111,13 +76,13 @@ const ColumnItem = memo((props: Props) => {
 						withinPortal={true}
 						>
 
-						<Text size="sm" color="dimmed" className={classes.url}>
+						<Text size="sm" color="dimmed" className={classes.columnItem_Url}>
 							{props.web.url}
 						</Text>
 
 					</Tooltip>
 
-					<Box hidden={!hover} className={classes.settings}>
+					<Box hidden={!hover} className={classes.columnItem_Settings}>
 						<ActionIcon onClick={handleClickSettings} variant="light" >
 							<Pencil size={16} />
 						</ActionIcon>

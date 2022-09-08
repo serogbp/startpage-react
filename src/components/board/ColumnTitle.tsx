@@ -1,9 +1,9 @@
 import { memo, useState } from "react"
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd"
-import { ActionIcon, Box, Button, FocusTrap, Group, Popover, TextInput } from "@mantine/core"
+import { ActionIcon, Box, Button, Group, Popover, TextInput } from "@mantine/core"
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../hooks/UseBoard"
-import { useStyles } from "./Column"
+import { useStyles } from "../../hooks/UseStyles"
 
 interface TitleProps {
 	name: string
@@ -29,16 +29,16 @@ export const ColumnTitle = memo((props: TitleProps) => {
 	return (
 		<Popover trapFocus offset={-10} width={300} position="bottom" withArrow shadow="xl" opened={opened} onChange={setOpened}>
 			<Popover.Target>
-				<div className={classes.titleContainer}
+				<div className={classes.columnTitle_Container}
 					onMouseEnter={() => setHover(true)}
 					onMouseLeave={() => setHover(false)}
 				>
-					<Box hidden={!hover} className={classes.settings}>
+					<Box hidden={!hover} className={classes.columnTitle_Settings}>
 						<ActionIcon onClick={handleOpen} variant="light">
 							<Pencil size={16} />
 						</ActionIcon>
 					</Box>
-					<p {...props.dragHandleProps} className={classes.title}> {columnTitle} </p>
+					<p {...props.dragHandleProps} className={classes.columnTitle}> {columnTitle} </p>
 				</div >
 			</Popover.Target>
 			<Popover.Dropdown>

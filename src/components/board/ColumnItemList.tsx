@@ -2,9 +2,9 @@ import { useState, memo, useCallback, useEffect } from "react"
 import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import { Virtuoso } from "react-virtuoso"
-import { createStyles } from "@mantine/core"
 import { useSettings } from "../../hooks/UseSettings"
 import ColumnItem from "./ColumnItem"
+import { useStyles } from "../../hooks/UseStyles"
 
 
 interface Props {
@@ -12,12 +12,6 @@ interface Props {
 	webs: Web[]
 }
 
-const useStyles = createStyles((theme) => ({
-	columnList: {
-		marginLeft: ".5em",
-		marginRight: ".5em",
-	}
-}))
 
 
 const ColumnItemList = memo((props: Props) => {
@@ -85,7 +79,7 @@ const ColumnItemList = memo((props: Props) => {
 										{...provided.draggableProps}
 										{...provided.dragHandleProps}
 										ref={provided.innerRef}>
-										<div className={classes.columnList}>
+										<div className={classes.columnItemList}>
 											<ColumnItem web={props.webs[index]} category={props.droppableId} />
 										</div>
 									</div>

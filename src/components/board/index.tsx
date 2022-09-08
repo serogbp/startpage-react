@@ -1,4 +1,4 @@
-import { createStyles, Group, useMantineTheme } from "@mantine/core"
+import { Group, useMantineTheme } from "@mantine/core"
 import { useEffect } from "react"
 import { Droppable, DragDropContext } from "react-beautiful-dnd"
 import signalJs from 'signal-js'
@@ -9,18 +9,8 @@ import ColumnItemList from "./ColumnItemList"
 import { JsonContent } from "../../Types"
 import { useBoard } from "../../hooks/UseBoard"
 import { useSettings } from "../../hooks/UseSettings"
+import { useStyles } from "../../hooks/UseStyles"
 
-
-
-const useStyles = createStyles((theme) => ({
-	board: {
-		flexWrap: "nowrap",
-		height: "100%",
-		minWidth: "100vw",
-		padding: theme.spacing.xs,
-
-	}
-}))
 
 // Virtuoso's resize observer can this error,
 // which is caught by DnD and aborts dragging.
