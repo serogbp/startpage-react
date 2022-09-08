@@ -5,10 +5,10 @@ export const useStyles = createStyles((theme) => ({
 		flexWrap: "nowrap",
 		height: "100%",
 		minWidth: "100vw",
-		padding: theme.spacing.xs,
-
 	},
-
+	boardPadding: {
+		padding: theme.spacing.xs,
+	},
 
 	column: {
 		position: "relative",
@@ -39,6 +39,17 @@ export const useStyles = createStyles((theme) => ({
 		paddingBottom: theme.spacing.lg,
 		height: "auto",
 		border: 0,
+	},
+
+
+	AddColumn: {
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
+		height: "100%",
+	},
+	AddColumn_Button: {
+		height: "100%",
+		width: "100%",
+		padding:"2em"
 	},
 
 

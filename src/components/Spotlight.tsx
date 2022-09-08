@@ -1,11 +1,12 @@
-import {Search, Home } from "tabler-icons-react";
+import { Search, Home } from "tabler-icons-react";
 import { SpotlightProvider, } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { openContextModal } from "@mantine/modals";
 import { useBoard } from "../hooks/UseBoard";
+import { WebFormMode } from "../Types";
 
 
-export function Spotlight(props:any) {
+export function Spotlight(props: any) {
 	const board = useBoard()
 
 	// TODO ordenar webs por numero de veces abiertos
@@ -21,6 +22,32 @@ export function Spotlight(props:any) {
 
 	const fixedActions: SpotlightAction[] = [
 		{
+			id: "addWeb",
+			title: "Add new web",
+			onTrigger: () => {
+				openContextModal({
+					title: "New web",
+					modal: "webForm",
+					centered: true,
+					trapFocus: true,
+					innerProps: {
+						props: {
+							mode: WebFormMode.add,
+							category: props.category,
+							web: props.web
+						}
+					}
+				})
+			}
+		},
+		{
+			id: "addColumn",
+			title: "Add new column",
+			onTrigger: () => {
+
+			}
+		},
+		{
 			id: "settings",
 			title: "Settings",
 			description: "Open the app settings",
@@ -30,11 +57,11 @@ export function Spotlight(props:any) {
 					modal: "settings",
 					centered: true,
 					trapFocus: true,
-					innerProps: { },
+					innerProps: {},
 					size: "xl"
 				})
 			}
-		}
+		},	
 	]
 
 
@@ -55,7 +82,7 @@ export function Spotlight(props:any) {
 			shortcut={['mod + P', 'mod + K', '/']}
 			nothingFoundMessage="Nothing found..."
 			highlightQuery>
-				{props.children}
+			{props.children}
 		</SpotlightProvider>
 	)
 }

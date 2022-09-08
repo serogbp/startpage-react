@@ -10,6 +10,7 @@ import { JsonContent } from "../../Types"
 import { useBoard } from "../../hooks/UseBoard"
 import { useSettings } from "../../hooks/UseSettings"
 import { useStyles } from "../../hooks/UseStyles"
+import { ColumnAddButton } from "./ColumnAddButton"
 
 
 // Virtuoso's resize observer can this error,
@@ -51,34 +52,42 @@ export const Board = (() => {
 
 
 	return (
-		<DragDropContext onDragEnd={board.handlerDragEnd} onDragStart={board.handlerDragStart}>
-			<Droppable droppableId="board" direction="horizontal" type="column">
-				{(provided) => (
-					<Group
-						className={classes.board}
-						grow
-						spacing="xs"
-						align="top" {...provided.droppableProps}
-						ref={provided.innerRef}
-						style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}>
-						{
-							// Dibujar columnas
-							board.state.categoryOrder.map((categoryId, index) => {
-								const category = board.state.categories[categoryId]
-								const webs = category.webIds.map(webId => board.state.webs[webId])
-								return (
+		<Group
+			spacing="xs"
+			className={[classes.board, classes.boardPadding].join(" ")}
+			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}
+		>
+			<DragDropContext onDragEnd={board.handlerDragEnd} onDragStart={board.handlerDragStart}>
+				<Droppable droppableId="board" direction="horizontal" type="column">
+					{(provided) => (
+						<Group
+							className={classes.board}
+							grow
+							spacing="xs"
+							align="top"
+							{...provided.droppableProps}
+							ref={provided.innerRef}
+						>
+							{
+								// Dibujar columnas
+								board.state.categoryOrder.map((categoryId, index) => {
+									const category = board.state.categories[categoryId]
+									const webs = category.webIds.map(webId => board.state.webs[webId])
+									return (
 
-									<Column key={categoryId} name={categoryId} index={index}>
-										<ColumnItemList droppableId={categoryId} webs={webs} />
-										<ColumnFooter category={categoryId} />
-									</Column>
-								)
-							})
-						}
-						{provided.placeholder}
-					</Group>
-				)}
-			</Droppable>
-		</DragDropContext >
+										<Column key={categoryId} name={categoryId} index={index}>
+											<ColumnItemList droppableId={categoryId} webs={webs} />
+											<ColumnFooter category={categoryId} />
+										</Column>
+									)
+								})
+							}
+							{provided.placeholder}
+						</Group>
+					)}
+				</Droppable>
+			</DragDropContext >
+			<ColumnAddButton />
+		</Group>
 	)
 })

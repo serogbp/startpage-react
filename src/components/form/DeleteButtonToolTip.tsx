@@ -10,7 +10,7 @@ interface Props {
 
 export const DeleteButtonTooltip = (props: Props) => {
 	const [counter, setCounter] = useState(props.clicksRemaining)
-	const label = `Click ${counter} ${counter === 1 ? 'more time' : 'times'} to confirm deletion`
+	const label = `Click ${counter} ${counter === 1 ? 'more time' : 'times'} to confirm`
 
 
 	const handleClick = () => {

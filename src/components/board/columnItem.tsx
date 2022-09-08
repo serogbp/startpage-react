@@ -54,7 +54,6 @@ const ColumnItem = memo((props: Props) => {
 	return (
 		<Card
 			withBorder radius="sm" className={classes.columnItem_Card}
-			shadow="xs"
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
 			onClick={() => handleClick()}
