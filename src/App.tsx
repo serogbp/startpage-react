@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import signalJs from 'signal-js';
 import './App.css'
 import { Board } from './components/board'
+import CategoryModal from './components/modals/CategoryModal';
 import ModalSettings from './components/modals/ModalSettings';
 import WebModal from './components/modals/WebModal';
 import { Spotlight } from './components/Spotlight';
@@ -19,7 +20,7 @@ function App() {
 		<SettingsProvider>
 			<BoardProvider>
 				<StyleProvider>
-					<ModalsProvider modals={{ webForm: WebModal, settings: ModalSettings }}>
+					<ModalsProvider modals={{ webForm: WebModal, categoryForm: CategoryModal, settings: ModalSettings }}>
 						<Spotlight>
 							<Board />
 						</Spotlight>

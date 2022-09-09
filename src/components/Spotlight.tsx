@@ -44,7 +44,12 @@ export function Spotlight(props: any) {
 			id: "addColumn",
 			title: "Add new column",
 			onTrigger: () => {
-
+				openContextModal({
+					title: "New Category",
+					modal: "categoryForm",
+					trapFocus: true,
+					innerProps: {}
+				})
 			}
 		},
 		{
@@ -61,7 +66,7 @@ export function Spotlight(props: any) {
 					size: "xl"
 				})
 			}
-		},	
+		},
 	]
 
 
