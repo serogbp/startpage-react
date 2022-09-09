@@ -8,7 +8,6 @@ export const useModal = {
 		openContextModal({
 			title: "New web",
 			modal: "webForm",
-			centered: true,
 			trapFocus: true,
 			innerProps: {
 				props: {
@@ -24,7 +23,6 @@ export const useModal = {
 		openContextModal({
 			title: "Edit web",
 			modal: "webForm",
-			centered: true,
 			trapFocus: true,
 			innerProps: {
 				props: {
@@ -49,7 +47,6 @@ export const useModal = {
 		openContextModal({
 			title: "Settings",
 			modal: "settings",
-			centered: true,
 			trapFocus: true,
 			innerProps: {},
 			size: "xl"

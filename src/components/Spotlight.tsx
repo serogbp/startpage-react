@@ -1,4 +1,4 @@
-import { Search, Home } from "tabler-icons-react";
+import { Search, Home, Plus, Settings } from "tabler-icons-react";
 import { SpotlightProvider, } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { useBoard } from "../hooks/UseBoard";
@@ -24,25 +24,27 @@ export function Spotlight(props: any) {
 	const fixedActions: SpotlightAction[] = [
 		{
 			id: "addWeb",
-			title: "Add new web",
+			title: "New web",
 			onTrigger: () => {
 				modal.webAdd(WebFormMode.add, props.category, props.web)
-			}
+			},
+			icon: <Plus size={18}/>
 		},
 		{
 			id: "addColumn",
-			title: "Add new column",
+			title: "New column",
 			onTrigger: () => {
 				modal.category()
-			}
+			},
+			icon: <Plus size={18}/>
 		},
 		{
 			id: "settings",
 			title: "Settings",
-			description: "Open the app settings",
 			onTrigger: () => {
 				modal.settings()
-			}
+			},
+			icon: <Settings size={18}/>
 		},
 	]
 
