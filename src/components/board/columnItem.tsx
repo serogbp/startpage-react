@@ -1,11 +1,10 @@
 import { ActionIcon, Box, Card, Stack, Text, Tooltip } from "@mantine/core"
-import { openContextModal } from "@mantine/modals"
 import { memo, useState } from "react"
 import { Pencil } from "tabler-icons-react"
+import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
 import { useStyles } from "../../hooks/UseStyles"
 import { Web, WebFormMode } from "../../Types"
-
 
 
 interface Props {
@@ -14,12 +13,12 @@ interface Props {
 }
 
 
-
 const ColumnItem = memo((props: Props) => {
 	const settings = useSettings()
 	const [hover, setHover] = useState(false)
 	const { classes } = useStyles()
 	const urlIsLong = props.web.url.length > 25
+	const modal = useModal
 
 	const handleClick = () => {
 		// Abrir enlace
@@ -36,19 +35,7 @@ const ColumnItem = memo((props: Props) => {
 		event.preventDefault()
 		event.stopPropagation()
 		setHover(false)
-		openContextModal({
-			title: "Edit web",
-			modal: "webForm",
-			centered: true,
-			trapFocus: true,
-			innerProps: {
-				props: {
-					mode: WebFormMode.update,
-					category: props.category,
-					web: props.web
-				}
-			}
-		})
+		modal.webEdit(WebFormMode.update, props.category, props.web)
 	}
 
 	return (

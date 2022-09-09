@@ -1,6 +1,6 @@
-import { Button, Card, Text } from "@mantine/core"
-import { openContextModal } from "@mantine/modals"
+import { Button, Card } from "@mantine/core"
 import { Plus } from "tabler-icons-react"
+import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
 import { useStyles } from "../../hooks/UseStyles"
 
@@ -8,14 +8,10 @@ import { useStyles } from "../../hooks/UseStyles"
 export const ColumnAddButton = () => {
 	const { classes } = useStyles()
 	const settings = useSettings()
+	const modal = useModal
 
 	const handleClick = () => {
-		openContextModal({
-			title: "New Category",
-			modal: "categoryForm",
-			trapFocus: true,
-			innerProps: {}
-		})
+		modal.category()
 	}
 
 	// Pongo el padding ahi porque en useStyles.ts lo ignora (entiendo que tiene prioridad los estilos de <Card/>)

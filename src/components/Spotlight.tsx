@@ -1,13 +1,14 @@
 import { Search, Home } from "tabler-icons-react";
 import { SpotlightProvider, } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
-import { openContextModal } from "@mantine/modals";
 import { useBoard } from "../hooks/UseBoard";
 import { WebFormMode } from "../Types";
+import { useModal } from "../hooks/UseModal";
 
 
 export function Spotlight(props: any) {
 	const board = useBoard()
+	const modal = useModal
 
 	// TODO ordenar webs por numero de veces abiertos
 	//const actions: SpotlightAction[] = context.webs.sort((a,b) => b.stats.timesClicked - a.stats.timesClicked).map(web => {
@@ -25,31 +26,14 @@ export function Spotlight(props: any) {
 			id: "addWeb",
 			title: "Add new web",
 			onTrigger: () => {
-				openContextModal({
-					title: "New web",
-					modal: "webForm",
-					centered: true,
-					trapFocus: true,
-					innerProps: {
-						props: {
-							mode: WebFormMode.add,
-							category: props.category,
-							web: props.web
-						}
-					}
-				})
+				modal.webAdd(WebFormMode.add, props.category, props.web)
 			}
 		},
 		{
 			id: "addColumn",
 			title: "Add new column",
 			onTrigger: () => {
-				openContextModal({
-					title: "New Category",
-					modal: "categoryForm",
-					trapFocus: true,
-					innerProps: {}
-				})
+				modal.category()
 			}
 		},
 		{
@@ -57,14 +41,7 @@ export function Spotlight(props: any) {
 			title: "Settings",
 			description: "Open the app settings",
 			onTrigger: () => {
-				openContextModal({
-					title: "Settings",
-					modal: "settings",
-					centered: true,
-					trapFocus: true,
-					innerProps: {},
-					size: "xl"
-				})
+				modal.settings()
 			}
 		},
 	]
