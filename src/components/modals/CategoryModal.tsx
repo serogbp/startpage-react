@@ -1,9 +1,9 @@
 import { ContextModalProps } from "@mantine/modals"
-import CategoryForm from "../form/CategoryForm"
+import CategoryFormAdd from "../form/CategoryFormAdd"
 
 
 export default function CategoryModal({ context, id, innerProps }: ContextModalProps) {
 	return (
-		<CategoryForm handleClose={() => context.closeModal(id)}/>
+		<CategoryFormAdd handleClose={() => context.closeModal(id)}/>
 	)
 }

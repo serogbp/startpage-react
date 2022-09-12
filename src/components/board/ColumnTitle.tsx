@@ -4,6 +4,7 @@ import { ActionIcon, Box, Button, Group, Popover, TextInput } from "@mantine/cor
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../hooks/UseBoard"
 import { useStyles } from "../../hooks/UseStyles"
+import CategoryFormUpdate from "../form/CategoryFormUpdate"
 
 interface TitleProps {
 	name: string
@@ -26,8 +27,10 @@ export const ColumnTitle = memo((props: TitleProps) => {
 		board.handleUpdateCategoryName(props.name, columnTitle)
 	}
 
+	const handleClose = () => setOpened(false)
+
 	return (
-		<Popover trapFocus offset={-10} width={300} position="bottom" withArrow shadow="xl" opened={opened} onChange={setOpened}>
+		<Popover trapFocus offset={-10} width={400} position="bottom" withArrow shadow="xl" opened={opened} onChange={setOpened}>
 			<Popover.Target>
 				<div className={classes.columnTitle_Container}
 					onMouseEnter={() => setHover(true)}
@@ -42,10 +45,11 @@ export const ColumnTitle = memo((props: TitleProps) => {
 				</div >
 			</Popover.Target>
 			<Popover.Dropdown>
-				<Group align="center" spacing="xs">
+				{/* <Group align="center" spacing="xs">
 					<TextInput data-autofocus value={columnTitleModified} onChange={(event) => setColumnTitleModified(event.currentTarget.value)} style={{ flex: 2, width: "100%" }} />
 					<Button onClick={handleSave}>Save</Button>
-				</Group>
+				</Group> */}
+				<CategoryFormUpdate name={props.name} handleClose={handleClose}/>
 			</Popover.Dropdown>
 		</Popover>
 	)

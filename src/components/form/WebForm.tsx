@@ -1,6 +1,6 @@
 import { Button, FocusTrap, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledButton, useMantineTheme } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { memo, useEffect, useState } from "react"
+import { FormEvent, memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
 import { getDomain, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
@@ -154,7 +154,7 @@ const WebForm = memo((props: Props) => {
 	}
 
 
-	const handleSubmit = (event: any) => {
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		switch (mode) {
 			case WebFormMode.add:
@@ -218,12 +218,12 @@ const WebForm = memo((props: Props) => {
 					/>
 
 					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
-						<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => handleDelete()} text={"Delete web"} variant={"subtle"}/>
-						<Button type="submit">Update web</Button>
+						<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete"} variant={"subtle"}/>
+						<Button type="submit">Update</Button>
 					</Group>
 
-					<Group position="apart" mt='md' hidden={mode !== WebFormMode.add}>
-						<Button type="submit">Add new web</Button>
+					<Group position="right" mt='md' hidden={mode !== WebFormMode.add}>
+						<Button type="submit">Create</Button>
 					</Group>
 
 			</Stack>

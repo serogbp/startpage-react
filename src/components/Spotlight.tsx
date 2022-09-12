@@ -32,7 +32,7 @@ export function Spotlight(props: any) {
 		},
 		{
 			id: "addColumn",
-			title: "New column",
+			title: "New category",
 			onTrigger: () => {
 				modal.category()
 			},
