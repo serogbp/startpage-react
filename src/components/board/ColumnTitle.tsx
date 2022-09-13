@@ -1,6 +1,6 @@
 import { memo, useState } from "react"
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd"
-import { ActionIcon, Box, Button, Popover } from "@mantine/core"
+import { ActionIcon, Box, Popover, Group, Text, CloseButton, Space } from "@mantine/core"
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useStyles } from "../../hooks/UseStyles"
@@ -36,7 +36,7 @@ export const ColumnTitle = memo((props: TitleProps) => {
 					onMouseEnter={() => setHover(true)}
 					onMouseLeave={() => setHover(false)}
 				>
-					<Box hidden={!hover} className={classes.columnTitle_Settings}>
+					<Box hidden={!hover || opened} className={classes.columnTitle_Settings}>
 						<ActionIcon onClick={handleOpen} variant="light">
 							<Pencil size={16} />
 						</ActionIcon>
@@ -45,11 +45,15 @@ export const ColumnTitle = memo((props: TitleProps) => {
 				</div >
 			</Popover.Target>
 			<Popover.Dropdown>
-				{/* <Group align="center" spacing="xs">
-					<TextInput data-autofocus value={columnTitleModified} onChange={(event) => setColumnTitleModified(event.currentTarget.value)} style={{ flex: 2, width: "100%" }} />
-					<Button onClick={handleSave}>Save</Button>
-				</Group> */}
-				<CategoryFormUpdate name={props.name} handleClose={handleClose}/>
+
+				<Group position="apart">
+					<Text> Edit category </Text>
+					<CloseButton onClick={() => setOpened(false)} />
+				</Group>
+
+				<Space h="md" />
+
+				<CategoryFormUpdate name={props.name} handleClose={handleClose} />
 			</Popover.Dropdown>
 		</Popover>
 	)

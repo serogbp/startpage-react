@@ -38,7 +38,6 @@ export default function CategoryFormUpdate(props: Props) {
 	return (
 		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(event))}>
 			<Stack spacing='xs'>
-				<Group align="end" spacing="xs">
 					<TextInput
 						label="Name"
 						type="text"
@@ -47,18 +46,11 @@ export default function CategoryFormUpdate(props: Props) {
 						data-autofocus
 						style={{ width: "100%", flex: 2 }}
 					/>
-					<Button type="submit">Update</Button>
-				</Group>
 
 				<Group align="center" position="apart" mt="md">
-					{/* <Stack>
-						<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete column"} variant={"subtle"} />
-						<Text color="dimmed" size="xs">The category will be deleted along with its webs</Text>
-					</Stack> */}
-					<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete"} variant={"subtle"}/>
-					<Text color="dimmed" size="xs">The category will be deleted along with its webs</Text>
+					<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete category and webs"} variant={"subtle"}/>
+					<Button type="submit">Update</Button>
 				</Group>
-
 			</Stack>
 		</form>
 	)

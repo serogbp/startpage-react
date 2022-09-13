@@ -21,7 +21,7 @@ const ColumnFooter = memo((props: Props) => {
 		<Popover width={300} trapFocus position="top" withArrow shadow="xl" opened={opened} onChange={setOpened}>
 			<Popover.Target>
 
-				<Button variant="subtle" color={opened! ? "red" : ""} onClick={() => setOpened(!opened)} className={classes.columnFooter_Button}>
+				<Button variant="subtle" color={opened ? "red" : ""} onClick={() => setOpened(!opened)} className={classes.columnFooter_Button}>
 					{
 						opened ? <X /> : <Plus strokeWidth={1.5} />
 					}
