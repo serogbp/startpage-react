@@ -2,10 +2,10 @@ import { Category, JsonContent, Web } from "../../Types"
 import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext } from "react"
 import onlyUnique from "../../utils/utils"
-import { boardWeb, BoardWeb, } from "./web"
-import { BoardJson, boardJson } from "./json"
-import { BoardCategory, boardCategory } from "./category"
-import { BoardDnd, boardDnd } from "./dnd"
+import { boardWeb, BoardWeb, } from "./boardWeb"
+import { BoardJson, boardJson } from "./boardJson"
+import { BoardCategory, boardCategory } from "./boardCategory"
+import { BoardDnd, boardDnd } from "./boardDnd"
 
 
 interface BoardHelper {
@@ -28,7 +28,7 @@ export function BoardProvider({ children }: { children: JSX.Element | JSX.Elemen
 
 export function useBoard() {
 	const context = useContext(BoardContext)
-	if (context === undefined) throw new Error("useSettings must bed used within a SettingsProvider")
+	if (context === undefined) throw new Error("useSettings must bed used within a BoardProvider")
 	return context
 }
 
