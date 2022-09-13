@@ -36,9 +36,9 @@ export const Board = (() => {
 	signalJs.clear(Signals.addWeb)
 	signalJs.clear(Signals.updateWeb)
 	signalJs.clear(Signals.deleteWeb)
-	signalJs.on(Signals.addWeb, (newWeb, category) => board.handleAddWeb(newWeb, category))
-	signalJs.on(Signals.updateWeb, (newWeb, destinationCategory, sourceCategory) => board.handleUpdateWeb(newWeb, destinationCategory, sourceCategory))
-	signalJs.on(Signals.deleteWeb, (web, category) => board.handleDeleteWeb(web, category))
+	signalJs.on(Signals.addWeb, (newWeb, category) => board.web.add(newWeb, category))
+	signalJs.on(Signals.updateWeb, (newWeb, destinationCategory, sourceCategory) => board.web.update(newWeb, destinationCategory, sourceCategory))
+	signalJs.on(Signals.deleteWeb, (web, category) => board.web.remove(web, category))
 	signalJs.clear(Signals.updateBoardState)
 	signalJs.on(Signals.updateBoardState, (newState: JsonContent) => board.setState(newState))
 
@@ -57,7 +57,7 @@ export const Board = (() => {
 			className={[classes.board, classes.boardPadding].join(" ")}
 			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}
 		>
-			<DragDropContext onDragEnd={board.handlerDragEnd} onDragStart={board.handlerDragStart}>
+			<DragDropContext onDragEnd={board.dnd.dragEnd} onDragStart={board.dnd.dragStart}>
 				<Droppable droppableId="board" direction="horizontal" type="column">
 					{(provided) => (
 						<Group

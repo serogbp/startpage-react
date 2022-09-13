@@ -1,6 +1,5 @@
 import { memo } from "react"
 import { Draggable } from "react-beautiful-dnd"
-import { useMantineTheme } from "@mantine/core"
 import { ColumnTitle } from "./ColumnTitle"
 import { useStyles } from "../../hooks/UseStyles"
 
@@ -13,12 +12,7 @@ interface Props {
 
 
 const Column = memo((props: Props) => {
-	const theme = useMantineTheme()
 	const { classes } = useStyles()
-
-	const handleClick = () => {
-		// TODO popover
-	}
 
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
@@ -39,4 +33,5 @@ const Column = memo((props: Props) => {
 })
 
 
+Column.displayName = "Column"
 export default Column

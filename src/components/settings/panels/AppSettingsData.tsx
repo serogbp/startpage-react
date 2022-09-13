@@ -1,10 +1,9 @@
-import { Button, Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineColor, Divider, Group, MantineColor, Paper, Radio, Select, Space, Stack, Text, useMantineTheme } from "@mantine/core";
-import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import { useEffect, useState } from "react";
-import { Book, Download, Phone, Upload, X } from "tabler-icons-react";
+import { Button, Checkbox, Text, useMantineTheme, Group } from "@mantine/core";
+import { Dropzone } from "@mantine/dropzone";
+import { useState } from "react";
+import { Download, Upload, X } from "tabler-icons-react";
 import { useBoard } from "../../../hooks/useBoard/UseBoard";
 import { useSettings } from "../../../hooks/UseSettings";
-import { capitalizeFirstLetter } from "../../../utils/utils";
 import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip";
 import MyDivider from "../common/MyDivider";
 import MyPanel from "../common/MyPanel";
@@ -27,7 +26,7 @@ const Export = () => {
 	const board = useBoard()
 
 	const handleClick = () => {
-		board.exportJson()
+		board.json.exportFile()
 	}
 	return (
 		<MyPanel title={"Export"}>
@@ -55,8 +54,8 @@ const Import = () => {
 	const handleDrop = (files: File[]) => {
 		setLoading(true)
 		if (!settings.keepWebsWhenImport)
-			board.deleteAllWebs()
-		board.importJson(files[0])
+			board.web.removeAll()
+		board.json.importFile(files[0])
 			.then(() => setLoading(false))
 	}
 
@@ -107,7 +106,7 @@ const DeleteAll = () => {
 	const board = useBoard()
 	return (
 		<MyPanel title="Danger zone" danger={true}>
-			<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => board.deleteAllWebs()} text={"Delete all webs"} variant={"filled"}/>
+			<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => board.web.removeAll()} text={"Delete all webs"} variant={"filled"}/>
 			<Text size="xs" color="dimmed">This action cannot be undone</Text>
 		</MyPanel>
 	)

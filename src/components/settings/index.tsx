@@ -1,5 +1,5 @@
 import { Tabs } from "@mantine/core"
-import { Database, Photo, Settings } from "tabler-icons-react"
+import { Database, Photo } from "tabler-icons-react"
 import AppSettingsAppearance from "./panels/AppSettingsAppearance"
 import AppSettingsData from "./panels/AppSettingsData"
 
@@ -23,7 +23,7 @@ export default function AppSettings() {
 					<AppSettingsData />
 				</SameHeightPanel>
 			</Tabs.Panel>
-			
+
 		</Tabs>
 	)
 }

@@ -7,7 +7,7 @@ import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 
 interface Props {
 	name: string,
-	handleClose: Function
+	handleClose: () => void
 }
 
 interface FormValues {
@@ -22,7 +22,7 @@ export default function CategoryFormUpdate(props: Props) {
 		initialValues: {
 			name: props.name,
 			webs: [],
-			// TODO obtener array [nombre de webs] pasando el nombre de categoria
+			// TODO obtener array [nombre de webs] pasando el nombre de categoría
 		}
 	})
 
@@ -32,7 +32,7 @@ export default function CategoryFormUpdate(props: Props) {
 		props.handleClose()
 	}
 	const handleDelete = () => {
-
+		// TODO remove category
 	}
 
 	return (
@@ -55,7 +55,7 @@ export default function CategoryFormUpdate(props: Props) {
 						<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete column"} variant={"subtle"} />
 						<Text color="dimmed" size="xs">The category will be deleted along with its webs</Text>
 					</Stack> */}
-					<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete"} variant={"subtle"} additionalToolTipText={"The category will be deleted along with its webs."} />
+					<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete"} variant={"subtle"}/>
 					<Text color="dimmed" size="xs">The category will be deleted along with its webs</Text>
 				</Group>
 

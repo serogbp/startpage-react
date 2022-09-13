@@ -1,5 +1,5 @@
-import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd";
-import { JsonContent } from "../../Types";
+import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
+import { JsonContent } from "../../Types"
 
 
 export interface BoardDnd {
@@ -11,43 +11,43 @@ export interface BoardDnd {
 
 export function boardDnd(state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void): BoardDnd {
 	const dragStart = (initial: DragStart, provided: ResponderProvided) => {
-		console.log("DRAG START");
-		console.log(initial);
-		console.log(provided);
-	};
+		console.log("DRAG START")
+		console.log(initial)
+		console.log(provided)
+	}
 
 
 	const dragEnd = (result: DropResult) => {
 		switch (result.type) {
 			case "columnItem":
-				columnItemDragEnd(result);
-				break;
+				columnItemDragEnd(result)
+				break
 			case "column":
-				columnDragEnd(result);
-				break;
+				columnDragEnd(result)
+				break
 			default:
-				break;
+				break
 		}
-	};
+	}
 
 
 	const columnItemDragEnd = (result: DropResult) => {
-		const { source, destination, draggableId } = result;
+		const { source, destination, draggableId } = result
 		// Si hace drop en una zona no permitida
 		if (!destination) {
-			return;
+			return
 		}
 		else {
 			// Si hace drop en la posición original
 			if (destination.droppableId === source.droppableId && destination.index === source.index)
-				return;
+				return
 
 			// La web ha sido droppeada en la misma categoría
 			// Solo cambiar index de la web
 			if (destination.droppableId === source.droppableId) {
-				const newColumn = state.categories[source.droppableId];
-				newColumn.webIds.splice(source.index, 1); // Eliminar antiguo index
-				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId)); // Mover web modificada a nuevo index
+				const newColumn = state.categories[source.droppableId]
+				newColumn.webIds.splice(source.index, 1) // Eliminar antiguo index
+				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId)) // Mover web modificada a nuevo index
 
 				const newState = {
 					...state,
@@ -55,18 +55,18 @@ export function boardDnd(state: JsonContent, setState: (val: JsonContent | ((pre
 						...state.categories,
 						[source.droppableId]: newColumn
 					}
-				};
-				setState(newState);
+				}
+				setState(newState)
 			}
 
 			// La web ha sido droppeada en otra categoría
 			// Mover web a otra categoría
 			if (destination.droppableId !== source.droppableId) {
-				const oldColumn = state.categories[source.droppableId];
-				oldColumn.webIds.splice(source.index, 1);
+				const oldColumn = state.categories[source.droppableId]
+				oldColumn.webIds.splice(source.index, 1)
 
-				const newColumn = state.categories[destination.droppableId];
-				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId));
+				const newColumn = state.categories[destination.droppableId]
+				newColumn.webIds.splice(destination.index, 0, parseInt(draggableId))
 
 				const newState = {
 					...state,
@@ -75,38 +75,38 @@ export function boardDnd(state: JsonContent, setState: (val: JsonContent | ((pre
 						[source.droppableId]: oldColumn,
 						[destination.droppableId]: newColumn
 					}
-				};
-				setState(newState);
+				}
+				setState(newState)
 			}
 		}
-	};
+	}
 
 
 	const columnDragEnd = (result: DropResult) => {
-		const { source, destination, draggableId } = result;
+		const { source, destination, draggableId } = result
 		// Si hace drop en una zona no permitida
 		if (!destination) {
-			return;
+			return
 		}
 		else {
 			// Si hace drop en la posición original
 			if (destination.index === source.index)
-				return;
+				return
 
-			const newCategoryOrder = state.categoryOrder;
-			newCategoryOrder.splice(source.index, 1);
-			newCategoryOrder.splice(destination.index, 0, draggableId);
+			const newCategoryOrder = state.categoryOrder
+			newCategoryOrder.splice(source.index, 1)
+			newCategoryOrder.splice(destination.index, 0, draggableId)
 
 			const newState = {
 				...state,
 				columnOrder: newCategoryOrder
-			};
-			setState(newState);
+			}
+			setState(newState)
 		}
-	};
+	}
 
 
 	return {
 		dragStart, dragEnd
-	};
-};
+	}
+}

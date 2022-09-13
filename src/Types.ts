@@ -38,7 +38,7 @@ export interface Category {
 }
 
 export interface WebsByCategory {
-	columnOrder: String[],
+	columnOrder: string[],
 	columns: column[]
 }
 

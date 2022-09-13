@@ -23,7 +23,7 @@ const ColumnFooter = memo((props: Props) => {
 
 				<Button variant="subtle" color={opened! ? "red" : ""} onClick={() => setOpened(!opened)} className={classes.columnFooter_Button}>
 					{
-						opened ? <X/> : <Plus strokeWidth={1.5}/>
+						opened ? <X /> : <Plus strokeWidth={1.5} />
 					}
 				</Button>
 
@@ -46,4 +46,5 @@ const ColumnFooter = memo((props: Props) => {
 	)
 })
 
+ColumnFooter.displayName = "ColumnFooter"
 export default ColumnFooter

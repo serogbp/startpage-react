@@ -44,8 +44,8 @@ export function boardCategory(state: JsonContent, setState: (val: JsonContent | 
 
 	const getName = (web: Web) => Object.values(state.categories).find(category => web.id in category.webIds)?.id || "";
 
-
+	
 	return {
 		add, updateName, getName
-	};
-};
+	}
+}

@@ -1,4 +1,3 @@
-import { DragStart, DropResult, ResponderProvided } from "react-beautiful-dnd"
 import { Category, JsonContent, Web } from "../../Types"
 import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext } from "react"
@@ -92,7 +91,7 @@ const getInitialData = (() => {
 	const miArray = [
 	]
 	console.log("getInitialData")
-	let cosa: JsonContent = {
+	const cosa: JsonContent = {
 		webs: [],
 		categories: {},
 		categoryOrder: [],

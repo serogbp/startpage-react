@@ -1,4 +1,4 @@
-import { Button, FocusTrap, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledButton, useMantineTheme } from "@mantine/core"
+import { Button, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledButton, useMantineTheme } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { FormEvent, memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
@@ -11,8 +11,8 @@ import { useBoard } from "../../hooks/useBoard/UseBoard"
 
 interface Props {
 	web?: Web,
-	category: string,
-	handleClose?: Function,
+	category?: string,
+	handleClose?: () => void,
 	mode: WebFormMode,
 }
 
@@ -29,7 +29,7 @@ const WebForm = memo((props: Props) => {
 	const [web, setWeb] = useState<Web>()
 	const [category, setCategory] = useState(props.category)
 	const [categoryData, setCategoryData] = useState<string[]>(board.state.categoryOrder)
-	const [tagsData, setTagsData] = useState<string[]>(board.getUniqueTags())
+	const [tagsData, setTagsData] = useState<string[]>(board.web.getUniqueTags())
 	const [mode, setMode] = useState(props.mode)
 	const theme = useMantineTheme()
 
@@ -50,7 +50,7 @@ const WebForm = memo((props: Props) => {
 			formValues.setValues({
 				url: web.url,
 				name: web.name,
-				category: category,
+				category: category ?? "",
 				tags: web.tags,
 			})
 		}
@@ -58,17 +58,17 @@ const WebForm = memo((props: Props) => {
 
 	// Al pulsar en el boton, pasas a modificar en el formulario la web duplicada
 	const duplicateMessage = () => {
-		const newCategory = board.getCategory(duplicateWeb!)
+		const categoryName = duplicateWeb ? board.category.getName(duplicateWeb) : ""
 		return (
 			<>
 				<Text>
-					Already exists in the category {newCategory}.
+					Already exists in the category {categoryName}.
 				</Text>
 				<UnstyledButton
-					onClick={(event: any) => {
+					onClick={(event: React.MouseEvent<Element, MouseEvent>) => {
 						event.preventDefault()
-						setCategory(newCategory)
-						setWeb(duplicateWeb!)
+						setCategory(categoryName)
+						if (duplicateWeb) setWeb(duplicateWeb)
 						setMode(WebFormMode.update)
 					}}
 					style={{
@@ -112,7 +112,7 @@ const WebForm = memo((props: Props) => {
 		if (web?.url === url)
 			return false
 		else {
-			duplicateWeb = board.isUrlDuplicated(url)!
+			duplicateWeb = board.web.isUrlDuplicated(url)
 			return (duplicateWeb !== undefined)
 		}
 	}
@@ -231,5 +231,5 @@ const WebForm = memo((props: Props) => {
 	)
 })
 
-
+WebForm.displayName = "WebForm"
 export default WebForm

@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineColor, Divider, Group, MantineColor, Radio, Select, Slider, Space, Stack, Text, useMantineTheme } from "@mantine/core";
+import { Checkbox, CheckIcon, ColorScheme, ColorSwatch, Group, Select, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useSettings } from "../../../hooks/UseSettings";
 import { capitalizeFirstLetter } from "../../../utils/utils";

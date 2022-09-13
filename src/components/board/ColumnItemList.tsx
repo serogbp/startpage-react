@@ -18,9 +18,10 @@ const ColumnItemList = memo((props: Props) => {
 	const settings = useSettings()
 	const { classes } = useStyles()
 
-	// @ts-ignore
+	// @ts-ignore https://virtuoso.dev/react-beautiful-dnd/
 	const HeightPreservingItem = useCallback(({ children, ...props }) => {
 		const [size, setSize] = useState(0);
+		// eslint-disable-next-line react/prop-types
 		const knownSize = props["data-known-size"];
 		useEffect(() => {
 			setSize((prevSize) => {
@@ -45,7 +46,6 @@ const ColumnItemList = memo((props: Props) => {
 	return (
 		<Droppable droppableId={props.droppableId} direction="vertical" type="columnItem" mode="virtual"
 			renderClone={(provided, snapshot, rubric) => (
-
 				<div
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
@@ -94,4 +94,5 @@ const ColumnItemList = memo((props: Props) => {
 	)
 })
 
+ColumnItemList.displayName = "ColumnItemList"
 export default ColumnItemList

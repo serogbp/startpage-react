@@ -2,7 +2,7 @@ import { Button, Group, TextInput } from "@mantine/core"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 
 interface Props {
-	handleClose: Function
+	handleClose: () => void
 }
 
 export default function CategoryFormAdd(props: Props) {
@@ -13,7 +13,7 @@ export default function CategoryFormAdd(props: Props) {
 		props.handleClose()
 	}
 
-	// TODO esto deberia ser un form para usar el required
+	// TODO esto debería ser un form para usar el required
 	return (
 		<Group align="end" spacing="xs">
 			<TextInput data-autofocus label="Name" required style={{ flex: 2, width: "100%" }} />

@@ -60,7 +60,7 @@ const ColumnItem = memo((props: Props) => {
 						openDelay={200}
 						events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}
 						withinPortal={true}
-						>
+					>
 
 						<Text size="sm" color="dimmed" className={classes.columnItem_Url}>
 							{props.web.url}
@@ -80,5 +80,5 @@ const ColumnItem = memo((props: Props) => {
 	)
 })
 
-
+ColumnItem.displayName = "ColumnItem"
 export default ColumnItem

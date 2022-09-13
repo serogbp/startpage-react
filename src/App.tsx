@@ -1,8 +1,4 @@
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core'
-import { useColorScheme, useHotkeys, useLocalStorage } from '@mantine/hooks';
 import { ModalsProvider } from '@mantine/modals';
-import { useEffect, useState } from 'react';
-import signalJs from 'signal-js';
 import './App.css'
 import { Board } from './components/board'
 import CategoryModal from './components/modals/CategoryModal';
