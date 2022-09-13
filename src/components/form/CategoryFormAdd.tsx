@@ -1,5 +1,5 @@
 import { Button, Group, TextInput } from "@mantine/core"
-import { useBoard } from "../../hooks/UseBoard"
+import { useBoard } from "../../hooks/useBoard/UseBoard"
 
 interface Props {
 	handleClose: Function

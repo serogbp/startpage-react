@@ -2,7 +2,7 @@ import { Button, Checkbox, CheckIcon, ColorScheme, ColorSwatch, DefaultMantineCo
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import { Book, Download, Phone, Upload, X } from "tabler-icons-react";
-import { useBoard } from "../../../hooks/UseBoard";
+import { useBoard } from "../../../hooks/useBoard/UseBoard";
 import { useSettings } from "../../../hooks/UseSettings";
 import { capitalizeFirstLetter } from "../../../utils/utils";
 import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip";

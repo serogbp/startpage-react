@@ -1,4 +1,3 @@
-
 export interface JsonContent {
 	webs: Web[],
 	categories: {
@@ -8,11 +7,13 @@ export interface JsonContent {
 	jsonVersion: number
 }
 
+
 export interface JsonContentDeprecated {
 	name: string,
 	category: string,
 	url: string
 }
+
 
 export interface Web {
 	id: number,
@@ -26,11 +27,9 @@ export interface Web {
 }
 
 
-
 export interface WebStats {
 	timesClicked: number,
 }
-
 
 
 export interface Category {

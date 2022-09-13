@@ -6,7 +6,7 @@ import { getDomain, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 import signalJs from 'signal-js'
 import Signals from "../../Signals"
-import { useBoard } from "../../hooks/UseBoard"
+import { useBoard } from "../../hooks/useBoard/UseBoard"
 
 
 interface Props {

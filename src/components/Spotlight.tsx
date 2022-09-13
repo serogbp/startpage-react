@@ -1,7 +1,7 @@
 import { Search, Home, Plus, Settings } from "tabler-icons-react";
 import { SpotlightProvider, } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
-import { useBoard } from "../hooks/UseBoard";
+import { useBoard } from "../hooks/useBoard/UseBoard";
 import { WebFormMode } from "../Types";
 import { useModal } from "../hooks/UseModal";
 

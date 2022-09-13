@@ -10,7 +10,7 @@ import ModalSettings from './components/modals/ModalSettings';
 import WebModal from './components/modals/WebModal';
 import { Spotlight } from './components/Spotlight';
 import StyleProvider from './components/StyleProvider';
-import { BoardProvider } from './hooks/UseBoard';
+import { BoardProvider } from './hooks/useBoard/UseBoard';
 import { SettingsProvider } from './hooks/UseSettings';
 
 

@@ -1,7 +1,7 @@
 import { Button, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { FormEvent } from "react"
-import { useBoard } from "../../hooks/UseBoard"
+import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { Web } from "../../Types"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 

@@ -2,7 +2,7 @@ import { memo, useState } from "react"
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd"
 import { ActionIcon, Box, Button, Group, Popover, TextInput } from "@mantine/core"
 import { Pencil } from "tabler-icons-react"
-import { useBoard } from "../../hooks/UseBoard"
+import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useStyles } from "../../hooks/UseStyles"
 import CategoryFormUpdate from "../form/CategoryFormUpdate"
 
