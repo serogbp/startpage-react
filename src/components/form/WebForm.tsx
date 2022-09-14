@@ -218,7 +218,10 @@ const WebForm = memo((props: Props) => {
 					clearable
 					creatable
 					getCreateLabel={(query) => `Create ${query}`}
-					onCreate={(query) => setTagsData([...tagsData, query])}
+					onCreate={(query) => {
+						setTagsData([...tagsData, query])
+						return { value: query, label: query }
+					}}
 				/>
 
 				<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
