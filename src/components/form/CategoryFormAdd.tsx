@@ -19,7 +19,7 @@ export default function CategoryFormAdd(props: Props) {
 			name: ""
 		},
 		validate: {
-			name: (value) => (board.category.isDuplicate(value) ? 'Category duplicated' : null),
+			name: (value) => (board.category.isDuplicate(value) ? 'Category already exists' : null),
 		}
 	})
 

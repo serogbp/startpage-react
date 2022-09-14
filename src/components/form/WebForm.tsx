@@ -2,18 +2,20 @@ import { Button, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledBut
 import { useForm } from "@mantine/form"
 import { FormEvent, memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
-import { getDomain, urlRegex } from "../../utils/utils"
+import { getDomain, removeLastSlash, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 import signalJs from 'signal-js'
 import Signals from "../../Signals"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
+import { useModal } from "../../hooks/UseModal"
 
 
 interface Props {
 	web?: Web,
 	category?: string,
-	handleClose?: () => void,
+	handleClose: () => void,
 	mode: WebFormMode,
+	isModal: boolean
 }
 
 interface FormValues {
@@ -56,34 +58,35 @@ const WebForm = memo((props: Props) => {
 		}
 	}, [web])
 
+
+	const openDuplicateForm = () => {
+		const categoryName = duplicateWeb ? board.category.getName(duplicateWeb) : ""
+		if (props.isModal) {
+			if (props.mode === WebFormMode.add) setMode(WebFormMode.update)
+			setCategory(categoryName)
+			if (duplicateWeb) setWeb(duplicateWeb)
+		}
+		else {
+			props.handleClose()
+			if (duplicateWeb) useModal.webEdit(duplicateWeb, categoryName)
+		}
+	}
+
 	// Al pulsar en el boton, pasas a modificar en el formulario la web duplicada
 	const duplicateMessage = () => {
 		const categoryName = duplicateWeb ? board.category.getName(duplicateWeb) : ""
 		return (
 			<>
 				<Text>
-					Already exists in the category {categoryName}.
+					Already exists in the category {categoryName}
 				</Text>
-				<UnstyledButton
-					onClick={(event: React.MouseEvent<Element, MouseEvent>) => {
-						event.preventDefault()
-						setCategory(categoryName)
-						if (duplicateWeb) setWeb(duplicateWeb)
-						setMode(WebFormMode.update)
-					}}
-					style={{
-						color: theme.colors.blue[5],
-						textDecoration: 'underline'
-					}}>
+				<UnstyledButton onClick={openDuplicateForm} style={{ color: theme.colors.blue[5], textDecoration: 'underline' }}>
 					Do you want to modify it instead?
 				</UnstyledButton>
 			</>
 		)
 	}
 
-	const closeForm = () => {
-		if (props.handleClose !== undefined) props.handleClose()
-	}
 
 	const formValues = useForm<FormValues>({
 		initialValues: {
@@ -93,7 +96,7 @@ const WebForm = memo((props: Props) => {
 			category: "",
 		},
 		validate: {
-			url: (value) => isDuplicate(value) ? duplicateMessage() : null
+			url: (value) => isDuplicate(removeLastSlash(value)) ? duplicateMessage() : null
 		}
 	})
 
@@ -112,13 +115,14 @@ const WebForm = memo((props: Props) => {
 		if (web?.url === url)
 			return false
 		else {
-			duplicateWeb = board.web.isUrlDuplicated(url)
+			duplicateWeb = board.web.isDuplicate(removeLastSlash(url))
 			return (duplicateWeb !== undefined)
 		}
 	}
 
 
 	const onBlurInputUrl = () => {
+		formValues.validateField("url")
 		if (formValues.values.url !== "")
 			autoCompleteInputName()
 	}
@@ -135,7 +139,7 @@ const WebForm = memo((props: Props) => {
 	const handleAdd = () => {
 		const web = getFormValues()
 		signalJs.emit(Signals.addWeb, web, formValues.values.category)
-		closeForm()
+		props.handleClose()
 	}
 
 
@@ -144,17 +148,17 @@ const WebForm = memo((props: Props) => {
 		const oldCategory = category
 		const newCategory = formValues.values.category
 		signalJs.emit(Signals.updateWeb, newWeb, newCategory, oldCategory)
-		closeForm()
+		props.handleClose()
 	}
 
 
 	const handleDelete = () => {
 		signalJs.emit(Signals.deleteWeb, web, props.category)
-		closeForm()
+		props.handleClose()
 	}
 
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (values: FormValues, event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		switch (mode) {
 			case WebFormMode.add:
@@ -169,62 +173,62 @@ const WebForm = memo((props: Props) => {
 	}
 
 	return (
-		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(event))}>
+		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(values, event))}>
 			<Stack spacing='xs'>
 
-					<TextInput
-						label="Url"
-						type="url"
+				<TextInput
+					label="Url"
+					type="url"
+					required
+					placeholder="https://www.example.com"
+					{...formValues.getInputProps('url')}
+					onBlur={() => onBlurInputUrl()}
+					data-autofocus
+					style={{ width: "100%" }}
+				/>
+
+				<TextInput
+					label="Name"
+					required
+					placeholder="Example"
+					{...formValues.getInputProps('name')}
+					style={{ width: "100%" }}
+				/>
+
+				<div hidden={props.category && mode === WebFormMode.add ? true : false}>
+					<Select
+						label="Category"
+						disabled={props.category && mode === WebFormMode.add ? true : false}
+						placeholder="Pick one"
+						data={categoryData}
+						{...formValues.getInputProps('category')}
 						required
-						placeholder="https://www.example.com"
-						{...formValues.getInputProps('url')}
-						onBlur={() => onBlurInputUrl()}
-						data-autofocus
-						style={{width:"100%"}}
-					/>
-
-					<TextInput
-						label="Name"
-						required
-						placeholder="Example"
-						{...formValues.getInputProps('name')}
-						style={{width:"100%"}}
-					/>
-
-					<div hidden={props.category && mode === WebFormMode.add ? true : false}>
-						<Select
-							label="Category"
-							disabled={props.category && mode === WebFormMode.add ? true : false}
-							placeholder="Pick one"
-							data={categoryData}
-							{...formValues.getInputProps('category')}
-							required
-							searchable
-							getCreateLabel={(query) => `Create ${query}`}
-							onCreate={(query) => setCategoryData([...categoryData, query])}
-						/>
-					</div>
-
-					<MultiSelect
-						label="Tags"
-						placeholder="Pick all tags you like"
-						data={tagsData}
-						{...formValues.getInputProps('tags')}
 						searchable
-						clearable
-						creatable
 						getCreateLabel={(query) => `Create ${query}`}
-						onCreate={(query) => setTagsData([...tagsData, query])}
+						onCreate={(query) => setCategoryData([...categoryData, query])}
 					/>
+				</div>
 
-					<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
-						<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete"} variant={"subtle"}/>
-						<Button type="submit">Update</Button>
-					</Group>
+				<MultiSelect
+					label="Tags"
+					placeholder="Pick all tags you like"
+					data={tagsData}
+					{...formValues.getInputProps('tags')}
+					searchable
+					clearable
+					creatable
+					getCreateLabel={(query) => `Create ${query}`}
+					onCreate={(query) => setTagsData([...tagsData, query])}
+				/>
 
-					<Group position="right" mt='md' hidden={mode !== WebFormMode.add}>
-						<Button type="submit">Create</Button>
-					</Group>
+				<Group position="apart" mt='md' hidden={mode !== WebFormMode.update}>
+					<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleDelete} text={"Delete"} variant={"subtle"} />
+					<Button type="submit">Update</Button>
+				</Group>
+
+				<Group position="right" mt='md' hidden={mode !== WebFormMode.add}>
+					<Button type="submit">Create</Button>
+				</Group>
 
 			</Stack>
 		</form>

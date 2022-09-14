@@ -35,7 +35,7 @@ const ColumnItem = memo((props: Props) => {
 		event.preventDefault()
 		event.stopPropagation()
 		setHover(false)
-		modal.webEdit(WebFormMode.update, props.category, props.web)
+		modal.webEdit(props.web, props.category)
 	}
 
 	return (

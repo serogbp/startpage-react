@@ -1,5 +1,5 @@
 import { JsonContent, Web } from "../../Types"
-import onlyUnique from "../../utils/utils"
+import onlyUnique, { removeLastSlash } from "../../utils/utils"
 import { defaultJsonContent } from "./UseBoard"
 
 
@@ -8,7 +8,7 @@ export interface BoardWeb {
     update: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void
     remove: (web: Web, category: string) => void
     removeAll: () => void
-    isUrlDuplicated: (url: string) => Web | undefined
+    isDuplicate: (url: string) => Web | undefined
     getUniqueTags: () => string[]
 }
 
@@ -16,6 +16,7 @@ export interface BoardWeb {
 export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void) : BoardWeb {
 	const add = (web: Web, category: string) => {
 		web.id = Object.keys(state.webs).length
+		web.url = removeLastSlash(web.url)
 
 		const newWebs = {
 			...state.webs,
@@ -96,13 +97,13 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 	const removeAll = () => setState(defaultJsonContent)
 
 
-	const isUrlDuplicated = (url: string) => Object.values(state.webs).find(web => web.url === url)
+	const isDuplicate = (url: string) => Object.values(state.webs).find(web => web.url.toLowerCase() === url.toLowerCase())
 
 
 	const getUniqueTags = () => Object.values(state.webs).map(web => web.tags).flat().filter(onlyUnique)
 
 
 	return {
-		add, update, remove, removeAll, isUrlDuplicated, getUniqueTags
+		add, update, remove, removeAll, isDuplicate, getUniqueTags
 	}
 }

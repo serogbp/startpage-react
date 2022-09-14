@@ -5,12 +5,13 @@ import WebForm from "../form/WebForm"
 interface Props {
 	mode: WebFormMode,
 	category: string,
-	web?: Web
+	web?: Web,
+	isModal: boolean
 }
 
 export default function WebModal({ context, id, innerProps }: ContextModalProps<{ props:Props }>) {
 	const { props } = innerProps
 	return (
-			<WebForm handleClose={() => context.closeModal(id)} web={props.web} mode={props.mode} category={props.category} />
+			<WebForm handleClose={() => context.closeModal(id)} web={props.web} mode={props.mode} category={props.category} isModal={props.isModal}/>
 	)
 }

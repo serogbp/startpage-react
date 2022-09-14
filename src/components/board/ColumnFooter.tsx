@@ -13,7 +13,7 @@ const ColumnFooter = memo((props: Props) => {
 	const [opened, setOpened] = useState(false)
 	const { classes } = useStyles()
 
-	const onClose = () => {
+	const close = () => {
 		setOpened(false)
 	}
 
@@ -39,7 +39,8 @@ const ColumnFooter = memo((props: Props) => {
 
 				<Space h="md" />
 
-				<WebForm handleClose={onClose} mode={WebFormMode.add} category={props.category} />
+
+				<WebForm handleClose={close} mode={WebFormMode.add} category={props.category} isModal={false}/>
 
 			</Popover.Dropdown>
 		</Popover>

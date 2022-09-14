@@ -69,3 +69,12 @@ export function download(content: string, fileName: string, contentType: string)
 	a.click()
 	URL.revokeObjectURL(a.href)
 }
+
+
+// Eliminar ultimo carácter / de la url para facilitar detección de duplicados
+export function removeLastSlash(url: string) {
+	if (url[url.length - 1] === "/") {
+		return url.substring(0, url.length - 1)
+	}
+	return url
+}

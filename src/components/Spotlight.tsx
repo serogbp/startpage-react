@@ -26,7 +26,7 @@ export function Spotlight(props: any) {
 			id: "addWeb",
 			title: "New web",
 			onTrigger: () => {
-				modal.webAdd(WebFormMode.add, props.category, props.web)
+				modal.webAdd()
 			},
 			icon: <Plus size={18}/>
 		},

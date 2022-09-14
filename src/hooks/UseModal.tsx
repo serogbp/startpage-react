@@ -4,7 +4,7 @@ import { Web, WebFormMode } from "../Types"
 
 export const useModal = {
 
-	webAdd: (mode: WebFormMode.add, category: string, web: Web) => {
+	webAdd: () => {
 		openContextModal({
 			title: "New web",
 			modal: "webForm",
@@ -12,14 +12,13 @@ export const useModal = {
 			innerProps: {
 				props: {
 					mode: WebFormMode.add,
-					category: category,
-					web: web
+					isModal: true
 				}
 			}
 		})
 	},
 
-	webEdit: (mode: WebFormMode.update, category: string, web: Web) => {
+	webEdit: (web: Web, category: string) => {
 		openContextModal({
 			title: "Edit web",
 			modal: "webForm",
@@ -28,7 +27,8 @@ export const useModal = {
 				props: {
 					mode: WebFormMode.update,
 					category: category,
-					web: web
+					web: web,
+					isModal: true
 				}
 			}
 		})
