@@ -1,10 +1,14 @@
 import { createStyles } from "@mantine/core";
 
 export const useStyles = createStyles((theme) => ({
-	board: {
+	boardContainer: {
 		flexWrap: "nowrap",
 		height: "100%",
 		minWidth: "100vw",
+	},
+	board: {
+		flexWrap: "nowrap",
+		height: "100%",
 	},
 	boardPadding: {
 		padding: theme.spacing.xs,

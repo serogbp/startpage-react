@@ -24,7 +24,7 @@ export const ColumnTitle = memo((props: TitleProps) => {
 		setColumnTitle(columnTitleModified)
 		setOpened(false)
 		setHover(false)
-		board.category.updateName(props.name, columnTitle)
+		board.category.update(props.name, columnTitle)
 	}
 
 	const handleClose = () => setOpened(false)

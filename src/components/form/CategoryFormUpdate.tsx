@@ -28,11 +28,14 @@ export default function CategoryFormUpdate(props: Props) {
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		// TODO add category
+
+		// TODO check duplicate
+		if (props.name !== formValues.values.name)
+			board.category.update(props.name, formValues.values.name)
 		props.handleClose()
 	}
 	const handleDelete = () => {
-		// TODO remove category
+		board.category.remove(props.name)
 	}
 
 	return (

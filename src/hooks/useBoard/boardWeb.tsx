@@ -71,7 +71,7 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 
 
 	const remove = (web: Web, category: string) => {
-		const newWebs = state.webs
+		const newWebs = {...state.webs}
 		delete newWebs[web.id]
 
 		const newCategories = {

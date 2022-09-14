@@ -54,7 +54,7 @@ export const Board = (() => {
 	return (
 		<Group
 			spacing="xs"
-			className={[classes.board, classes.boardPadding].join(" ")}
+			className={[classes.boardContainer, classes.boardPadding].join(" ")}
 			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}
 		>
 			<DragDropContext onDragEnd={board.dnd.dragEnd} onDragStart={board.dnd.dragStart}>
