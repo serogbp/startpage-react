@@ -72,8 +72,6 @@ const ColumnItemList = memo((props: Props) => {
 					totalCount={props.webs.length}
 					data={props.webs}
 					itemContent={index => {
-						console.log(index)
-						console.log(props.webs)
 						return (
 							<Draggable draggableId={props.webs[index].id.toString()} index={index} key={props.webs[index].id}>
 								{(provided) => (

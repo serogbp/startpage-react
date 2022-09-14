@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Button, Group, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { FormEvent } from "react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
@@ -18,20 +18,21 @@ interface FormValues {
 export default function CategoryFormUpdate(props: Props) {
 	const board = useBoard()
 
-	const formValues = useForm<FormValues>({
+	const form = useForm<FormValues>({
 		initialValues: {
 			name: props.name,
 			webs: [],
 			// TODO obtener array [nombre de webs] pasando el nombre de categoría
+		},
+		validate: {
+			name: (value) => (value !== props.name && board.category.isDuplicate(value) ? 'Category duplicated' : null),
 		}
 	})
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-
-		// TODO check duplicate
-		if (props.name !== formValues.values.name)
-			board.category.update(props.name, formValues.values.name)
+		if (props.name !== form.values.name)
+			board.category.update(props.name, form.values.name)
 		props.handleClose()
 	}
 	const handleDelete = () => {
@@ -39,13 +40,13 @@ export default function CategoryFormUpdate(props: Props) {
 	}
 
 	return (
-		<form onSubmit={formValues.onSubmit((values, event) => handleSubmit(event))}>
+		<form onSubmit={form.onSubmit((values, event) => handleSubmit(event))}>
 			<Stack spacing='xs'>
 					<TextInput
 						label="Name"
 						type="text"
 						required
-						{...formValues.getInputProps('name')}
+						{...form.getInputProps('name')}
 						data-autofocus
 						style={{ width: "100%", flex: 2 }}
 					/>

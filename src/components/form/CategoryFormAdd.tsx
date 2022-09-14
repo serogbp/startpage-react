@@ -1,25 +1,48 @@
 import { Button, Group, TextInput } from "@mantine/core"
-import { useState } from "react"
+import { useForm } from "@mantine/form"
+import { FormEvent, useState } from "react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 
 interface Props {
 	handleClose: () => void
 }
 
+interface FormValues {
+	name: string
+}
+
 export default function CategoryFormAdd(props: Props) {
 	const board = useBoard()
-	const [name, setName] = useState("")
 
-	const handleClick = () => {
-		board.category.add(name)
+	const form = useForm<FormValues>({
+		initialValues: {
+			name: ""
+		},
+		validate: {
+			name: (value) => (board.category.isDuplicate(value) ? 'Category duplicated' : null),
+		}
+	})
+
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		board.category.add(form.values.name)
 		props.handleClose()
 	}
 
 	// TODO esto debería ser un form para usar el required
 	return (
-		<Group align="end" spacing="xs">
-			<TextInput value={name} onChange={(event) =>  setName(event.currentTarget.value) } data-autofocus label="Name" required style={{ flex: 2, width: "100%" }} />
-			<Button onClick={handleClick}>Create</Button>
-		</Group>
+		<form onSubmit={form.onSubmit((values, event) => handleSubmit(event))}>
+			<Group align="end" spacing="xs">
+			<TextInput
+						label="Name"
+						type="text"
+						required
+						{...form.getInputProps('name')}
+						data-autofocus
+						style={{ width: "100%", flex: 2 }}
+					/>
+				<Button type="submit">Create</Button>
+			</Group>
+		</form>
 	)
 }
