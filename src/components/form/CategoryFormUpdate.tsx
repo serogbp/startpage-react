@@ -22,7 +22,7 @@ export default function CategoryFormUpdate(props: Props) {
 		initialValues: {
 			name: props.name,
 			webs: [],
-			// TODO obtener array [nombre de webs] pasando el nombre de categoría
+			// TODO obtener array webs pasando el nombre de categoría
 		},
 		validate: {
 			name: (value) => (value !== props.name && board.category.isDuplicate(value) ? 'Category already exists' : null),

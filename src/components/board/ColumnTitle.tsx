@@ -2,7 +2,6 @@ import { memo, useState } from "react"
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd"
 import { ActionIcon, Box, Popover, Group, Text, CloseButton, Space } from "@mantine/core"
 import { Pencil } from "tabler-icons-react"
-import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useStyles } from "../../hooks/UseStyles"
 import CategoryFormUpdate from "../form/CategoryFormUpdate"
 
@@ -12,20 +11,11 @@ interface TitleProps {
 }
 export const ColumnTitle = memo((props: TitleProps) => {
 	const [hover, setHover] = useState(false)
-	const [opened, setOpened] = useState(false) // Popover
-	const [columnTitle, setColumnTitle] = useState<string>(props.name)
-	const [columnTitleModified] = useState(columnTitle)
+	const [opened, setOpened] = useState(false) // Para el popover
 
-	const board = useBoard()
 	const { classes } = useStyles()
 
 	const handleOpen = () => setOpened(true)
-	const handleSave = () => {
-		setColumnTitle(columnTitleModified)
-		setOpened(false)
-		setHover(false)
-		board.category.update(props.name, columnTitle)
-	}
 
 	const handleClose = () => setOpened(false)
 
@@ -41,7 +31,7 @@ export const ColumnTitle = memo((props: TitleProps) => {
 							<Pencil size={16} />
 						</ActionIcon>
 					</Box>
-					<p {...props.dragHandleProps} className={classes.columnTitle}> {columnTitle} </p>
+					<p {...props.dragHandleProps} className={classes.columnTitle}> {props.name} </p>
 				</div >
 			</Popover.Target>
 			<Popover.Dropdown>
