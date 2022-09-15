@@ -1,11 +1,11 @@
 import { Category, JsonContent, Web } from "../../Types"
 import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext } from "react"
-import onlyUnique from "../../utils/utils"
 import { boardWeb, BoardWeb, } from "./boardWeb"
 import { BoardJson, boardJson } from "./boardJson"
 import { BoardCategory, boardCategory } from "./boardCategory"
 import { BoardDnd, boardDnd } from "./boardDnd"
+import { getInitialData } from "../../test"
 
 
 interface BoardHelper {
@@ -73,50 +73,3 @@ export const defaultCategory: Category = {
 	id: "",
 	webIds: []
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const getInitialData = (() => {
-	const miArray = [
-	]
-	console.log("getInitialData")
-	const cosa: JsonContent = {
-		webs: [],
-		categories: {},
-		categoryOrder: [],
-		jsonVersion: 1
-	}
-
-	cosa.webs = miArray.map((web, index) => {
-		return {
-			id: index,
-			url: web.url,
-			name: web.name,
-			tags: web.tags
-		}
-	})
-
-	cosa.categoryOrder = miArray.map(web => web.category).flat().filter(onlyUnique)
-
-	cosa.categoryOrder.forEach(category => {
-		const websDeEstaCategoria = miArray.filter(web => web.category === category)
-		const webIds = cosa.webs.filter(web => websDeEstaCategoria.find(web2 => web2.url === web.url)).map(web => web.id)
-		cosa.categories[category] = {
-			id: category,
-			webIds: webIds
-		}
-	})
-
-	return cosa
-})
