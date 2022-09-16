@@ -74,9 +74,7 @@ export const useStyles = createStyles((theme) => ({
 		},
 	},
 	columnItem_Name: {
-		overflow: "hidden",
-		whiteSpace: "normal",
-
+		overflowWrap: "break-word"
 	},
 	columnItem_Url: {
 		overflow: "hidden",

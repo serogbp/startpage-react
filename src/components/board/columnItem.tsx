@@ -4,7 +4,7 @@ import { Pencil } from "tabler-icons-react"
 import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
 import { useStyles } from "../../hooks/UseStyles"
-import { Web, WebFormMode } from "../../Types"
+import { Web } from "../../Types"
 
 
 interface Props {
@@ -48,7 +48,7 @@ const ColumnItem = memo((props: Props) => {
 			<Card.Section>
 				<Stack spacing="sm" p="sm">
 
-					<Text weight={500} size="sm">
+					<Text weight={500} size="sm" className={classes.columnItem_Name}>
 						{props.web.name}
 					</Text>
 
