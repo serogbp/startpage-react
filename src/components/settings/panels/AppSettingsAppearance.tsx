@@ -189,8 +189,8 @@ const BackgroundColorDark = () => {
 const Columns = () => {
 	const settings = useSettings()
 	return (
-		<MyPanel title="Columns">
-			<Select value={settings.columnWidth.toString()} onChange={(value: string) => settings.setColumnWidth(parseInt(value))} label="Column width"
+		<MyPanel title="Categories">
+			<Select value={settings.columnWidth.toString()} onChange={(value: string) => settings.setColumnWidth(parseInt(value))} label="Category width"
 				data={[
 					{ value: "200", label: 'Small' },
 					{ value: "250", label: 'Default' },
@@ -200,7 +200,8 @@ const Columns = () => {
 				]}
 			/>
 
-		<Checkbox label="Hide empty columns" checked={settings.hideEmptyColumns} onChange={(event) => settings.setHideEmptyColumns(event.currentTarget.checked)} />
+		<Checkbox label="Hide empty categories" checked={settings.hideEmptyColumns} onChange={(event) => settings.setHideEmptyColumns(event.currentTarget.checked)} />
+		<Checkbox label="Hide create category button " checked={settings.hideCreateColumnButton} onChange={(event) => settings.setHideCreateColumnButton(event.currentTarget.checked)} />
 		</MyPanel>
 
 	)

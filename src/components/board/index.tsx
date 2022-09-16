@@ -94,7 +94,9 @@ export const Board = (() => {
 					)}
 				</Droppable>
 			</DragDropContext >
-			<ColumnAddButton />
+			{
+				!settings.hideCreateColumnButton && <ColumnAddButton />
+			}
 		</Group>
 	)
 })

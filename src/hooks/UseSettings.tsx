@@ -5,18 +5,6 @@ import signalJs from "signal-js"
 import Signals from "../Signals"
 
 
-enum SettingsJsonNames {
-	colorScheme = "color-scheme",
-	accentColor = "accent-color",
-	backgroundColorLight = "background-color-light",
-	backgroundColorDark = "background-color-dark",
-	useSystemTheme = "use-system-theme",
-	keepWebsWhenImport = "keep-webs-when-import",
-	columnWidth = "column-width",
-	hideEmptyColumns = "hide-empty-columns"
-}
-
-
 interface SettingsHelper {
 	colorScheme: ColorScheme
 	setColorScheme: (val: ColorScheme | ((prevState: ColorScheme) => ColorScheme)) => void
@@ -34,19 +22,8 @@ interface SettingsHelper {
 	setColumnWidth: (val: number | ((prevState: number) => number)) => void
 	hideEmptyColumns: boolean
 	setHideEmptyColumns: (val: boolean | ((prevState: boolean) => boolean)) => void
-}
-
-
-
-const defaultSettings = {
-	colorScheme: "light",
-	useSystemTheme: false,
-	accentColor: "blue",
-	backgroundColorLight: "#74c0fc",
-	backgroundColorDark: "#141517",
-	keepWebsWhenImport: true,
-	columnWidth: 250,
-	hideEmptyColumns: false
+	hideCreateColumnButton: boolean
+	setHideCreateColumnButton: (val: boolean | ((prevState: boolean) => boolean)) => void
 }
 
 
@@ -62,6 +39,32 @@ export function useSettings() {
 	const context = useContext(SettingsContext)
 	if (context === undefined) throw new Error("useSettings must bed used within a SettingsProvider")
 	return context
+}
+
+
+enum SettingsJsonNames {
+	colorScheme = "color-scheme",
+	accentColor = "accent-color",
+	backgroundColorLight = "background-color-light",
+	backgroundColorDark = "background-color-dark",
+	useSystemTheme = "use-system-theme",
+	keepWebsWhenImport = "keep-webs-when-import",
+	columnWidth = "column-width",
+	hideEmptyColumns = "hide-empty-columns",
+	hideCreateColumnButton = "hide-create-column-button"
+}
+
+
+const defaultSettings = {
+	colorScheme: "light",
+	useSystemTheme: false,
+	accentColor: "blue",
+	backgroundColorLight: "#74c0fc",
+	backgroundColorDark: "#141517",
+	keepWebsWhenImport: true,
+	columnWidth: 250,
+	hideEmptyColumns: false,
+	hideCreateColumnButton: false
 }
 
 
@@ -106,6 +109,11 @@ function settingsHelper() {
 		defaultValue: defaultSettings.hideEmptyColumns
 	})
 
+	const [hideCreateColumnButton, setHideCreateColumnButton] = useLocalStorage<boolean>({
+		key: SettingsJsonNames.hideCreateColumnButton,
+		defaultValue: defaultSettings.hideCreateColumnButton
+	})
+
 
 	useEffect(() => {
 		signalJs.emit(Signals.toggleColorScheme, colorScheme)
@@ -134,6 +142,8 @@ function settingsHelper() {
 		columnWidth,
 		setColumnWidth,
 		hideEmptyColumns,
-		setHideEmptyColumns
+		setHideEmptyColumns,
+		hideCreateColumnButton,
+		setHideCreateColumnButton
 	})
 }
