@@ -17,7 +17,7 @@ export default function AppSettingsAppearance() {
 			<MyDivider />
 			<AccentColor />
 			<MyDivider />
-			<ColumnWidthSlider />
+			<Columns />
 		</>
 	)
 }
@@ -186,10 +186,10 @@ const BackgroundColorDark = () => {
 }
 
 
-const ColumnWidthSlider = () => {
+const Columns = () => {
 	const settings = useSettings()
 	return (
-		<MyPanel title="Column width">
+		<MyPanel title="Columns">
 			<Select value={settings.columnWidth.toString()} onChange={(value: string) => settings.setColumnWidth(parseInt(value))} label="Column width"
 				data={[
 					{ value: "200", label: 'Small' },
@@ -199,6 +199,8 @@ const ColumnWidthSlider = () => {
 					{ value: "400", label: 'XLarge' },
 				]}
 			/>
+
+		<Checkbox label="Hide empty columns" checked={settings.hideEmptyColumns} onChange={(event) => settings.setHideEmptyColumns(event.currentTarget.checked)} />
 		</MyPanel>
 
 	)

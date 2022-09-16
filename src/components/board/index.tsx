@@ -73,13 +73,20 @@ export const Board = (() => {
 								board.state.categoryOrder.map((categoryId, index) => {
 									const category = board.state.categories[categoryId]
 									const webs = category.webIds.map(webId => board.state.webs[webId])
-									return (
 
-										<Column key={categoryId} name={categoryId} index={index}>
-											<ColumnItemList droppableId={categoryId} webs={webs} />
-											<ColumnFooter category={categoryId} />
-										</Column>
-									)
+									if (settings.hideEmptyColumns && webs.length === 0) {
+										//
+									} else {
+										return (
+
+											<Column key={categoryId} name={categoryId} index={index}>
+												<ColumnItemList droppableId={categoryId} webs={webs} />
+												<ColumnFooter category={categoryId} />
+											</Column>
+										)
+									}
+
+
 								})
 							}
 							{provided.placeholder}

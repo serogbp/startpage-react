@@ -12,7 +12,8 @@ enum SettingsJsonNames {
 	backgroundColorDark = "background-color-dark",
 	useSystemTheme = "use-system-theme",
 	keepWebsWhenImport = "keep-webs-when-import",
-	columnWidth = "column-width"
+	columnWidth = "column-width",
+	hideEmptyColumns = "hide-empty-columns"
 }
 
 
@@ -31,6 +32,8 @@ interface SettingsHelper {
 	setBackgroundColorDark: (val: string | ((prevState: string) => string)) => void
 	columnWidth: number
 	setColumnWidth: (val: number | ((prevState: number) => number)) => void
+	hideEmptyColumns: boolean
+	setHideEmptyColumns: (val: boolean | ((prevState: boolean) => boolean)) => void
 }
 
 
@@ -42,7 +45,8 @@ const defaultSettings = {
 	backgroundColorLight: "#74c0fc",
 	backgroundColorDark: "#141517",
 	keepWebsWhenImport: true,
-	columnWidth: 250
+	columnWidth: 250,
+	hideEmptyColumns: false
 }
 
 
@@ -97,6 +101,11 @@ function settingsHelper() {
 		defaultValue: defaultSettings.columnWidth
 	})
 
+	const [hideEmptyColumns, setHideEmptyColumns] = useLocalStorage<boolean>({
+		key: SettingsJsonNames.hideEmptyColumns,
+		defaultValue: defaultSettings.hideEmptyColumns
+	})
+
 
 	useEffect(() => {
 		signalJs.emit(Signals.toggleColorScheme, colorScheme)
@@ -123,6 +132,8 @@ function settingsHelper() {
 		keepWebsWhenImport,
 		setKeepWebsWhenImport,
 		columnWidth,
-		setColumnWidth
+		setColumnWidth,
+		hideEmptyColumns,
+		setHideEmptyColumns
 	})
 }
