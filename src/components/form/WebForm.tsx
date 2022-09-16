@@ -204,8 +204,13 @@ const WebForm = memo((props: Props) => {
 						{...formValues.getInputProps('category')}
 						required
 						searchable
+						creatable
 						getCreateLabel={(query) => `Create ${query}`}
-						onCreate={(query) => setCategoryData([...categoryData, query])}
+						onCreate={(query) => {
+							setCategoryData([...categoryData, query])
+							board.category.add(query)
+							return {value: query, label: query}
+						}}
 					/>
 				</div>
 
