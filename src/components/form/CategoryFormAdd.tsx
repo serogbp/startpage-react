@@ -29,7 +29,6 @@ export default function CategoryFormAdd(props: Props) {
 		props.handleClose()
 	}
 
-	// TODO esto debería ser un form para usar el required
 	return (
 		<form onSubmit={form.onSubmit((values, event) => handleSubmit(event))}>
 			<Group align="end" spacing="xs">
