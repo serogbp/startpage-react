@@ -11,6 +11,8 @@ export interface BoardWeb {
 
 
 export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void) : BoardWeb {
+
+
 	const add = (web: Web, category: string) => {
 		web.id = Object.keys(state.webs).length
 		web.url = removeLastSlash(web.url)
@@ -19,7 +21,9 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 			...state.webs,
 			[web.id]: web
 		}
-		const newWebIds = [...state.categories[category].webIds, web.id]
+
+		const newWebIds = (state.categories[category]) ? [...state.categories[category].webIds, web.id] : [web.id]
+
 		const newCategories = {
 			...state.categories,
 			[category]: {
@@ -27,10 +31,14 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 				webIds: newWebIds
 			}
 		}
+
+		const newCategoryOrder = !(category in state.categoryOrder) ? [...state.categoryOrder, category] : [...state.categoryOrder]
+
 		const newState: JsonContent = {
 			...state,
 			webs: newWebs,
-			categories: newCategories
+			categories: newCategories,
+			categoryOrder: newCategoryOrder
 		}
 		setState(newState)
 	}

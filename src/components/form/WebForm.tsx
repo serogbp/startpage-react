@@ -4,8 +4,6 @@ import { FormEvent, memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
 import { getDomain, removeLastSlash, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
-import signalJs from 'signal-js'
-import Signals from "../../Signals"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useModal } from "../../hooks/UseModal"
 
@@ -72,7 +70,7 @@ const WebForm = memo((props: Props) => {
 		}
 	}
 
-	// Al pulsar en el boton, pasas a modificar en el formulario la web duplicada
+	// Al pulsar en el botón, pasas a modificar en el formulario la web duplicada
 	const duplicateMessage = () => {
 		const categoryName = duplicateWeb ? board.category.getName(duplicateWeb) : ""
 		return (
@@ -138,22 +136,22 @@ const WebForm = memo((props: Props) => {
 
 	const handleAdd = () => {
 		const web = getFormValues()
-		signalJs.emit(Signals.addWeb, web, formValues.values.category)
+		board.web.add(web, formValues.values.category)
 		props.handleClose()
 	}
 
 
 	const handleUpdate = () => {
 		const newWeb = getFormValues()
-		const oldCategory = category
+		const oldCategory = category ?? ""
 		const newCategory = formValues.values.category
-		signalJs.emit(Signals.updateWeb, newWeb, newCategory, oldCategory)
+		board.web.update(newWeb, newCategory, oldCategory)
 		props.handleClose()
 	}
 
 
 	const handleDelete = () => {
-		signalJs.emit(Signals.deleteWeb, web, props.category)
+		board.web.remove(web!, props.category!)
 		props.handleClose()
 	}
 
@@ -163,12 +161,12 @@ const WebForm = memo((props: Props) => {
 		switch (mode) {
 			case WebFormMode.add:
 				handleAdd()
-				break;
+				break
 			case WebFormMode.update:
 				handleUpdate()
-				break;
+				break
 			default:
-				break;
+				break
 		}
 	}
 
@@ -208,7 +206,6 @@ const WebForm = memo((props: Props) => {
 						getCreateLabel={(query) => `Create ${query}`}
 						onCreate={(query) => {
 							setCategoryData([...categoryData, query])
-							board.category.add(query)
 							return {value: query, label: query}
 						}}
 					/>

@@ -54,7 +54,7 @@ const Import = () => {
 	const handleDrop = (files: File[]) => {
 		setLoading(true)
 		if (!settings.keepWebsWhenImport)
-			board.web.removeAll()
+			board.defaultState()
 		board.json.importFile(files[0])
 			.then(() => setLoading(false))
 	}

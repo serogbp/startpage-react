@@ -1,6 +1,9 @@
 // Elimina duplicados de un array
 
+import { useOs } from "@mantine/hooks"
 import { Web } from "../Types"
+
+const os = useOs();
 
 // Uso: array.filter(onlyUnique)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,4 +78,18 @@ export function removeLastSlash(url: string) {
 		return url.substring(0, url.length - 1)
 	}
 	return url
+}
+
+
+export function getOSModifier(): string {
+	switch (os) {
+		case 'macos':
+			return "⌘"
+		case 'windows':
+			return "Ctrl"
+		case 'linux':
+			return "Super"
+		default:
+			return "Ctrl"
+	}
 }
