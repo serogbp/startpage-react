@@ -104,9 +104,14 @@ const Import = () => {
 
 const DeleteAll = () => {
 	const board = useBoard()
+
+	const handleClick = () => {
+		board.defaultState()
+	}
+
 	return (
 		<MyPanel title="Danger zone" danger={true}>
-			<DeleteButtonTooltip clicksRemaining={2} handleDelete={() => board.web.removeAll()} text={"Delete all webs"} variant={"filled"}/>
+			<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleClick} text={"Delete all webs and categories"} variant={"filled"}/>
 			<Text size="xs" color="dimmed">This action cannot be undone</Text>
 		</MyPanel>
 	)

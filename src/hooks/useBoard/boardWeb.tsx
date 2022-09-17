@@ -1,13 +1,10 @@
 import { JsonContent, Web } from "../../Types"
 import onlyUnique, { removeLastSlash } from "../../utils/utils"
-import { defaultJsonContent } from "./UseBoard"
-
 
 export interface BoardWeb {
 	add: (web: Web, category: string) => void
     update: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void
     remove: (web: Web, category: string) => void
-    removeAll: () => void
     isDuplicate: (url: string) => Web | undefined
     getUniqueTags: () => string[]
 }
@@ -94,9 +91,6 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 	}
 
 
-	const removeAll = () => setState(defaultJsonContent)
-
-
 	const isDuplicate = (url: string) => Object.values(state.webs).find(web => web.url.toLowerCase() === url.toLowerCase())
 
 
@@ -104,6 +98,6 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 
 
 	return {
-		add, update, remove, removeAll, isDuplicate, getUniqueTags
+		add, update, remove, isDuplicate, getUniqueTags
 	}
 }

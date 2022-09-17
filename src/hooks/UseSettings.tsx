@@ -37,7 +37,7 @@ export function SettingsProvider({ children }: { children: JSX.Element | JSX.Ele
 
 export function useSettings() {
 	const context = useContext(SettingsContext)
-	if (context === undefined) throw new Error("useSettings must bed used within a SettingsProvider")
+	if (context === undefined) throw new Error("useSettings must be used within a SettingsProvider")
 	return context
 }
 

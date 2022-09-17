@@ -11,6 +11,7 @@ import { getInitialData } from "../../test"
 interface BoardHelper {
 	state: JsonContent
 	setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void
+	defaultState: () => void
 	web: BoardWeb
 	category: BoardCategory
 	json: BoardJson
@@ -28,7 +29,7 @@ export function BoardProvider({ children }: { children: JSX.Element | JSX.Elemen
 
 export function useBoard() {
 	const context = useContext(BoardContext)
-	if (context === undefined) throw new Error("useSettings must bed used within a BoardProvider")
+	if (context === undefined) throw new Error("useBoard must be used within a BoardProvider")
 	return context
 }
 
@@ -39,14 +40,17 @@ function boardHelper() {
 		defaultValue: getInitialData()
 	})
 
+	const defaultState = () => setState(defaultJsonContent)
 	const web= boardWeb(state, setState)
 	const category = boardCategory(state, setState)
 	const json = boardJson(state, setState)
 	const dnd = boardDnd(state, setState)
 
+
 	return {
 		state,
 		setState,
+		defaultState,
 		web,
 		category,
 		json,
