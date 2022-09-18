@@ -6,7 +6,7 @@ import AppSettingsData from "./panels/AppSettingsData"
 
 export default function AppSettings() {
 	return (
-		<Tabs orientation="vertical" defaultValue={"appearance"}>
+		<Tabs orientation="vertical" defaultValue={"appearance"}  >
 			<Tabs.List>
 				<Tabs.Tab value="appearance" icon={<Photo size={16} />}>Appearance</Tabs.Tab>
 				<Tabs.Tab value="data" icon={<Database size={16} />}>Data</Tabs.Tab>

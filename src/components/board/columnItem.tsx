@@ -1,6 +1,7 @@
 import { ActionIcon, Box, Card, Stack, Text, Tooltip } from "@mantine/core"
 import { memo, useState } from "react"
 import { Pencil } from "tabler-icons-react"
+import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
 import { useStyles } from "../../hooks/UseStyles"
@@ -15,6 +16,7 @@ interface Props {
 
 const ColumnItem = memo((props: Props) => {
 	const settings = useSettings()
+	const board = useBoard()
 	const [hover, setHover] = useState(false)
 	const { classes } = useStyles()
 	const urlIsLong = props.web.url.length > 25
@@ -28,7 +30,17 @@ const ColumnItem = memo((props: Props) => {
 		link.rel = "noopener noreferrer nofollow"
 		link.click()
 
-		// TODO update stats
+		// Actualizar stats de la web
+		const newWeb: Web = {
+			...props.web,
+			stats: {
+				...props.web.stats,
+				timesClicked: props.web.stats.timesClicked + 1,
+				lastClickTimestamp: Date.now()
+			}
+		}
+
+		board.web.update(newWeb, props.category, props.category)
 	}
 
 	const handleClickSettings = (event: any) => {

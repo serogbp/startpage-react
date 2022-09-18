@@ -1,4 +1,4 @@
-import { Category, JsonContent, Web } from "../../Types"
+import { Category, JsonContent, Web, WebStats } from "../../Types"
 import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext } from "react"
 import { boardWeb, BoardWeb, } from "./boardWeb"
@@ -66,11 +66,17 @@ export const defaultJsonContent: JsonContent = {
 	jsonVersion: 1
 }
 
+const defaultWebStats: WebStats = {
+	timesClicked: 0,
+	lastClickTimestamp: 0
+}
+
 export const defaultWeb: Web = {
 	id: -1,
 	name: "",
 	url: "",
-	tags: []
+	tags: [],
+	stats: defaultWebStats
 }
 
 export const defaultCategory: Category = {

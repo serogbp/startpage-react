@@ -4,7 +4,7 @@ import { FormEvent, memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
 import { getDomain, removeLastSlash, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
-import { useBoard } from "../../hooks/useBoard/UseBoard"
+import { defaultWeb, useBoard } from "../../hooks/useBoard/UseBoard"
 import { useModal } from "../../hooks/UseModal"
 
 
@@ -135,14 +135,20 @@ const WebForm = memo((props: Props) => {
 
 
 	const handleAdd = () => {
-		const web = getFormValues()
-		board.web.add(web, formValues.values.category)
+		const newWeb = {
+			...defaultWeb,
+			...getFormValues()
+		}
+		board.web.add(newWeb, formValues.values.category)
 		props.handleClose()
 	}
 
 
 	const handleUpdate = () => {
-		const newWeb = getFormValues()
+		const newWeb = {
+			...props.web,
+			...getFormValues()
+		}
 		const oldCategory = category ?? ""
 		const newCategory = formValues.values.category
 		board.web.update(newWeb, newCategory, oldCategory)

@@ -22,13 +22,14 @@ export interface Web {
 	// category: string,
 	// image: string,
 	tags: string[],
-	// stats: WebStats,
+	stats: WebStats,
 	// index: number,
 }
 
 
 export interface WebStats {
 	timesClicked: number,
+	lastClickTimestamp: number
 }
 
 
