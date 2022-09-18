@@ -49,7 +49,7 @@ export const useModal = {
 			modal: "settings",
 			trapFocus: true,
 			innerProps: {},
-			size: "xl"
+			size: 900
 		})
 	}
 }

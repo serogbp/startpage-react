@@ -1,4 +1,4 @@
-import { Tabs } from "@mantine/core"
+import { Tabs, ScrollArea } from "@mantine/core"
 import { Database, Photo } from "tabler-icons-react"
 import AppSettingsAppearance from "./panels/AppSettingsAppearance"
 import AppSettingsData from "./panels/AppSettingsData"
@@ -12,13 +12,13 @@ export default function AppSettings() {
 				<Tabs.Tab value="data" icon={<Database size={16} />}>Data</Tabs.Tab>
 			</Tabs.List>
 
-			<Tabs.Panel value="appearance" pl="xl">
+			<Tabs.Panel value="appearance">
 				<SameHeightPanel>
 					<AppSettingsAppearance />
 				</SameHeightPanel>
 			</Tabs.Panel>
 
-			<Tabs.Panel value="data" pl="xl">
+			<Tabs.Panel value="data">
 				<SameHeightPanel>
 					<AppSettingsData />
 				</SameHeightPanel>
@@ -30,8 +30,8 @@ export default function AppSettings() {
 
 const SameHeightPanel = ({children}: {children: JSX.Element | JSX.Element[] | string}) => {
 	return(
-		<div style={{minHeight:500}}>
+		<ScrollArea style={{ padding:"0 1em", minHeight:640}}>
 			{children}
-		</div>
+		</ScrollArea>
 	)
 }

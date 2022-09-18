@@ -8,15 +8,15 @@ interface Props {
 
 export default function MyPanel(props: Props) {
 	if (props.danger) return <DangerPanel props={props} />
-	else return <DefaultPanel props={props}/>	
+	else return <DefaultPanel props={props}/>
 }
 
 
 const DefaultPanel = (props: {props:Props}) => {
 	return (
-		<Group position="apart" align="top" >
-			<Text>{props.props.title}</Text>
-			<Stack>
+		<Group grow spacing="xs" position="apart" align="top" >
+			<Text style={{flexGrow:0}}>{props.props.title}</Text>
+			<Stack style={{flexGrow:1}}>
 				{props.props.children}
 			</Stack>
 		</Group>
