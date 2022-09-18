@@ -53,7 +53,7 @@ export function boardJson (state: JsonContent, setState: (val: JsonContent | ((p
 
 					let websToImport = importedJson as JsonContentDeprecated[]
 					// Quitar urls duplicados
-					websToImport = websToImport.filter(x => !(x.url in currentWebs.webs.map(y => y.url)))
+					websToImport = websToImport.filter(x => !(currentWebs.webs.map(y => y.url).includes(x.url)))
 
 					// Añadir categorías del json deprecado, después filtrar valores únicos
 					const newCategoryOrder = [...currentWebs.categoryOrder, ...websToImport.map(web => web.category)].filter(onlyUnique)

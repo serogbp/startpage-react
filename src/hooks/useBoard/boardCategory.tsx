@@ -72,7 +72,7 @@ export function boardCategory(state: JsonContent, setState: (val: JsonContent | 
 	}
 
 
-	const getName = (web: Web) => Object.values(state.categories).find(category => web.id in category.webIds)?.id || ""
+	const getName = (web: Web) => Object.values(state.categories).find(category => category.webIds.includes(web.id))?.id || ""
 
 
 	const isDuplicate = (name: string) => Object.values(state.categories).find(category => category.id.toLowerCase() == name.toLowerCase()) !== undefined

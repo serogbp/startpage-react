@@ -32,7 +32,7 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 			}
 		}
 
-		const newCategoryOrder = !(category in state.categoryOrder) ? [...state.categoryOrder, category] : [...state.categoryOrder]
+		const newCategoryOrder = !(state.categoryOrder.includes(category)) ? [...state.categoryOrder, category] : [...state.categoryOrder]
 
 		const newState: JsonContent = {
 			...state,
