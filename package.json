@@ -22,6 +22,7 @@
 		"dayjs": "^1.11.4",
 		"eslint": "^8.23.1",
 		"eslint-plugin-react": "^7.31.8",
+		"fuzzysort": "^2.0.1",
 		"react": "^18.2.0",
 		"react-beautiful-dnd": "^13.1.0",
 		"react-dom": "^18.2.0",
