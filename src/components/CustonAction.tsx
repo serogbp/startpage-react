@@ -1,21 +1,18 @@
-import React, { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react'
 import {
-	DefaultProps,
+	Badge,
 	Selectors,
 	Highlight,
 	UnstyledButton,
 	Group,
 	Center,
 	Text,
-	MantineNumberSize,
-	MantineColor,
+	Stack
 } from '@mantine/core';
 
 import useStyles from './CustomActionStyle';
-import { closeSpotlight, SpotlightAction, SpotlightActionProps, toggleSpotlight } from '@mantine/spotlight';
-import { ActionIcon } from '@mantine/core';
-import { useModal } from '../hooks/UseModal';
-import { Pencil } from 'tabler-icons-react';
+import { SpotlightActionProps } from '@mantine/spotlight';
+import { useSettings } from '../hooks/UseSettings';
 
 export type DefaultActionStylesNames = Selectors<typeof useStyles>;
 
@@ -62,12 +59,11 @@ function CustomActionDefault({ action, styles, classNames, hovered, onTrigger, h
 
 function CustomActionWeb({ action, styles, classNames, hovered, onTrigger, highlightQuery, highlightColor, query, radius, ...others }: SpotlightActionProps) {
 	const { classes, cx } = useStyles({ radius }, { classNames, name: 'Spotlight' })
-
+	const settings = useSettings()
 
 	return (
 
-		<Group noWrap grow
-		>
+		<Group>
 			<UnstyledButton
 				className={cx(classes.action, { [classes.actionHovered]: hovered })} style={{ flexGrow: 2 }}
 				tabIndex={-1}
@@ -75,40 +71,54 @@ function CustomActionWeb({ action, styles, classNames, hovered, onTrigger, highl
 				onClick={onTrigger}
 				{...others}
 			>
-				<Group noWrap align="top">
+				<Group>
 					{action.icon && <Center className={classes.actionIcon}>{action.icon}</Center>}
-
-					<div className={classes.actionBody}>
-
-						<Group position='apart' noWrap>
+					<Stack className={classes.actionBody}>
+						<div>
+							{/* Nombre */}
 							<Text className={classes.wordBreak}>
 								<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
 									{action.web.name}
 								</Highlight>
 							</Text>
+							<Group>
 
-							<Text align='right' color="dimmed" size="xs" >
-								<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
-									{action.category}
-								</Highlight>
-							</Text>
-						</Group>
+								{/* Url */}
+								<Text color="dimmed" size="xs" className={classes.wordBreak}>
+									<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
+										{action.web.url}
+									</Highlight>
+								</Text>
 
+								{/* Categoría*/}
+								<Badge key={action.category} size="xs" color="gray" variant="outline">
+									<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
+										{action.category}
+									</Highlight>
+								</Badge>
 
-
-
-						<Text color="dimmed" size="xs" className={[classes.truncate, classes.actionUrl].join(" ")}>
-							<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
-								{action.web.url}
-							</Highlight>
-						</Text>
-					</div>
-
-
-
+								{/* Tags */}
+								{
+									action.web.tags.length > 0 &&
+									<Group spacing="xs">
+										{
+											action.web.tags.map((tag: string) =>
+												<Text key={tag} size="xs" color={settings.accentColor} >
+													<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
+														{"#" + tag}
+													</Highlight>
+												</Text>
+											)
+										}
+									</Group>
+								}
+							</Group>
+						</div>
+					</Stack>
 				</Group>
 			</UnstyledButton>
 
+			{/* Botón para lanzar WebFormUpdate */}
 			{/* <ActionIcon
 				onClick={() => {
 					toggleSpotlight()
