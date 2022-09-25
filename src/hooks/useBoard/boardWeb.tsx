@@ -3,14 +3,15 @@ import onlyUnique, { removeLastSlash } from "../../utils/utils"
 
 export interface BoardWeb {
 	add: (web: Web, category: string) => void
-    update: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void
-    remove: (web: Web, category: string) => void
-    isDuplicate: (url: string) => Web | undefined
-    getUniqueTags: () => string[]
+	update: (updatedWeb: Web, destinationCategory: string, originCategory: string) => void
+	remove: (web: Web, category: string) => void
+	isDuplicate: (url: string) => Web | undefined
+	getUniqueTags: () => string[]
+	open: (web: Web, category: string) => void
 }
 
 
-export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void) : BoardWeb {
+export function boardWeb(state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void): BoardWeb {
 
 
 	const add = (web: Web, category: string) => {
@@ -77,7 +78,7 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 
 
 	const remove = (web: Web, category: string) => {
-		const newWebs = {...state.webs}
+		const newWebs = { ...state.webs }
 		delete newWebs[web.id]
 
 		const newCategories = {
@@ -105,7 +106,29 @@ export function boardWeb (state: JsonContent, setState: (val: JsonContent | ((pr
 	const getUniqueTags = () => Object.values(state.webs).map(web => web.tags).flat().filter(onlyUnique)
 
 
+	const open = (web: Web, category: string) => {
+		// Abrir enlace
+		const link = document.createElement('a')
+		link.target = '_blank'
+		link.href = web.url
+		link.rel = "noopener noreferrer nofollow"
+		link.click()
+
+		// Actualizar stats de la web
+		const newWeb: Web = {
+			...web,
+			stats: {
+				...web.stats,
+				timesClicked: web.stats.timesClicked + 1,
+				lastClickTimestamp: Date.now()
+			}
+		}
+
+		update(newWeb, category, category)
+	}
+
+
 	return {
-		add, update, remove, isDuplicate, getUniqueTags
+		add, update, remove, isDuplicate, getUniqueTags, open
 	}
 }

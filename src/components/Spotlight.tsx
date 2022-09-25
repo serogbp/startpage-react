@@ -15,14 +15,15 @@ export function Spotlight(props: any) {
 	const orderedWebs = Object.values(board.state.webs).sort((a, b) => b.stats.lastClickTimestamp - a.stats.lastClickTimestamp)
 
 	const webActions: SpotlightAction[] = orderedWebs.map(web => {
+		const category = board.category.getName(web)
 		return {
 			title: web.name,
 			description: `${web.url} ${web.tags}`,
 			group: "Recent opened webs",
-			onTrigger: () => openWeb(web.url),
+			onTrigger: () => board.web.open(web, category),
 			icon: <Link size={18} />,
 			web: web,
-			category: board.category.getName(web),
+			category: category,
 		}
 	})
 
@@ -53,15 +54,7 @@ export function Spotlight(props: any) {
 
 	// Colocar al final de la lista las fixedActions
 	webActions.splice(LIMIT_OF_ACTIONS_ON_SCREEN - fixedActions.length, 0, ...fixedActions)
-
-
-	const openWeb = (url: string) => {
-		const link = document.createElement('a');
-		link.target = '_blank';
-		link.href = url;
-		link.rel = "noopener noreferrer nofollow";
-		link.click()
-	}
+	
 
 	// Filtrar usando fuzzy search y ordenar por el fuzzy search score
 	// Si es web, filtra por nombre, url, categoría y tags

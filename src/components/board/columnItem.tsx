@@ -21,26 +21,9 @@ const ColumnItem = memo((props: Props) => {
 	const { classes } = useStyles()
 	const urlIsLong = props.web.url.length > 25
 	const modal = useModal
-
+	
 	const handleClick = () => {
-		// Abrir enlace
-		const link = document.createElement('a')
-		link.target = '_blank'
-		link.href = props.web.url
-		link.rel = "noopener noreferrer nofollow"
-		link.click()
-
-		// Actualizar stats de la web
-		const newWeb: Web = {
-			...props.web,
-			stats: {
-				...props.web.stats,
-				timesClicked: props.web.stats.timesClicked + 1,
-				lastClickTimestamp: Date.now()
-			}
-		}
-
-		board.web.update(newWeb, props.category, props.category)
+		board.web.open(props.web, props.category)
 	}
 
 	const handleClickSettings = (event: any) => {
