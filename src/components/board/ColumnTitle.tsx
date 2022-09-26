@@ -31,7 +31,7 @@ export const ColumnTitle = memo((props: TitleProps) => {
 							<Pencil size={16} />
 						</ActionIcon>
 					</Box>
-					<p {...props.dragHandleProps} className={classes.columnTitle}> {props.name} </p>
+					<p {...props.dragHandleProps} className={[classes.columnTitle, classes.wordBreak].join(" ")}> {props.name} </p>
 				</div >
 			</Popover.Target>
 			<Popover.Dropdown>

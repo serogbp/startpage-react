@@ -65,7 +65,6 @@ const ColumnItemList = memo((props: Props) => {
 					//@ts-ignore
 					scrollerRef={provided.innerRef}
 					style={{
-						width: settings.columnWidth,
 						overflowY:"auto",
 						scrollbarWidth: "thin"
 					}}

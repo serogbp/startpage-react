@@ -79,12 +79,16 @@ export const useStyles = createStyles((theme) => ({
 	columnItem_Url: {
 		overflow: "hidden",
 		whiteSpace: "nowrap",
-		textOverflow: "ellipsis"
+		textOverflow: "ellipsis",
 	},
 	columnItem_Settings: {
 		position: "absolute",
 		top: 0,
 		right: 0,
 		padding: 8
+	},
+
+	wordBreak: {
+		wordBreak: "break-all"
 	},
 }))
