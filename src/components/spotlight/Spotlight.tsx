@@ -1,9 +1,9 @@
 import { Search, Plus, Settings, Link } from "tabler-icons-react";
 import { SpotlightProvider } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
-import {useBoard } from "../hooks/useBoard/UseBoard";
-import { useModal } from "../hooks/UseModal";
-import { CustomAction } from "./CustonAction";
+import {useBoard } from "../../hooks/useBoard/UseBoard";
+import { useModal } from "../../hooks/UseModal";
+import { CustomAction } from "./CustomAction";
 import fuzzysort from "fuzzysort";
 
 
@@ -54,7 +54,7 @@ export function Spotlight(props: any) {
 
 	// Colocar al final de la lista las fixedActions
 	webActions.splice(LIMIT_OF_ACTIONS_ON_SCREEN - fixedActions.length, 0, ...fixedActions)
-	
+
 
 	// Filtrar usando fuzzy search y ordenar por el fuzzy search score
 	// Si es web, filtra por nombre, url, categoría y tags

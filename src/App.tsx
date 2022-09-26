@@ -5,7 +5,7 @@ import EmptyState from './components/EmptyState';
 import CategoryModal from './components/modals/CategoryModal';
 import ModalSettings from './components/modals/ModalSettings';
 import WebModal from './components/modals/WebModal';
-import { Spotlight } from './components/Spotlight';
+import { Spotlight } from './components/spotlight/Spotlight';
 import StyleProvider from './components/StyleProvider';
 import { BoardProvider, useBoard } from './hooks/useBoard/UseBoard';
 import { SettingsProvider, useSettings } from './hooks/UseSettings';

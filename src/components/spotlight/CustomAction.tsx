@@ -12,7 +12,7 @@ import {
 
 import useStyles from './CustomActionStyle';
 import { SpotlightActionProps } from '@mantine/spotlight';
-import { useSettings } from '../hooks/UseSettings';
+import { useSettings } from '../../hooks/UseSettings';
 
 export type DefaultActionStylesNames = Selectors<typeof useStyles>;
 
