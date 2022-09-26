@@ -82,10 +82,10 @@ const ColumnItem = memo((props: Props) => {
 					</div>
 
 					{props.web.tags.length > 0 &&
-						<Group>
+						<Group spacing="xs">
 							{
 								props.web.tags.map((tag: string) =>
-									<Text key={tag} size="xs" color={settings.accentColor} >
+									<Text key={tag} size="xs" color={settings.accentColor} className={classes.wordBreak}>
 										{"#" + tag}
 									</Text>
 								)
