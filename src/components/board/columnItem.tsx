@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Card, Stack, Text, Tooltip } from "@mantine/core"
+import { ActionIcon, Box, Card, Stack, Text, Tooltip, Badge, Group } from "@mantine/core"
 import { memo, useState } from "react"
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
@@ -21,7 +21,7 @@ const ColumnItem = memo((props: Props) => {
 	const { classes } = useStyles()
 	const urlIsLong = props.web.url.length > 25
 	const modal = useModal
-	
+
 	const handleClick = () => {
 		board.web.open(props.web, props.category)
 	}
@@ -42,26 +42,37 @@ const ColumnItem = memo((props: Props) => {
 		>
 			<Card.Section>
 				<Stack spacing="sm" p="sm">
-
-					<Text weight={500} size="sm" className={classes.columnItem_Name}>
-						{props.web.name}
-					</Text>
-
-					<Tooltip
-						label={props.web.url}
-						color={settings.accentColor}
-						position="bottom"
-						withArrow
-						openDelay={200}
-						events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}
-						withinPortal={true}
-					>
-
-						<Text size="sm" color="dimmed" className={classes.columnItem_Url}>
-							{props.web.url}
+					<div>
+						<Text weight={500} size="sm" className={classes.columnItem_Name}>
+							{props.web.name}
 						</Text>
 
-					</Tooltip>
+						<Tooltip
+							label={props.web.url}
+							color={settings.accentColor}
+							position="bottom"
+							withArrow
+							openDelay={200}
+							events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}
+							withinPortal={true}
+							>
+							<Text size="sm" color="dimmed" className={classes.columnItem_Url}>
+								{props.web.url}
+							</Text>
+						</Tooltip>
+					</div>
+
+					{props.web.tags.length > 0 &&
+						<Group>
+							{
+								props.web.tags.map((tag: string) =>
+									<Text key={tag} size="xs" color={settings.accentColor} >
+										{"#" + tag}
+									</Text>
+								)
+							}
+						</Group>
+					}
 
 					<Box hidden={!hover} className={classes.columnItem_Settings}>
 						<ActionIcon onClick={handleClickSettings} variant="light" >
