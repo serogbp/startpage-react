@@ -75,7 +75,7 @@ const ColumnItem = memo((props: Props) => {
 							events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}
 							withinPortal={true}
 						>
-							<Text size="sm" color="dimmed" className={classes.columnItem_Url} ref={urlRef}>
+							<Text size="xs" color="dimmed" className={classes.columnItem_Url} ref={urlRef}>
 								{props.web.url}
 							</Text>
 						</Tooltip>
