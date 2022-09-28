@@ -59,7 +59,6 @@ export function Spotlight(props: any) {
 	// Filtrar usando fuzzy search y ordenar por el fuzzy search score
 	// Si es web, filtra por nombre, url, categoría y tags
 	// Si es una acción de la app, filtra por title y description
-	// TODO highlight de mantine no funciona con fuzzy search, solo con búsqueda normal
 	function customBasicFilter(query: string, actions: SpotlightAction[]) {
 		if (query === "") return actions
 		return fuzzysort.go(query, actions, {limit: LIMIT_OF_ACTIONS_ON_SCREEN, keys: ["title", "description", "category", "web.tags"]}).map(result => result.obj)

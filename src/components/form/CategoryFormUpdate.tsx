@@ -22,7 +22,7 @@ export default function CategoryFormUpdate(props: Props) {
 		initialValues: {
 			name: props.name,
 			webs: [],
-			// TODO obtener array webs pasando el nombre de categoría
+			// TODO obtener array webs pasando el nombre de categoría. Lista de webs con la posibilidad de administrar las webs? (ordenar, mover a otra categoría y borrar)
 		},
 		validate: {
 			name: (value) => (value !== props.name && board.category.isDuplicate(value) ? 'Category already exists' : null),
