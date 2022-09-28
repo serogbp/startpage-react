@@ -38,6 +38,7 @@ export const useModal = {
 		openContextModal({
 			title: "New Category",
 			modal: "categoryForm",
+			
 			trapFocus: true,
 			innerProps: {}
 		})

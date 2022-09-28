@@ -26,7 +26,7 @@ const DefaultPanel = (props: {props:Props}) => {
 
 const DangerPanel = (props: {props:Props}) => {
 	return (
-		<Group position="apart" align="top" >
+		<Group grow spacing="xs" position="apart" align="top" >
 			<Text color="red">{props.props.title}</Text>
 			<Stack>
 				{props.props.children}

@@ -5,6 +5,8 @@ import { Web } from "../Types"
 
 const os = useOs();
 
+export const VERSION = "v1.0"
+
 // Uso: array.filter(onlyUnique)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function onlyUnique(value: any, index: any, self: any) {
@@ -88,7 +90,7 @@ export function getOSModifier(): string {
 		case 'windows':
 			return "Ctrl"
 		case 'linux':
-			return "Super"
+			return "Ctrl"
 		default:
 			return "Ctrl"
 	}
