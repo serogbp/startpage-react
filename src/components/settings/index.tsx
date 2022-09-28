@@ -1,8 +1,9 @@
 import { Tabs, ScrollArea } from "@mantine/core"
-import { Database, Photo } from "tabler-icons-react"
+import { Database, Help, Keyboard, Photo} from "tabler-icons-react"
+import AppSettingsAbout from "./panels/AppSettingsAbout"
 import AppSettingsAppearance from "./panels/AppSettingsAppearance"
 import AppSettingsData from "./panels/AppSettingsData"
-
+import AppSettingsKeyboardShortcuts from "./panels/AppSettingsKeyboardShortcuts"
 
 export default function AppSettings() {
 	return (
@@ -10,6 +11,8 @@ export default function AppSettings() {
 			<Tabs.List>
 				<Tabs.Tab value="appearance" icon={<Photo size={16} />}>Appearance</Tabs.Tab>
 				<Tabs.Tab value="data" icon={<Database size={16} />}>Data</Tabs.Tab>
+				<Tabs.Tab value="shortcuts" icon={<Keyboard size={16} />}>Keyboard shortcuts</Tabs.Tab>
+				<Tabs.Tab value="about" icon={<Help size={16} />}>About</Tabs.Tab>
 			</Tabs.List>
 
 			<Tabs.Panel value="appearance">
@@ -21,6 +24,18 @@ export default function AppSettings() {
 			<Tabs.Panel value="data">
 				<SameHeightPanel>
 					<AppSettingsData />
+				</SameHeightPanel>
+			</Tabs.Panel>
+
+			<Tabs.Panel value="shortcuts">
+				<SameHeightPanel>
+					<AppSettingsKeyboardShortcuts />
+				</SameHeightPanel>
+			</Tabs.Panel>
+
+			<Tabs.Panel value="about">
+				<SameHeightPanel>
+					<AppSettingsAbout />
 				</SameHeightPanel>
 			</Tabs.Panel>
 
