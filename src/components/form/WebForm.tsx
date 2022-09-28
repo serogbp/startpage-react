@@ -38,6 +38,7 @@ const WebForm = memo((props: Props) => {
 
 	useEffect(() => {
 		setWeb(props.web ? props.web : {
+			...defaultWeb,
 			id: 0,
 			name: "",
 			url: "",
@@ -101,6 +102,7 @@ const WebForm = memo((props: Props) => {
 
 	const getFormValues = (): Web => {
 		return {
+			...defaultWeb,
 			id: web?.id || 0, // Si web no es nulo es modo update
 			url: formValues.values.url,
 			name: formValues.values.name,
