@@ -44,14 +44,20 @@ export default function EmptyState() {
 
 				<Stack>
 					<Alert icon={<Text className={classes.icon}>💡</Text>} title="The beginning">
-						Press anywhere on the screen to add your first web!
+						Open the Command Bar or press anywhere on the screen to add your first web.
 					</Alert>
 
-					<Alert icon={<Text className={classes.icon}>💡</Text>} title="Search bar">
-						<Text>With the search bar you can open your saved webs, add new ones or access the settings.</Text>
-						<Space h="md"/>
-						<Text>To open the search bar use one of the following shortcuts:</Text>
-						<List spacing="sm" size="xl">
+					<Alert icon={<Text className={classes.icon}>💡</Text>} title="Command bar">
+						{/* <Text>With the search bar you can open your saved webs, add new ones or access the settings.</Text> */}
+						<Text>The Command Bar is a widget that let you do many things:</Text>
+						<List  size="sm" withPadding>
+							<List.Item>Save webs and categories </List.Item>
+							<List.Item>Search and open your saved webs </List.Item>
+							<List.Item>Open the settings </List.Item>
+						</List>
+						<Space h="md" />
+						<Text>To open the Command Bar use one of the following shortcuts:</Text>
+						<List spacing="sm" size="sm" withPadding pb="xs">
 							<List.Item>
 								<Kbd>/</Kbd>
 							</List.Item>
@@ -63,8 +69,8 @@ export default function EmptyState() {
 							</List.Item>
 						</List>
 					</Alert>
-				</Stack>
 
+				</Stack>
 			</Container>
 		</Center>
 	)
