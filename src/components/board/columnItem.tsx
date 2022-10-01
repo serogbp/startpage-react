@@ -1,10 +1,9 @@
-import { ActionIcon, Box, Card, Stack, Text, Tooltip, Badge, Group } from "@mantine/core"
+import { ActionIcon, Box, Card, Stack, Text, Tooltip, Group, useMantineTheme, createStyles } from "@mantine/core"
 import { memo, useEffect, useRef, useState } from "react"
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
-import { useStyles } from "../../hooks/UseStyles"
 import { Web } from "../../Types"
 
 
@@ -13,17 +12,77 @@ interface Props {
 	category: string
 }
 
+interface PropsStyle {
+	backgroundColor: string
+	border: string
+	backgroundColorHover: string
+}
+
+const useStyles = createStyles((theme, { backgroundColor, border, backgroundColorHover }: PropsStyle, getRef) => ({
+	columnItem_Card: {
+		backgroundColor: backgroundColor,
+		border: border,
+		padding: theme.spacing.md,
+		width: "auto",
+		minHeight: 10,
+		marginBottom: 8,
+		'&:hover': {
+			backgroundColor: backgroundColorHover
+		},
+	},
+	columnItem_Name: {
+		overflowWrap: "break-word"
+	},
+	columnItem_Url: {
+		overflow: "hidden",
+		whiteSpace: "nowrap",
+		textOverflow: "ellipsis",
+	},
+	columItem_Tag: {
+		overflow: "hidden",
+		whiteSpace: "nowrap",
+		textOverflow: "ellipsis",
+	},
+	columnItem_Settings: {
+		position: "absolute",
+		top: 0,
+		right: 0,
+		padding: 8
+	},
+}))
 
 const ColumnItem = memo((props: Props) => {
 	const settings = useSettings()
 	const board = useBoard()
 	const modal = useModal
-	const { classes } = useStyles()
 
 	const [hover, setHover] = useState(false)
 	const [urlIsLong, setUrlsIsLong] = useState(false)
-
 	const urlRef = useRef(null)
+
+	const theme = useMantineTheme()
+	const backgroundColor = (()=> {
+		let color = theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white
+		if (settings.accentColorElements) {
+			color = theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors[settings.accentColor.name][0]
+		}
+		return color
+	})()
+	const border = (()=> {
+		let border = theme.colorScheme === 'dark' ? `1px solid ${theme.colors.gray[8]}` :	 `1px solid ${theme.colors.gray[2]}`
+		if (settings.accentColorElements) {
+			border = theme.colorScheme === 'dark' ? `1px solid ${theme.colors.gray[8]}` : `1px solid ${theme.colors[settings.accentColor.name][2]}`
+		}
+		return border
+	})()
+	const backgroundColorHover = (() => {
+		let color = theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
+		if (settings.accentColorElements) {
+			color = theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors[settings.accentColor.name][2]
+		}
+		return color
+	})()
+	const { classes } = useStyles({backgroundColor, border, backgroundColorHover})
 
 
 	useEffect(() => {
@@ -54,7 +113,8 @@ const ColumnItem = memo((props: Props) => {
 
 	return (
 		<Card
-			withBorder radius="sm" className={classes.columnItem_Card}
+			radius="sm"
+			className={classes.columnItem_Card}
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
 			onClick={() => handleClick()}
@@ -68,7 +128,7 @@ const ColumnItem = memo((props: Props) => {
 
 						<Tooltip
 							label={props.web.url}
-							color={settings.accentColor}
+							color={settings.accentColor.name.toLowerCase()}
 							position="bottom"
 							withArrow
 							openDelay={200}
@@ -85,7 +145,7 @@ const ColumnItem = memo((props: Props) => {
 						<Group spacing="xs">
 							{
 								props.web.tags.map((tag: string) =>
-									<Text key={tag} size="xs" color={settings.accentColor} className={classes.wordBreak}>
+									<Text key={tag} size="xs" color={settings.accentColor.value} className={classes.columItem_Tag}>
 										{"#" + tag}
 									</Text>
 								)

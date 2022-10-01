@@ -3,6 +3,7 @@ import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext, useEffect } from "react"
 import signalJs from "signal-js"
 import Signals from "../Signals"
+import { MyColor } from "../Types"
 
 
 interface SettingsHelper {
@@ -12,12 +13,14 @@ interface SettingsHelper {
 	setUseSystemTheme: (val: boolean | ((prevState: boolean) => boolean)) => void
 	keepWebsWhenImport: boolean
 	setKeepWebsWhenImport: (val: boolean | ((prevState: boolean) => boolean)) => void
-	accentColor: string
-	setAccentColor: (val: string | ((prevState: string) => string)) => void
-	backgroundColorLight: string
-	setBackgroundColorLight: (val: string | ((prevState: string) => string)) => void
-	backgroundColorDark: string
-	setBackgroundColorDark: (val: string | ((prevState: string) => string)) => void
+	accentColorElements: boolean
+	setAccentColorElements: (val: boolean | ((prevState: boolean) => boolean)) => void
+	accentColor: MyColor
+	setAccentColor: (val: MyColor | ((prevState: MyColor) => MyColor)) => void
+	backgroundColorLight: MyColor
+	setBackgroundColorLight: (val: MyColor | ((prevState: MyColor) => MyColor)) => void
+	backgroundColorDark: MyColor
+	setBackgroundColorDark: (val: MyColor | ((prevState: MyColor) => MyColor)) => void
 	columnWidth: number
 	setColumnWidth: (val: number | ((prevState: number) => number)) => void
 	hideEmptyColumns: boolean
@@ -44,6 +47,7 @@ export function useSettings() {
 
 enum SettingsJsonNames {
 	colorScheme = "color-scheme",
+	accentColorElements = "accent-color-elements",
 	accentColor = "accent-color",
 	backgroundColorLight = "background-color-light",
 	backgroundColorDark = "background-color-dark",
@@ -58,9 +62,10 @@ enum SettingsJsonNames {
 const defaultSettings = {
 	colorScheme: "light",
 	useSystemTheme: false,
-	accentColor: "blue",
-	backgroundColorLight: "#74c0fc",
-	backgroundColorDark: "#141517",
+	accentColorElements: false,
+	accentColor: {name: "blue", value: "#339af0"},
+	backgroundColorLight: {name: "blue", value: "#74c0fc"},
+	backgroundColorDark: {name: "dark", value: "#141517"},
 	keepWebsWhenImport: true,
 	columnWidth: 250,
 	hideEmptyColumns: false,
@@ -79,17 +84,22 @@ function settingsHelper() {
 		defaultValue: defaultSettings.useSystemTheme
 	})
 
-	const [accentColor, setAccentColor] = useLocalStorage<string>({
+	const [accentColorElements, setAccentColorElements] = useLocalStorage<boolean>({
+		key: SettingsJsonNames.accentColorElements,
+		defaultValue: defaultSettings.accentColorElements
+	})
+
+	const [accentColor, setAccentColor] = useLocalStorage<MyColor>({
 		key: SettingsJsonNames.accentColor,
 		defaultValue: defaultSettings.accentColor
 	})
 
-	const [backgroundColorLight, setBackgroundColorLight] = useLocalStorage<string>({
+	const [backgroundColorLight, setBackgroundColorLight] = useLocalStorage<MyColor>({
 		key: SettingsJsonNames.backgroundColorLight,
 		defaultValue: defaultSettings.backgroundColorLight
 	})
 
-	const [backgroundColorDark, setBackgroundColorDark] = useLocalStorage<string>({
+	const [backgroundColorDark, setBackgroundColorDark] = useLocalStorage<MyColor>({
 		key: SettingsJsonNames.backgroundColorDark,
 		defaultValue: defaultSettings.backgroundColorDark
 	})
@@ -131,6 +141,8 @@ function settingsHelper() {
 		setColorScheme,
 		useSystemTheme,
 		setUseSystemTheme,
+		accentColorElements,
+		setAccentColorElements,
 		accentColor,
 		setAccentColor,
 		backgroundColorLight: backgroundColorLight,

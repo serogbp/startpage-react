@@ -35,7 +35,7 @@ export default function EmptyState() {
 	return (
 		<Center
 			onClick={handleClick}
-			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}
+			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark.value : settings.backgroundColorLight.value }}
 			className={classes.container}
 		>
 			<Container size="xs" >

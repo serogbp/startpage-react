@@ -43,7 +43,7 @@ export default function StyleProvider({ children }: { children: JSX.Element | JS
 				withNormalizeCSS withGlobalStyles
 				theme={{
 					colorScheme: `${colorScheme}`,
-					primaryColor: settings.accentColor
+					primaryColor: settings.accentColor.name.toLowerCase()
 				}}>
 				{children}
 			</MantineProvider>

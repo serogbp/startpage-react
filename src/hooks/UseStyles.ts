@@ -14,14 +14,6 @@ export const useStyles = createStyles((theme) => ({
 		padding: theme.spacing.xs,
 	},
 
-	column: {
-		position: "relative",
-		display: "flex",
-		flexDirection: "column",
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
-		height: "100%",
-		borderRadius: theme.radius.sm,
-	},
 	columnTitle: {
 		textAlign: "center",
 		margin: 0,
@@ -46,46 +38,11 @@ export const useStyles = createStyles((theme) => ({
 	},
 
 
-	AddColumn: {
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
-		height: "100%",
-	},
-	AddColumn_Button: {
-		height: "100%",
-		width: "100%",
-		padding:"2em"
-	},
 
 
 	columnItemList: {
 		marginLeft: ".5em",
 		marginRight: ".5em",
-	},
-
-
-	columnItem_Card: {
-		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
-		padding: theme.spacing.md,
-		width: "auto",
-		minHeight: 10,
-		marginBottom: 8,
-		'&:hover': {
-			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
-		},
-	},
-	columnItem_Name: {
-		overflowWrap: "break-word"
-	},
-	columnItem_Url: {
-		overflow: "hidden",
-		whiteSpace: "nowrap",
-		textOverflow: "ellipsis",
-	},
-	columnItem_Settings: {
-		position: "absolute",
-		top: 0,
-		right: 0,
-		padding: 8
 	},
 
 	wordBreak: {

@@ -33,7 +33,7 @@ export const Board = (() => {
 		<Group
 			spacing="xs"
 			className={[classes.boardContainer, classes.boardPadding].join(" ")}
-			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark : settings.backgroundColorLight }}
+			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark.value : settings.backgroundColorLight.value }}
 		>
 			<DragDropContext onDragEnd={board.dnd.dragEnd} onDragStart={board.dnd.dragStart}>
 				<Droppable droppableId="board" direction="horizontal" type="column">

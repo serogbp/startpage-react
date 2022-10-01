@@ -66,6 +66,9 @@ const Import = () => {
 				onDrop={(files) => handleDrop(files)}
 				onReject={(files) => console.log('rejected files', files)}
 				accept={["application/json"]}
+				sx={(theme) => ({
+					borderColor: settings.accentColor.value
+				})}
 			>
 				<Group position="center" style={{ pointerEvents: 'none' }}>
 					<Dropzone.Accept>
@@ -111,7 +114,7 @@ const DeleteAll = () => {
 
 	return (
 		<MyPanel title="Danger zone" danger={true}>
-			<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleClick} text={"Delete all webs and categories"} variant={"filled"}/>
+			<DeleteButtonTooltip clicksRemaining={2} handleDelete={handleClick} text={"Delete all webs and categories"} variant={"filled"} />
 			<Text size="xs" color="dimmed">This action cannot be undone</Text>
 		</MyPanel>
 	)

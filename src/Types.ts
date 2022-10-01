@@ -63,3 +63,9 @@ export enum WebFormMode {
 	add,
 	update
 }
+
+
+export interface MyColor {
+	name: string,
+	value: string
+}

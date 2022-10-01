@@ -1,8 +1,8 @@
 import { memo } from "react"
 import { Draggable } from "react-beautiful-dnd"
 import { ColumnTitle } from "./ColumnTitle"
-import { useStyles } from "../../hooks/UseStyles"
 import { useSettings } from "../../hooks/UseSettings"
+import { useMantineTheme, createStyles } from "@mantine/core"
 
 
 interface Props {
@@ -11,10 +11,34 @@ interface Props {
 	children?: JSX.Element | JSX.Element[]
 }
 
+interface PropsStyle {
+	backgroundColor: string
+}
+
+const useStyles = createStyles((theme, { backgroundColor }: PropsStyle, getRef) => ({
+	column: {
+		position: "relative",
+		display: "flex",
+		flexDirection: "column",
+		backgroundColor: backgroundColor,
+		height: "100%",
+		borderRadius: theme.radius.sm,
+	},
+}))
+
 
 const Column = memo((props: Props) => {
-	const { classes } = useStyles()
 	const settings = useSettings()
+	const theme = useMantineTheme()
+
+	const backgroundColor = (() => {
+		let color = theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1]
+		if (settings.accentColorElements) {
+			color = theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors[settings.accentColor.name][1]
+		}
+		return color
+	})()
+	const { classes } = useStyles({backgroundColor})
 
 	return (
 		<Draggable draggableId={props.name} index={props.index}>

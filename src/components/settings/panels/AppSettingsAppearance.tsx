@@ -1,6 +1,7 @@
 import { Checkbox, CheckIcon, ColorScheme, ColorSwatch, Group, Select, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useSettings } from "../../../hooks/UseSettings";
+import { MyColor } from "../../../Types";
 import { capitalizeFirstLetter } from "../../../utils/utils";
 import MyDivider from "../common/MyDivider";
 import MyPanel from "../common/MyPanel";
@@ -42,29 +43,27 @@ const Theme = () => {
 
 const AccentColor = () => {
 	const settings = useSettings()
-	const [toggleColor, setToggleColor] = useState(settings.accentColor)
+	const [toggleColor, setToggleColor] = useState<MyColor>(settings.accentColor)
 	const theme = useMantineTheme()
 	const colors = [
-		{ toggle: false, name: "Gray", color: theme.colors.gray[5] },
-		{ toggle: false, name: "Red", color: theme.colors.red[5] },
-		{ toggle: false, name: "Pink", color: theme.colors.pink[5] },
-		{ toggle: false, name: "Grape", color: theme.colors.grape[5] },
-		{ toggle: false, name: "Violet", color: theme.colors.violet[5] },
-		{ toggle: false, name: "Indigo", color: theme.colors.indigo[5] },
-		{ toggle: false, name: "Blue", color: theme.colors.blue[5] },
-		{ toggle: false, name: "Cyan", color: theme.colors.cyan[5] },
-		{ toggle: false, name: "Teal", color: theme.colors.teal[5] },
-		{ toggle: false, name: "Green", color: theme.colors.green[5] },
-		{ toggle: false, name: "Lime", color: theme.colors.lime[5] },
-		{ toggle: false, name: "Yellow", color: theme.colors.yellow[5] },
-		{ toggle: false, name: "Orange", color: theme.colors.orange[5] },
+		{ toggle: false, name: "Gray", value: theme.colors.gray[5] },
+		{ toggle: false, name: "Red", value: theme.colors.red[5] },
+		{ toggle: false, name: "Pink", value: theme.colors.pink[5] },
+		{ toggle: false, name: "Grape", value: theme.colors.grape[5] },
+		{ toggle: false, name: "Violet", value: theme.colors.violet[5] },
+		{ toggle: false, name: "Indigo", value: theme.colors.indigo[5] },
+		{ toggle: false, name: "Blue", value: theme.colors.blue[5] },
+		{ toggle: false, name: "Cyan", value: theme.colors.cyan[5] },
+		{ toggle: false, name: "Teal", value: theme.colors.teal[5] },
+		{ toggle: false, name: "Green", value: theme.colors.green[5] },
+		{ toggle: false, name: "Lime", value: theme.colors.lime[5] },
+		{ toggle: false, name: "Yellow", value: theme.colors.yellow[5] },
+		{ toggle: false, name: "Orange", value: theme.colors.orange[5] },
 	]
-
 
 	useEffect(() => {
 		settings.setAccentColor(toggleColor)
 	}, [toggleColor])
-
 
 	return (
 		<MyPanel title={"Accent color"}>
@@ -74,17 +73,18 @@ const AccentColor = () => {
 						<ColorSwatch
 							key={color.name}
 							component="button"
-							color={color.color}
+							color={color.value}
 							size={20}
-							onClick={() => setToggleColor(color.name.toLowerCase())}
-							sx={{ color: '#fff', cursor: 'pointer' }}
+							onClick={() => setToggleColor({ name: color.name.toLowerCase(), value: color.value })}
+							sx={{ value: '#fff', cursor: 'pointer' }}
 						>
-							{color.name.toLowerCase() === toggleColor && <CheckIcon width={10} />}
+							{color.value === toggleColor.value && <CheckIcon width={10} />}
 						</ColorSwatch>
 					))
 				}
 			</Group>
-			<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor)}</Text>
+			<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor.name)}</Text>
+			<AccentColorElements/>
 		</MyPanel >
 	)
 }
@@ -92,22 +92,22 @@ const AccentColor = () => {
 
 const BackgroundColorLight = () => {
 	const settings = useSettings()
-	const [toggleColor, setToggleColor] = useState(settings.backgroundColorLight)
+	const [toggleColor, setToggleColor] = useState<MyColor>(settings.backgroundColorLight)
 	const theme = useMantineTheme()
 	const colors = [
-		{ toggle: false, name: "White", color: theme.colors.gray[0] },
-		{ toggle: false, name: "Red", color: theme.colors.red[3] },
-		{ toggle: false, name: "Pink", color: theme.colors.pink[3] },
-		{ toggle: false, name: "Grape", color: theme.colors.grape[3] },
-		{ toggle: false, name: "Violet", color: theme.colors.violet[3] },
-		{ toggle: false, name: "Indigo", color: theme.colors.indigo[3] },
-		{ toggle: false, name: "Blue", color: theme.colors.blue[3] },
-		{ toggle: false, name: "Cyan", color: theme.colors.cyan[3] },
-		{ toggle: false, name: "Teal", color: theme.colors.teal[3] },
-		{ toggle: false, name: "Green", color: theme.colors.green[3] },
-		{ toggle: false, name: "Lime", color: theme.colors.lime[3] },
-		{ toggle: false, name: "Yellow", color: theme.colors.yellow[3] },
-		{ toggle: false, name: "Orange", color: theme.colors.orange[3] },
+		{ toggle: false, name: "White", value: theme.colors.gray[0] },
+		{ toggle: false, name: "Red", value: theme.colors.red[3] },
+		{ toggle: false, name: "Pink", value: theme.colors.pink[3] },
+		{ toggle: false, name: "Grape", value: theme.colors.grape[3] },
+		{ toggle: false, name: "Violet", value: theme.colors.violet[3] },
+		{ toggle: false, name: "Indigo", value: theme.colors.indigo[3] },
+		{ toggle: false, name: "Blue", value: theme.colors.blue[3] },
+		{ toggle: false, name: "Cyan", value: theme.colors.cyan[3] },
+		{ toggle: false, name: "Teal", value: theme.colors.teal[3] },
+		{ toggle: false, name: "Green", value: theme.colors.green[3] },
+		{ toggle: false, name: "Lime", value: theme.colors.lime[3] },
+		{ toggle: false, name: "Yellow", value: theme.colors.yellow[3] },
+		{ toggle: false, name: "Orange", value: theme.colors.orange[3] },
 	]
 
 	useEffect(() => {
@@ -122,17 +122,17 @@ const BackgroundColorLight = () => {
 						<ColorSwatch
 							key={color.name}
 							component="button"
-							color={color.color}
-							onClick={() => setToggleColor(color.color)}
+							color={color.value}
+							onClick={() => setToggleColor({ name: color.name.toLowerCase(), value: color.value })}
 							size={20}
-							sx={{ color: '#fff', cursor: 'pointer' }}
+							sx={{ value: '#fff', cursor: 'pointer' }}
 						>
-							{color.color === toggleColor && <CheckIcon width={10} />}
+							{color.value === toggleColor.value && <CheckIcon width={10} />}
 						</ColorSwatch>
 					))
 				}
 			</Group>
-			<Text size="xs" color="dimmed">{capitalizeFirstLetter(colors.find(color => color.color == toggleColor)?.name ?? "")}</Text>
+			<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor.name)}</Text>
 		</MyPanel >
 	)
 }
@@ -140,22 +140,22 @@ const BackgroundColorLight = () => {
 
 const BackgroundColorDark = () => {
 	const settings = useSettings()
-	const [toggleColor, setToggleColor] = useState(settings.backgroundColorDark)
+	const [toggleColor, setToggleColor] = useState<MyColor>(settings.backgroundColorDark)
 	const theme = useMantineTheme()
 	const colors = [
-		{ toggle: false, name: "Black", color: theme.colors.dark[7] },
-		{ toggle: false, name: "Red", color: theme.colors.red[9] },
-		{ toggle: false, name: "Pink", color: theme.colors.pink[9] },
-		{ toggle: false, name: "Grape", color: theme.colors.grape[9] },
-		{ toggle: false, name: "Violet", color: theme.colors.violet[9] },
-		{ toggle: false, name: "Indigo", color: theme.colors.indigo[9] },
-		{ toggle: false, name: "Blue", color: theme.colors.blue[9] },
-		{ toggle: false, name: "Cyan", color: theme.colors.cyan[9] },
-		{ toggle: false, name: "Teal", color: theme.colors.teal[9] },
-		{ toggle: false, name: "Green", color: theme.colors.green[9] },
-		{ toggle: false, name: "Lime", color: theme.colors.lime[9] },
-		{ toggle: false, name: "Yellow", color: theme.colors.yellow[9] },
-		{ toggle: false, name: "Orange", color: theme.colors.orange[9] },
+		{ toggle: false, name: "Black", value: theme.colors.dark[7] },
+		{ toggle: false, name: "Red", value: theme.colors.red[9] },
+		{ toggle: false, name: "Pink", value: theme.colors.pink[9] },
+		{ toggle: false, name: "Grape", value: theme.colors.grape[9] },
+		{ toggle: false, name: "Violet", value: theme.colors.violet[9] },
+		{ toggle: false, name: "Indigo", value: theme.colors.indigo[9] },
+		{ toggle: false, name: "Blue", value: theme.colors.blue[9] },
+		{ toggle: false, name: "Cyan", value: theme.colors.cyan[9] },
+		{ toggle: false, name: "Teal", value: theme.colors.teal[9] },
+		{ toggle: false, name: "Green", value: theme.colors.green[9] },
+		{ toggle: false, name: "Lime", value: theme.colors.lime[9] },
+		{ toggle: false, name: "Yellow", value: theme.colors.yellow[9] },
+		{ toggle: false, name: "Orange", value: theme.colors.orange[9] },
 	]
 
 	useEffect(() => {
@@ -170,17 +170,17 @@ const BackgroundColorDark = () => {
 						<ColorSwatch
 							key={color.name}
 							component="button"
-							color={color.color}
-							onClick={() => setToggleColor(color.color)}
+							color={color.value}
+							onClick={() => setToggleColor({ name: color.name.toLowerCase(), value: color.value })}
 							size={20}
-							sx={{ color: '#fff', cursor: 'pointer' }}
+							sx={{ value: '#fff', cursor: 'pointer' }}
 						>
-							{color.color === toggleColor && <CheckIcon width={10} />}
+							{color.value === toggleColor.value && <CheckIcon width={10} />}
 						</ColorSwatch>
 					))
 				}
 			</Group>
-			<Text size="xs" color="dimmed">{capitalizeFirstLetter(colors.find(color => color.color == toggleColor)?.name ?? "")}</Text>
+			<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor.name)}</Text>
 		</MyPanel >
 	)
 }
@@ -204,5 +204,13 @@ const Columns = () => {
 		<Checkbox label="Hide create category button " checked={settings.hideCreateColumnButton} onChange={(event) => settings.setHideCreateColumnButton(event.currentTarget.checked)} />
 		</MyPanel>
 
+	)
+}
+
+
+const AccentColorElements = () => {
+	const settings = useSettings()
+	return (
+		<Checkbox label="Webs and categories with accent color (light theme only)" checked={settings.accentColorElements} onChange={(event) => settings.setAccentColorElements(event.currentTarget.checked)} />
 	)
 }
