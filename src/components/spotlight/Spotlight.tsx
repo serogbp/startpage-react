@@ -19,7 +19,7 @@ export function Spotlight(props: any) {
 		return {
 			title: web.name,
 			description: `${web.url} ${web.tags}`,
-			group: "Recent opened webs",
+			group: "Webs",
 			onTrigger: () => board.web.open(web, category),
 			icon: <Link size={18} />,
 			web: web,
@@ -121,7 +121,6 @@ export function Spotlight(props: any) {
 			shortcut={['mod + P', 'mod + K', '/']}
 			nothingFoundMessage="Nothing found..."
 			highlightQuery
-			centered
 			limit = {LIMIT_OF_ACTIONS_ON_SCREEN}
 			filter={(query, actions) => customBasicFilter(query, actions)}
 		>
