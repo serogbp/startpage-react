@@ -1,7 +1,7 @@
-import { Button, Checkbox, Text, useMantineTheme, Group } from "@mantine/core";
+import { Button, Checkbox, Text, useMantineTheme, Group, Alert } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { useState } from "react";
-import { Download, Upload, X } from "tabler-icons-react";
+import { AlertTriangle, Download, Upload, X } from "tabler-icons-react";
 import { useBoard } from "../../../hooks/useBoard/UseBoard";
 import { useSettings } from "../../../hooks/UseSettings";
 import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip";
@@ -24,6 +24,7 @@ export default function AppSettingsData() {
 
 const Export = () => {
 	const board = useBoard()
+	const theme = useMantineTheme()
 
 	const handleClick = () => {
 		board.json.exportFile()
@@ -40,6 +41,9 @@ const Export = () => {
 				Export webs
 			</Button>
 			<Text size="xs" color="dimmed">Export your webs in .json format</Text>
+			<Alert color="yellow" icon={<AlertTriangle color={theme.colors.yellow[6]} />} title="Make frequent backups">
+				The webs are saved in the localStorage of the browser. It is very easy to lose data in this type of storage (e.g. by clearing the browser cache). So it is advisable to make frequent backups.
+			</Alert>
 		</MyPanel>
 	)
 }
@@ -61,6 +65,9 @@ const Import = () => {
 
 	return (
 		<MyPanel title={"Import"}>
+			<Checkbox label="Keep your current webs" checked={settings.keepWebsWhenImport} onChange={(event) => settings.setKeepWebsWhenImport(event.currentTarget.checked)} />
+			<Text size="xs" color="dimmed">{settings.keepWebsWhenImport ? "Your saved webs will not be deleted" : "Your saved webs will be replaced with the imported ones"}</Text>
+
 			<Dropzone
 				loading={loading}
 				onDrop={(files) => handleDrop(files)}
@@ -96,10 +103,6 @@ const Import = () => {
 
 				</Group>
 			</Dropzone>
-
-			<Checkbox label="Keep your current webs" checked={settings.keepWebsWhenImport} onChange={(event) => settings.setKeepWebsWhenImport(event.currentTarget.checked)} />
-			<Text size="xs" color="dimmed">{settings.keepWebsWhenImport ? "Your webs will not be deleted" : "Your webs will be replaced with the imported ones"}</Text>
-
 		</MyPanel>
 	)
 }

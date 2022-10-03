@@ -66,7 +66,7 @@ const defaultSettings = {
 	accentColor: {name: "blue", value: "#339af0"},
 	backgroundColorLight: {name: "blue", value: "#74c0fc"},
 	backgroundColorDark: {name: "dark", value: "#141517"},
-	keepWebsWhenImport: true,
+	keepWebsWhenImport: false,
 	columnWidth: 250,
 	hideEmptyColumns: false,
 	hideCreateColumnButton: false
