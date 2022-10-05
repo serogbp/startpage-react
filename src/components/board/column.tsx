@@ -32,9 +32,10 @@ const Column = memo((props: Props) => {
 	const theme = useMantineTheme()
 
 	const backgroundColor = (() => {
-		let color = theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1]
+		const dark = 7
+		let color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors.gray[1]
 		if (settings.accentColorElements) {
-			color = theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors[settings.accentColor.name][1]
+			color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors[settings.accentColor.name][1]
 		}
 		return color
 	})()

@@ -62,9 +62,10 @@ const ColumnItem = memo((props: Props) => {
 
 	const theme = useMantineTheme()
 	const backgroundColor = (()=> {
-		let color = theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white
+		const dark = 6
+		let color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.white
 		if (settings.accentColorElements) {
-			color = theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors[settings.accentColor.name][0]
+			color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors[settings.accentColor.name][0]
 		}
 		return color
 	})()

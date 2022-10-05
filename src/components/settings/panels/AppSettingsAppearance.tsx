@@ -143,7 +143,7 @@ const BackgroundColorDark = () => {
 	const [toggleColor, setToggleColor] = useState<MyColor>(settings.backgroundColorDark)
 	const theme = useMantineTheme()
 	const colors = [
-		{ toggle: false, name: "Black", value: theme.colors.dark[7] },
+		{ toggle: false, name: "Black", value: theme.colors.dark[8] },
 		{ toggle: false, name: "Red", value: theme.colors.red[9] },
 		{ toggle: false, name: "Pink", value: theme.colors.pink[9] },
 		{ toggle: false, name: "Grape", value: theme.colors.grape[9] },
