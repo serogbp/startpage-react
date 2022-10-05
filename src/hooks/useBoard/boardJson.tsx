@@ -1,96 +1,100 @@
-import { JsonContent, JsonContentDeprecated, Web } from "../../Types"
-import onlyUnique, { download } from "../../utils/utils"
-import { defaultWeb } from "./UseBoard"
-
-const WEBS = 'webs'
+import { JsonContent, JsonContentLegacy, Web } from "../../Types"
+import onlyUnique, { download, LOCAL_STORAGE_USER_DATA, removeLastSlash } from "../../utils/utils"
+import { defaultJsonContent, defaultWeb } from "./UseBoard"
 
 
 export interface BoardJson {
 	exportFile: () => void
-    importFile: (json: File) => Promise<unknown>
+	importFile: (json: File) => Promise<unknown>
 }
 
 
-export function boardJson (state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void) : BoardJson {
+export function boardJson(state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void): BoardJson {
 	const exportFile = () => {
 		const date = new Date()
 		// File name format yyyy-mm-dd-startpage.json
-		const fileName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-startpage.json"
-		const data = localStorage.getItem(WEBS) ?? ""
+		const fileName = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-startpage-react.json"
+		const data = localStorage.getItem(LOCAL_STORAGE_USER_DATA) ?? ""
 		download(data, fileName, "text/plain")
 	}
 
 
 	const importFile = (json: File) => {
 		return new Promise((resolve, reject) => {
-			json.text().then((value) => {
-				// Coger localhost actual, si no hay se coge un valor por defecto
-				const lsWebs = localStorage.getItem(WEBS)
-				const currentWebs: JsonContent = lsWebs ? JSON.parse(lsWebs) : defaultWeb
+			json.text().then((newJsonContent) => {
+				try {
+					const lsWebs = localStorage.getItem(LOCAL_STORAGE_USER_DATA)
+					const currentJsonContent: JsonContent = lsWebs ? JSON.parse(lsWebs) : defaultJsonContent
 
-				const importedJson = JSON.parse(value)
-				// Mirar si el json importado es de la version pre-react de startpage
-				// const websToImport = Object.hasOwn(importedJson, "jsonVersion") ? importedJson : convertJsonToNewFormat(importedJson, maxIndex)
-				// Es JSON de versión actual
-				if (Object.hasOwn(importedJson, "jsonVersion")) {
-					const websToImport = importedJson as JsonContent
-					// Merge favoreciendo los datos de las webs que ya había
-					const newState = {
-						...currentWebs,
-						webs: { ...currentWebs.webs, ...websToImport.webs },
-						categories: { ...currentWebs.categories, ...websToImport.categories },
-						categoryOrder: [...currentWebs.categoryOrder, ...websToImport.categoryOrder],
+					const importedJson: JsonContent | JsonContentLegacy[] = JSON.parse(newJsonContent)
+					// Mirar si el json importado es de la version pre-react de startpage
+					// Es JSON de versión actual
+					if (Object.hasOwn(importedJson, "jsonVersion")) {
+						setState(importedJson as JsonContent)
 					}
-					localStorage.setItem(WEBS, JSON.stringify(newState))
-					setState(newState)
+					// Es JSON versión pre-react
+					else {
+						setState(importLegacyJson(importedJson as JsonContentLegacy[], currentJsonContent))
+					}
+
 					resolve("")
-				}
-
-				// Es JSON versión pre-react
-				else {
-					// Número de index mayor del array de webs
-					const maxIndex = Math.max(...currentWebs.webs.map(web => web.id))
-
-					let websToImport = importedJson as JsonContentDeprecated[]
-					// Quitar urls duplicados
-					websToImport = websToImport.filter(x => !(currentWebs.webs.map(y => y.url).includes(x.url)))
-
-					// Añadir categorías del json deprecado, después filtrar valores únicos
-					const newCategoryOrder = [...currentWebs.categoryOrder, ...websToImport.map(web => web.category)].filter(onlyUnique)
-
-					const newCategories = { ...currentWebs.categories }
-					// Añadir categorías del json deprecado que no existan en el actual
-					newCategoryOrder.forEach(category => {
-						if (!Object.prototype.hasOwnProperty.call(currentWebs.categories.hasOwnProperty, "category")) {
-							newCategories[category] = {
-								id: category,
-								webIds: []
-							}
-						}
-					})
-
-					const newWebs = [...currentWebs.webs]
-
-					// Para cada nueva web:
-					// Añadir el id al objeto correspondiente dentro de newCategories
-					// Añadir la web al array de newWebs
-					websToImport.forEach((web, i) => {
-						const newWeb: Web = {
-							...defaultWeb,
-							id: i + 1 + maxIndex,
-							url: web.url
-						}
-						newCategories[web.category].webIds.push(newWeb.id)
-						newWebs.push(newWeb)
-					})
-
+				} catch (error) {
+					reject(error)
 				}
 			})
 		})
 	}
-
-
 	return {
 		exportFile, importFile
 	}
+}
+
+
+function importLegacyJson(importedJson: JsonContentLegacy[], currentJsonContent: JsonContent) {
+	let websToImport = importedJson
+	// Quitar urls duplicados
+	websToImport = websToImport.filter(x => !(Object.values(currentJsonContent.webs).map(y => y.url).includes(x.url)))
+
+	// Añadir categorías del json deprecado y después filtrar valores únicos
+	const newCategoryOrder = [...currentJsonContent.categoryOrder, ...websToImport.map(web => web.category)].filter(onlyUnique)
+
+	const newCategories = { ...currentJsonContent.categories }
+	// Añadir categorías del json deprecado que no existan en el actual
+	newCategoryOrder.forEach(category => {
+		if (!Object.hasOwn(currentJsonContent.categories, category)) {
+			newCategories[category] = {
+				id: category,
+				webIds: []
+			}
+		}
+	})
+
+	const len = Object.keys(currentJsonContent.webs).length
+	// Número de index mayor del array de webs
+	const maxIndex = len > 0 ? Math.max(...Object.values(currentJsonContent.webs).map(web => web.id)) : 0
+
+	const newWebs = { ...currentJsonContent.webs }
+	// Para cada nueva web:
+	// Añadir el id al objeto correspondiente dentro de newCategories
+	// Añadir la web al array de newWebs
+	websToImport.forEach((web, i) => {
+		const id = i + maxIndex
+		const newWeb: Web = {
+			...defaultWeb,
+			id: id,
+			url: web.url,
+			name: web.name
+		}
+		newCategories[web.category].webIds.push(id)
+		newWebs[id] = newWeb
+	})
+
+	const newState = {
+		...defaultJsonContent,
+		webs: newWebs,
+		categories: newCategories,
+		categoryOrder: newCategoryOrder
+	}
+
+	return newState
 }

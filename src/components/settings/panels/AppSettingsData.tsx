@@ -65,9 +65,6 @@ const Import = () => {
 
 	return (
 		<MyPanel title={"Import"}>
-			<Checkbox label="Keep your current webs" checked={settings.keepWebsWhenImport} onChange={(event) => settings.setKeepWebsWhenImport(event.currentTarget.checked)} />
-			<Text size="xs" color="dimmed">{settings.keepWebsWhenImport ? "Your saved webs will not be deleted" : "Your saved webs will be replaced with the imported ones"}</Text>
-
 			<Dropzone
 				loading={loading}
 				onDrop={(files) => handleDrop(files)}
@@ -103,6 +100,9 @@ const Import = () => {
 
 				</Group>
 			</Dropzone>
+			{/* TODO decidir que hacer con esto */}
+			{/* <Checkbox label="Keep your current webs" checked={settings.keepWebsWhenImport} onChange={(event) => settings.setKeepWebsWhenImport(event.currentTarget.checked)} /> */}
+			<Text size="xs" color="dimmed">{settings.keepWebsWhenImport ? "Your saved webs will not be deleted" : "Your saved webs will be replaced with the imported ones"}</Text>
 		</MyPanel>
 	)
 }
