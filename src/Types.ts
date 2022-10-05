@@ -8,7 +8,7 @@ export interface JsonContent {
 }
 
 
-export interface JsonContentDeprecated {
+export interface JsonContentLegacy {
 	name: string,
 	category: string,
 	url: string

@@ -6,6 +6,7 @@ import { Web } from "../Types"
 const os = useOs();
 
 export const VERSION = "v1.0"
+export const LOCAL_STORAGE_USER_DATA = "user-data"
 
 // Uso: array.filter(onlyUnique)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

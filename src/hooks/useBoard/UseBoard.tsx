@@ -6,6 +6,7 @@ import { BoardJson, boardJson } from "./boardJson"
 import { BoardCategory, boardCategory } from "./boardCategory"
 import { BoardDnd, boardDnd } from "./boardDnd"
 import { getInitialData } from "../../test"
+import { LOCAL_STORAGE_USER_DATA } from "../../utils/utils"
 
 
 interface BoardHelper {
@@ -36,7 +37,7 @@ export function useBoard() {
 
 function boardHelper() {
 	const [state, setState] = useLocalStorage({
-		key: "webs",
+		key: LOCAL_STORAGE_USER_DATA,
 		defaultValue: getInitialData()
 	})
 
