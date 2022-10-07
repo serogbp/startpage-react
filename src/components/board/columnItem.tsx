@@ -129,7 +129,7 @@ const ColumnItem = memo((props: Props) => {
 
 						<Tooltip
 							label={props.web.url}
-							color={settings.accentColor.name.toLowerCase()}
+							color={settings.accentColor.name}
 							position="bottom"
 							withArrow
 							openDelay={200}

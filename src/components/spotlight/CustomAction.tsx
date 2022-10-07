@@ -103,7 +103,7 @@ function CustomActionWeb({ action, styles, classNames, hovered, onTrigger, highl
 									<Group spacing="xs">
 										{
 											action.web.tags.map((tag: string) =>
-												<Text key={tag} size="xs" color={settings.accentColor} >
+												<Text key={tag} size="xs" color={settings.accentColor.name} >
 													<Highlight highlightColor={highlightColor} highlight={highlightQuery ? query : []}>
 														{"#" + tag}
 													</Highlight>
