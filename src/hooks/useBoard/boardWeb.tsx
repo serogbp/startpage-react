@@ -1,5 +1,5 @@
 import { JsonContent, Web } from "../../Types"
-import onlyUnique, { removeLastSlash } from "../../utils/utils"
+import onlyUnique, { removeLastSlash, sleep } from "../../utils/utils"
 
 export interface BoardWeb {
 	add: (web: Web, category: string) => void
@@ -113,6 +113,8 @@ export function boardWeb(state: JsonContent, setState: (val: JsonContent | ((pre
 		link.href = web.url
 		link.rel = "noopener noreferrer nofollow"
 		link.click()
+
+		sleep(1) // Hack para que abra el enlace inmediatamente en vez de esperar a que haga el update de la web
 
 		// Actualizar stats de la web
 		const newWeb: Web = {
