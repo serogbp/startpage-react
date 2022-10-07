@@ -51,8 +51,8 @@ export default function EmptyState() {
 						{/* <Text>With the search bar you can open your saved webs, add new ones or access the settings.</Text> */}
 						<Text>The Command Bar is a widget that let you do many things:</Text>
 						<List  size="sm" withPadding>
-							<List.Item>Save webs and categories </List.Item>
-							<List.Item>Search and open your saved webs </List.Item>
+							<List.Item>Add new bookmarks and categories</List.Item>
+							<List.Item>Search and open your saved bookmarks</List.Item>
 							<List.Item>Open the settings </List.Item>
 						</List>
 						<Space h="md" />

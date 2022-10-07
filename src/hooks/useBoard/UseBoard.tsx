@@ -38,7 +38,7 @@ export function useBoard() {
 function boardHelper() {
 	const [state, setState] = useLocalStorage({
 		key: LOCAL_STORAGE_USER_DATA,
-		defaultValue: getInitialData()
+		defaultValue: defaultJsonContent
 	})
 
 	const defaultState = () => setState(defaultJsonContent)

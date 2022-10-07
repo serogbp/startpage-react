@@ -56,12 +56,18 @@ export function Spotlight(props: any) {
 	webActions.splice(LIMIT_OF_ACTIONS_ON_SCREEN - fixedActions.length, 0, ...fixedActions)
 
 
+	const fuzzysortKeys = [
+		"title",
+		"description",
+		// "category",
+		// "web.tags"
+	]
 	// Filtrar usando fuzzy search y ordenar por el fuzzy search score
 	// Si es web, filtra por nombre, url, categoría y tags
 	// Si es una acción de la app, filtra por title y description
 	function customBasicFilter(query: string, actions: SpotlightAction[]) {
 		if (query === "") return actions
-		return fuzzysort.go(query, actions, {limit: LIMIT_OF_ACTIONS_ON_SCREEN, keys: ["title", "description", "category", "web.tags"]}).map(result => result.obj)
+		return fuzzysort.go(query, actions, {limit: LIMIT_OF_ACTIONS_ON_SCREEN, keys: fuzzysortKeys}).map(result => result.obj)
 	}
 
 
@@ -121,6 +127,7 @@ export function Spotlight(props: any) {
 			shortcut={['mod + P', 'mod + K', '/']}
 			nothingFoundMessage="Nothing found..."
 			highlightQuery
+			
 			limit = {LIMIT_OF_ACTIONS_ON_SCREEN}
 			filter={(query, actions) => customBasicFilter(query, actions)}
 		>
