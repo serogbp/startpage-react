@@ -39,7 +39,7 @@ const Column = memo((props: Props) => {
 		}
 		return color
 	})()
-	const { classes } = useStyles({backgroundColor})
+	const { classes } = useStyles({ backgroundColor })
 
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
@@ -47,10 +47,12 @@ const Column = memo((props: Props) => {
 				<div
 					{...provided.draggableProps}
 					ref={provided.innerRef}
-					style={{width:settings.columnWidth}}
-					>
+				>
 
-					<div className={classes.column}>
+					<div
+						className={classes.column}
+						style={{ width: settings.columnWidth }}
+					>
 						<ColumnTitle name={props.name} dragHandleProps={provided.dragHandleProps} />
 						{props.children}
 					</div>
