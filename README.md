@@ -6,8 +6,6 @@
 
 ## Description
 
----
-
 Startpage is a **Kanban-like bookmark manager** where you can:
 
 - Organize your bookmarks with drag and drop
@@ -19,8 +17,7 @@ This is the new and improved version of [vanilla js Startpage](https://github.co
 
 Developed using:
 
-- [React](https://reactjs.org/)
-- [Typescript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/) + [Typescript](https://www.typescriptlang.org/) + [Vite](https://vitejs.dev/)
 - [Mantine UI](https://mantine.dev/)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [Virtuoso](https://virtuoso.dev/)
@@ -28,8 +25,6 @@ Developed using:
 - [signal-js](https://github.com/JosephClay/signal-js)
 
 ## Features
-
----
 
 - Command bar: filter bookmarks by name and url using fuzzy search
 - Rearrange bookmarks and categories with drag and drop

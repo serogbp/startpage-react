@@ -114,19 +114,20 @@ export function boardWeb(state: JsonContent, setState: (val: JsonContent | ((pre
 		link.rel = "noopener noreferrer nofollow"
 		link.click()
 
-		sleep(1) // Hack para que abra el enlace inmediatamente en vez de esperar a que haga el update de la web
-
-		// Actualizar stats de la web
-		const newWeb: Web = {
-			...web,
-			stats: {
-				...web.stats,
-				timesClicked: web.stats.timesClicked + 1,
-				lastClickTimestamp: Date.now()
+		// Hack para que abra el enlace inmediatamente en vez de esperar a que haga el update de la web
+		sleep(1).then(() => {
+			// Actualizar stats de la web
+			const newWeb: Web = {
+				...web,
+				stats: {
+					...web.stats,
+					timesClicked: web.stats.timesClicked + 1,
+					lastClickTimestamp: Date.now()
+				}
 			}
-		}
 
-		update(newWeb, category, category)
+			update(newWeb, category, category)
+		})
 	}
 
 
