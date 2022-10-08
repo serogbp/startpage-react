@@ -5,7 +5,6 @@ import { boardWeb, BoardWeb, } from "./boardWeb"
 import { BoardJson, boardJson } from "./boardJson"
 import { BoardCategory, boardCategory } from "./boardCategory"
 import { BoardDnd, boardDnd } from "./boardDnd"
-import { getInitialData } from "../../test"
 import { LOCAL_STORAGE_USER_DATA } from "../../utils/utils"
 
 
