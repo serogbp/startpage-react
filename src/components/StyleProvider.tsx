@@ -15,6 +15,9 @@ export default function StyleProvider({ children }: { children: JSX.Element | JS
 		settings.setColorScheme(colorScheme)
 	}, [colorScheme])
 
+	useEffect(() => {
+		if (settings.useSystemTheme) setColorScheme(preferredColorScheme)
+	}, [preferredColorScheme])
 
 	const toggleColorScheme = (value?: ColorScheme) => {
 		const newValue = value || (colorScheme === 'dark' ? 'light' : 'dark')
