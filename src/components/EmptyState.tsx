@@ -49,7 +49,7 @@ export default function EmptyState() {
 
 					<Alert icon={<Text className={classes.icon}>💡</Text>} title="Command bar">
 						{/* <Text>With the search bar you can open your saved webs, add new ones or access the settings.</Text> */}
-						<Text>The Command Bar is a widget that let you do many things:</Text>
+						<Text>The Command Bar is a widget that lets you do many things:</Text>
 						<List  size="sm" withPadding>
 							<List.Item>Add new bookmarks and categories</List.Item>
 							<List.Item>Search and open your saved bookmarks</List.Item>
