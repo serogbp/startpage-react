@@ -1,6 +1,6 @@
 # startpage-react
 
-![version](https://img.shields.io/badge/version-v1.0-blue)
+![version](https://img.shields.io/badge/version-v1.0.1-blue)
 
 ![overview](readme_files/starpage-react-overview.gif)
 
