@@ -27,6 +27,10 @@ interface SettingsHelper {
 	setHideEmptyColumns: (val: boolean | ((prevState: boolean) => boolean)) => void
 	hideCreateColumnButton: boolean
 	setHideCreateColumnButton: (val: boolean | ((prevState: boolean) => boolean)) => void
+	useWebFavicon: boolean
+	setUseWebFavicon: (val: boolean | ((prevState: boolean) => boolean)) => void
+	webFaviconSize: number
+	setWebFaviconSize: (val: number | ((prevState: number) => number)) => void
 }
 
 
@@ -55,7 +59,9 @@ enum SettingsJsonNames {
 	keepWebsWhenImport = "keep-webs-when-import",
 	columnWidth = "column-width",
 	hideEmptyColumns = "hide-empty-columns",
-	hideCreateColumnButton = "hide-create-column-button"
+	hideCreateColumnButton = "hide-create-column-button",
+	useWebFavicon = "use-web-favicon",
+	webFaviconSize = "web-favicon-size"
 }
 
 
@@ -69,7 +75,9 @@ const defaultSettings = {
 	keepWebsWhenImport: false,
 	columnWidth: 250,
 	hideEmptyColumns: false,
-	hideCreateColumnButton: false
+	hideCreateColumnButton: false,
+	useWebFavicon: true,
+	webFaviconSize: 32
 }
 
 
@@ -124,6 +132,15 @@ function settingsHelper() {
 		defaultValue: defaultSettings.hideCreateColumnButton
 	})
 
+	const [useWebFavicon, setUseWebFavicon] = useLocalStorage<boolean>({
+		key: SettingsJsonNames.useWebFavicon,
+		defaultValue: defaultSettings.useWebFavicon
+	})
+
+	const [webFaviconSize, setWebFaviconSize] = useLocalStorage<number>({
+		key: SettingsJsonNames.webFaviconSize,
+		defaultValue: defaultSettings.webFaviconSize
+	})
 
 	useEffect(() => {
 		signalJs.emit(Signals.toggleColorScheme, colorScheme)
@@ -156,6 +173,10 @@ function settingsHelper() {
 		hideEmptyColumns,
 		setHideEmptyColumns,
 		hideCreateColumnButton,
-		setHideCreateColumnButton
+		setHideCreateColumnButton,
+		useWebFavicon,
+		setUseWebFavicon,
+		webFaviconSize,
+		setWebFaviconSize
 	})
 }

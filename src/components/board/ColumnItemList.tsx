@@ -3,8 +3,9 @@ import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import { Virtuoso } from "react-virtuoso"
 import { useSettings } from "../../hooks/UseSettings"
-import ColumnItem from "./ColumnItem"
+
 import { useStyles } from "../../hooks/UseStyles"
+import ColumnItem from "../columnItem/ColumnItem"
 
 
 interface Props {

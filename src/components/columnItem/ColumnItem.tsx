@@ -1,10 +1,14 @@
-import { ActionIcon, Box, Card, Stack, Text, Tooltip, Group, useMantineTheme, createStyles } from "@mantine/core"
+import { Image, ActionIcon, Box, Card, Stack, Text, Tooltip, Group, useMantineTheme, createStyles } from "@mantine/core"
 import { memo, useEffect, useRef, useState } from "react"
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
 import { Web } from "../../Types"
+import { getDomain } from "../../utils/utils"
+import Body from "./Body"
+import Favicon from "./Favicon"
+import Tags from "./Tags"
 
 
 interface Props {
@@ -19,7 +23,7 @@ interface PropsStyle {
 }
 
 const useStyles = createStyles((theme, { backgroundColor, border, backgroundColorHover }: PropsStyle, getRef) => ({
-	columnItem_Card: {
+	card: {
 		backgroundColor: backgroundColor,
 		border: border,
 		padding: theme.spacing.md,
@@ -30,20 +34,26 @@ const useStyles = createStyles((theme, { backgroundColor, border, backgroundColo
 			backgroundColor: backgroundColorHover
 		},
 	},
-	columnItem_Name: {
+	card_container: {
+		flexWrap: "nowrap",
+	},
+	text: {
+
+	},
+	text_name: {
 		overflowWrap: "break-word"
 	},
-	columnItem_Url: {
+	text_url: {
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		textOverflow: "ellipsis",
 	},
-	columItem_Tag: {
+	text_tags: {
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		textOverflow: "ellipsis",
 	},
-	columnItem_Settings: {
+	settings: {
 		position: "absolute",
 		top: 0,
 		right: 0,
@@ -55,13 +65,10 @@ const ColumnItem = memo((props: Props) => {
 	const settings = useSettings()
 	const board = useBoard()
 	const modal = useModal
-
 	const [hover, setHover] = useState(false)
-	const [urlIsLong, setUrlsIsLong] = useState(false)
-	const urlRef = useRef(null)
 
 	const theme = useMantineTheme()
-	const backgroundColor = (()=> {
+	const backgroundColor = (() => {
 		const dark = 6
 		let color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.white
 		if (settings.accentColorElements) {
@@ -69,8 +76,8 @@ const ColumnItem = memo((props: Props) => {
 		}
 		return color
 	})()
-	const border = (()=> {
-		let border = theme.colorScheme === 'dark' ? `1px solid ${theme.colors.gray[8]}` :	 `1px solid ${theme.colors.gray[2]}`
+	const border = (() => {
+		let border = theme.colorScheme === 'dark' ? `1px solid ${theme.colors.gray[8]}` : `1px solid ${theme.colors.gray[2]}`
 		if (settings.accentColorElements) {
 			border = theme.colorScheme === 'dark' ? `1px solid ${theme.colors.gray[8]}` : `1px solid ${theme.colors[settings.accentColor.name][2]}`
 		}
@@ -83,20 +90,7 @@ const ColumnItem = memo((props: Props) => {
 		}
 		return color
 	})()
-	const { classes } = useStyles({backgroundColor, border, backgroundColorHover})
-
-
-	useEffect(() => {
-		handleUrlTooltip()
-	}, [hover])
-
-
-	// Mirar si la url tiene overflow (termina el elipsis ...) para activar el tooltip
-	const handleUrlTooltip = () => {
-		if (urlRef.current)
-			// @ts-ignore
-			setUrlsIsLong(urlRef.current.offsetWidth < urlRef.current.scrollWidth)
-	}
+	const { classes } = useStyles({ backgroundColor, border, backgroundColorHover })
 
 
 	const handleClick = () => {
@@ -115,54 +109,32 @@ const ColumnItem = memo((props: Props) => {
 	return (
 		<Card
 			radius="sm"
-			className={classes.columnItem_Card}
+			p='xs'
+			className={classes.card}
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
 			onClick={() => handleClick()}
 		>
-			<Card.Section>
-				<Stack spacing="sm" p="sm">
-					<div>
-						<Text weight={500} size="sm" className={classes.columnItem_Name}>
-							{props.web.name}
-						</Text>
 
-						<Tooltip
-							label={props.web.url}
-							color={settings.accentColor.name}
-							position="bottom"
-							withArrow
-							openDelay={200}
-							events={{ hover: urlIsLong, focus: urlIsLong, touch: false }}
-							withinPortal={true}
-						>
-							<Text size="xs" color="dimmed" className={classes.columnItem_Url} ref={urlRef}>
-								{props.web.url}
-							</Text>
-						</Tooltip>
-					</div>
+			<Group spacing="xs" style={{
+				flexWrap: "nowrap",
 
-					{props.web.tags.length > 0 &&
-						<Group spacing="xs">
-							{
-								props.web.tags.map((tag: string) =>
-									<Text key={tag} size="xs" color={settings.accentColor.value} className={classes.columItem_Tag}>
-										{"#" + tag}
-									</Text>
-								)
-							}
-						</Group>
-					}
+			}}>
+				{
+					settings.useWebFavicon && <Favicon url={props.web.url} size={settings.webFaviconSize}/>
+				}
+				<Body web={props.web} hover={hover}/>
+			</Group>
 
-					<Box hidden={!hover} className={classes.columnItem_Settings}>
-						<ActionIcon onClick={handleClickSettings} variant="light" >
-							<Pencil size={16} />
-						</ActionIcon>
-					</Box>
+			<Card.Section><Tags web={props.web} /></Card.Section>
 
-				</Stack>
-			</Card.Section>
-		</Card>
+			<Box hidden={!hover} className={classes.settings}>
+				<ActionIcon onClick={handleClickSettings} variant="light" >
+					<Pencil size={16} />
+				</ActionIcon>
+			</Box>
+
+		</Card >
 	)
 })
 

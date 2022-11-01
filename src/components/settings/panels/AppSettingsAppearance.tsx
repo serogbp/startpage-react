@@ -19,6 +19,8 @@ export default function AppSettingsAppearance() {
 			<AccentColor />
 			<MyDivider />
 			<Columns />
+			<MyDivider />
+			<Webs />
 		</>
 	)
 }
@@ -84,7 +86,7 @@ const AccentColor = () => {
 				}
 			</Group>
 			<Text size="xs" color="dimmed">{capitalizeFirstLetter(toggleColor.name)}</Text>
-			<AccentColorElements/>
+			<AccentColorElements />
 		</MyPanel >
 	)
 }
@@ -200,10 +202,27 @@ const Columns = () => {
 				]}
 			/>
 
-		<Checkbox label="Hide empty categories" checked={settings.hideEmptyColumns} onChange={(event) => settings.setHideEmptyColumns(event.currentTarget.checked)} />
-		<Checkbox label="Hide create category button " checked={settings.hideCreateColumnButton} onChange={(event) => settings.setHideCreateColumnButton(event.currentTarget.checked)} />
+			<Checkbox label="Hide empty categories" checked={settings.hideEmptyColumns} onChange={(event) => settings.setHideEmptyColumns(event.currentTarget.checked)} />
+			<Checkbox label="Hide create category button " checked={settings.hideCreateColumnButton} onChange={(event) => settings.setHideCreateColumnButton(event.currentTarget.checked)} />
 		</MyPanel>
 
+	)
+}
+
+
+const Webs = () => {
+	const settings = useSettings()
+	return (
+		<MyPanel title="Webs">
+			<Checkbox label="Show web favicon on the card" checked={settings.useWebFavicon} onChange={(event) => settings.setUseWebFavicon(event.currentTarget.checked)} />
+			<Select value={settings.webFaviconSize.toString()} onChange={(value: string) => settings.setWebFaviconSize(parseInt(value))} label="Favicon size"
+				data={[
+					{ value: "16", label: 'Small' },
+					{ value: "32", label: 'Medium' },
+					{ value: "64", label: 'Large' },
+				]}
+			/>
+		</MyPanel>
 	)
 }
 
