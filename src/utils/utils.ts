@@ -20,7 +20,10 @@ export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
 
 export const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/
-export const domainRegex = /^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^.:/?\n]+)?/
+
+const domainRegex = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?([^:\/?\n]+)/
+const domainNameRegex = /(?<=\.).+?(?=\.)/	// Urls without www.
+const domainNameRegexWith_www = /(?<=https?:\/\/).+?(?=\.)/	// Urls with www.
 
 
 export const capitalizeFirstLetter = (value: string): string => {
@@ -28,9 +31,16 @@ export const capitalizeFirstLetter = (value: string): string => {
 }
 
 
+export const getDomainName = (url: string): string => {
+	let match = url.match(domainNameRegex)
+	if (!match) match = url.match(domainNameRegexWith_www)
+	if (match) return capitalizeFirstLetter(match[0])
+	return ''
+}
+
 export const getDomain = (url: string): string => {
 	const match = url.match(domainRegex)
-	if (match) return capitalizeFirstLetter(match[1])
+	if (match) return match[1]
 	return ''
 }
 

@@ -2,7 +2,7 @@ import { Button, Group, MultiSelect, Select, Stack, Text, TextInput, UnstyledBut
 import { useForm } from "@mantine/form"
 import { FormEvent, memo, useEffect, useState } from "react"
 import { Web, WebFormMode } from "../../Types"
-import { getDomain, removeLastSlash, urlRegex } from "../../utils/utils"
+import { getDomainName, removeLastSlash, urlRegex } from "../../utils/utils"
 import { DeleteButtonTooltip } from "./DeleteButtonToolTip"
 import { defaultWeb, useBoard } from "../../hooks/useBoard/UseBoard"
 import { useModal } from "../../hooks/UseModal"
@@ -131,7 +131,7 @@ const WebForm = memo((props: Props) => {
 	const autoCompleteInputName = () => {
 		const { url, name } = formValues.values
 		if (urlRegex.test(url) && name === '') {
-			formValues.setFieldValue('name', getDomain(url))
+			formValues.setFieldValue('name', getDomainName(url))
 		}
 	}
 
