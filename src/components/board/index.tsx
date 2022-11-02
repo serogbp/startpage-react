@@ -6,7 +6,7 @@ import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useSettings } from "../../hooks/UseSettings"
 import { useStyles } from "../../hooks/UseStyles"
 import { ColumnAddButton } from "./ColumnAddButton"
-import Column from "./Column"
+import Column from "./column"
 
 
 // Virtuoso's resize observer can this error,
