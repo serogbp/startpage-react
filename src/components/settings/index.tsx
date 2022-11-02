@@ -7,7 +7,7 @@ import AppSettingsKeyboardShortcuts from "./panels/AppSettingsKeyboardShortcuts"
 
 export default function AppSettings() {
 	return (
-		<Tabs orientation="vertical" defaultValue={"appearance"}  >
+		<Tabs orientation="vertical" defaultValue={"appearance"}>
 			<Tabs.List>
 				<Tabs.Tab value="appearance" icon={<Photo size={16} />}>Appearance</Tabs.Tab>
 				<Tabs.Tab value="data" icon={<Database size={16} />}>Data</Tabs.Tab>
@@ -38,14 +38,13 @@ export default function AppSettings() {
 					<AppSettingsAbout />
 				</SameHeightPanel>
 			</Tabs.Panel>
-
 		</Tabs>
 	)
 }
 
 const SameHeightPanel = ({children}: {children: JSX.Element | JSX.Element[] | string}) => {
 	return(
-		<ScrollArea style={{ padding:"0 1em", minHeight:640}}>
+		<ScrollArea style={{ padding:"0 1em", height:'80vh'}}>
 			{children}
 		</ScrollArea>
 	)

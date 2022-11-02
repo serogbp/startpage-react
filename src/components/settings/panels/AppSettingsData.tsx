@@ -1,4 +1,4 @@
-import { Button, Checkbox, Text, useMantineTheme, Group, Alert } from "@mantine/core";
+import { Button, Text, useMantineTheme, Group, Alert } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { useState } from "react";
 import { AlertTriangle, Download, Upload, X } from "tabler-icons-react";

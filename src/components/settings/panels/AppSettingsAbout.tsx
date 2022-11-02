@@ -1,21 +1,26 @@
 import { Text } from "@mantine/core";
-import { Space, Title } from "@mantine/core";
+import {Card, Group, Image, Space, Title } from "@mantine/core";
 
-import { VERSION } from "../../../utils/utils";
+import Favicon from "../../columnItem/Favicon";
+import Changelog from "./Changelog";
 
 
 
 export default function AppSettingsAbout() {
-	// TODO cambiar la url
 	return (
 		<>
-			<Title>
-				StartPage React {VERSION}
-			</Title>
+			<Card withBorder>
+				<Group>
+					<Favicon url="www.github.com" size={32} />
+					<Text color="blue" component="a" href="https://github.com/serogbp/startpage-react">
+						See the code on Github
+					</Text>
+				</Group>
+			</Card>
+
 			<Space h="xl" />
-			<Text color="blue" underline component="a" href="https://mantine.dev/core/">
-				More info on Github
-			</Text>
+
+			<Changelog />
 		</>
 	)
 }
