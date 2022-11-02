@@ -21,7 +21,7 @@ export const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
 export const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[.!/\\\w]*))?)/
 
-const domainRegex = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?([^:\/?\n]+)/
+const domainRegex = /^(?:https?:\/\/)?(?:[^@/\n]+@)?([^:/?\n]+)/
 const domainNameRegex = /(?<=\.).+?(?=\.)/	// Urls without www.
 const domainNameRegexWith_www = /(?<=https?:\/\/).+?(?=\.)/	// Urls with www.
 
