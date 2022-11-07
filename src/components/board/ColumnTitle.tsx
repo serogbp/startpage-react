@@ -1,14 +1,38 @@
 import { memo, useState } from "react"
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd"
-import { ActionIcon, Box, Popover, Group, Text, CloseButton, Space } from "@mantine/core"
+import { ActionIcon, Box, Popover, Group, Text, CloseButton, Space, createStyles } from "@mantine/core"
 import { Pencil } from "tabler-icons-react"
-import { useStyles } from "../../hooks/UseStyles"
 import CategoryFormUpdate from "../form/CategoryFormUpdate"
 
 interface TitleProps {
 	name: string
 	dragHandleProps: DraggableProvidedDragHandleProps | undefined
 }
+
+
+const useStyles = createStyles((theme) => ({
+	columnTitle: {
+		textAlign: "center",
+		margin: 0,
+		padding: "1em"
+	},
+	columnTitle_Container: {
+		'&hover': {
+			backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[2],
+		}
+	},
+	columnTitle_Settings: {
+		position: "absolute",
+		top: 0,
+		right: 0,
+		padding: "1em",
+	},
+	wordBreak: {
+		wordBreak: "break-all"
+	},
+}))
+
+
 export const ColumnTitle = memo((props: TitleProps) => {
 	const [hover, setHover] = useState(false)
 	const [opened, setOpened] = useState(false) // Para el popover

@@ -1,13 +1,23 @@
-import { Button, CloseButton, Group, Popover, Space, Text } from "@mantine/core"
+import { Button, CloseButton, Group, Popover, Space, Text, createStyles } from "@mantine/core"
 import { memo, useState } from "react";
 import { WebFormMode } from "../../Types";
 import WebForm from "../form/WebForm";
-import { useStyles } from "../../hooks/UseStyles"
 import { Plus, X } from "tabler-icons-react";
 
 interface Props {
 	category: string,
 }
+
+
+const useStyles = createStyles((theme) => ({
+	columnFooter_Button: {
+		paddingTop: theme.spacing.lg,
+		paddingBottom: theme.spacing.lg,
+		height: "auto",
+		border: 0,
+	},
+}))
+
 
 const ColumnFooter = memo((props: Props) => {
 	const [opened, setOpened] = useState(false)
@@ -40,7 +50,7 @@ const ColumnFooter = memo((props: Props) => {
 				<Space h="md" />
 
 
-				<WebForm handleClose={close} mode={WebFormMode.add} category={props.category} isModal={false}/>
+				<WebForm handleClose={close} mode={WebFormMode.add} category={props.category} isModal={false} />
 
 			</Popover.Dropdown>
 		</Popover>

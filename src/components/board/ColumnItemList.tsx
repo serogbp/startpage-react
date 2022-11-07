@@ -3,16 +3,21 @@ import { Web } from "../../Types"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import { Virtuoso } from "react-virtuoso"
 import { useSettings } from "../../hooks/UseSettings"
-
-import { useStyles } from "../../hooks/UseStyles"
 import ColumnItem from "../columnItem/ColumnItem"
-
+import { createStyles } from '@mantine/core'
 
 interface Props {
 	droppableId: string,
 	webs: Web[]
 }
 
+
+const useStyles = createStyles((theme) => ({
+	columnItemList: {
+		marginLeft: ".5em",
+		marginRight: ".5em",
+	},
+}))
 
 
 const ColumnItemList = memo((props: Props) => {
@@ -66,7 +71,7 @@ const ColumnItemList = memo((props: Props) => {
 					//@ts-ignore
 					scrollerRef={provided.innerRef}
 					style={{
-						overflowY:"auto",
+						overflowY: "auto",
 						scrollbarWidth: "thin"
 					}}
 					totalCount={props.webs.length}

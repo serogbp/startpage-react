@@ -1,10 +1,9 @@
-import { Group, useMantineTheme } from "@mantine/core"
+import { Group, useMantineTheme, createStyles } from "@mantine/core"
 import { Droppable, DragDropContext } from "react-beautiful-dnd"
 import ColumnFooter from "./ColumnFooter"
 import ColumnItemList from "./ColumnItemList"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 import { useSettings } from "../../hooks/UseSettings"
-import { useStyles } from "../../hooks/UseStyles"
 import { ColumnAddButton } from "./ColumnAddButton"
 import Column from "./column"
 
@@ -20,6 +19,22 @@ window.addEventListener("error", (e) => {
 		e.stopImmediatePropagation();
 	}
 });
+
+
+const useStyles = createStyles((theme) => ({
+	boardContainer: {
+		flexWrap: "nowrap",
+		height: "100%",
+		minWidth: "100vw",
+	},
+	board: {
+		flexWrap: "nowrap",
+		height: "100%",
+	},
+	boardPadding: {
+		padding: theme.spacing.xs,
+	},
+}))
 
 
 export const Board = (() => {
