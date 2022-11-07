@@ -3,18 +3,24 @@ import {Divider, Title, Text, List, Stack } from '@mantine/core';
 export default function Changelog() {
 	const changelogArray = [
 		{
-			title: "v1.0.1",
+			title: "v1.0.0 (2022/08/8)",
+			changes: [
+				"First release 🥳"
+			]
+		},
+		{
+			title: "v1.0.1 (2022/08/22)",
 			changes: [
 				'Fix: change theme according to the device theme when the option "use system theme" is checked.'
 			]
 		},
 		{
-			title: "v1.0.2",
+			title: "v1.0.2 (2022/11/2)",
 			changes: [
 				"Show favicon of each web in the card (Settings -> Appearance -> Webs).",
 				"Improve web name suggestion when adding a new web."
 			]
-		}
+		},
 	]
 
 	// Añadir (current) al última versión
@@ -30,9 +36,9 @@ export default function Changelog() {
 					changelogArray.map(item => {
 						return (
 							<>
-								<Text size='xl'>{item.title}</Text>
+								<Text size='xl' weight='bold'>{item.title}</Text>
 								<Divider />
-								<List>
+								<List mb='md'>
 									{
 										item.changes.map((change, index) => {
 											return <List.Item key={index}> {change} </List.Item>
