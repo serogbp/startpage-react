@@ -21,6 +21,13 @@ export default function Changelog() {
 				"Improve web name suggestion when adding a new web."
 			]
 		},
+		{
+			title: "v1.1.0 (2022/11/8)",
+			changes: [
+				"Added a Navbar."
+			]
+		},
+
 	]
 
 	// Añadir (current) al última versión
