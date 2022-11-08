@@ -1,6 +1,6 @@
 import { Button, Group, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { FormEvent, useState } from "react"
+import { FormEvent } from "react"
 import { useBoard } from "../../hooks/useBoard/UseBoard"
 
 interface Props {

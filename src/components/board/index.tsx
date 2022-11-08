@@ -47,6 +47,7 @@ export const Board = (() => {
 	return (
 		<Group
 			spacing="xs"
+
 			className={[classes.boardContainer, classes.boardPadding].join(" ")}
 			style={{ backgroundColor: theme.colorScheme === 'dark' ? settings.backgroundColorDark.value : settings.backgroundColorLight.value }}
 		>
