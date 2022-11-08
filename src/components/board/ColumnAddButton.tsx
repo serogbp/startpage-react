@@ -1,5 +1,6 @@
 import { Button, Card, useMantineTheme, createStyles } from "@mantine/core"
 import { Plus } from "tabler-icons-react"
+import { backgroundColorColumn } from "../../Constants"
 import { useModal } from "../../hooks/UseModal"
 import { useSettings } from "../../hooks/UseSettings"
 
@@ -28,23 +29,15 @@ const useStyles = createStyles((theme, { backgroundColor, width }: PropsStyle, g
 export const ColumnAddButton = () => {
 	const settings = useSettings()
 	const modal = useModal
-	const theme = useMantineTheme()
 
-	const backgroundColor = (() => {
-		const dark = 7
-		let color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors.gray[1]
-		if (settings.accentColorElements) {
-			color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors[settings.accentColor.name][1]
-		}
-		return color
-	})()
+	const backgroundColor = backgroundColorColumn()
 	const { classes } = useStyles({backgroundColor, width: settings.columnWidth})
 
 	const handleClick = () => {
 		modal.category()
 	}
 
-	// Pongo el padding ahi porque en useStyles.ts lo ignora (entiendo que tiene prioridad los estilos de <Card/>)
+	// Pongo el padding ahi porque en useStyles lo ignora (entiendo que tiene prioridad los estilos de <Card/>)
 	return (
 		<Card className={classes.AddColumn} style={{ padding: 0}}>
 			<Button variant="subtle" className={classes.AddColumn_Button} onClick={handleClick}>

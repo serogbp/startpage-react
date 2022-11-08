@@ -3,6 +3,7 @@ import { Draggable } from "react-beautiful-dnd"
 import { ColumnTitle } from "./ColumnTitle"
 import { useSettings } from "../../hooks/UseSettings"
 import { useMantineTheme, createStyles } from "@mantine/core"
+import { backgroundColorColumn, columnLightBackground, StyleConstants } from "../../Constants"
 
 
 interface Props {
@@ -29,16 +30,7 @@ const useStyles = createStyles((theme, { backgroundColor }: PropsStyle, getRef) 
 
 const Column = memo((props: Props) => {
 	const settings = useSettings()
-	const theme = useMantineTheme()
-
-	const backgroundColor = (() => {
-		const dark = 7
-		let color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors.gray[1]
-		if (settings.accentColorElements) {
-			color = theme.colorScheme === 'dark' ? theme.colors.dark[dark] : theme.colors[settings.accentColor.name][1]
-		}
-		return color
-	})()
+	const backgroundColor = backgroundColorColumn()
 	const { classes } = useStyles({ backgroundColor })
 
 	return (
