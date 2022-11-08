@@ -39,18 +39,18 @@ function MainContent() {
 
 	const hasWebs = Object.keys(board.state.webs).length > 0
 	const hasCategories = board.state.categoryOrder.length > 0 && !settings.hideEmptyColumns
-	if (!hasWebs || !hasCategories) return <EmptyState />
-
 	return (
 		<AppShell
 			padding={0}
-			navbar={<NavbarMinimal/>}
+			navbar={<NavbarMinimal />}
 			styles={(theme) => ({
 				root: {
-					height: "100%",
+					height: "100vh",
+					width: "100vw"
 				},
 				body: {
 					height: "100%",
+					width: "100%"
 				},
 				main: {
 					backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
@@ -60,7 +60,7 @@ function MainContent() {
 				},
 			})}
 		>
-			<Board />
+			{(hasWebs || hasCategories) ? <Board /> : <EmptyState />}
 		</AppShell>
 	)
 }

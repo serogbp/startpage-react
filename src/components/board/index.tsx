@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
 	boardContainer: {
 		flexWrap: "nowrap",
 		height: "100%",
-		minWidth: "100vw",
+		minWidth: "100%",
 	},
 	board: {
 		flexWrap: "nowrap",

@@ -5,8 +5,8 @@ import { getOSModifier } from "../utils/utils"
 
 const styles = createStyles((theme, _params, getRef) => ({
 	container: {
-		width: "100vw",
-		height: "100vh",
+		width: "auto",
+		height: "100%",
 
 	},
 	emoji: {
