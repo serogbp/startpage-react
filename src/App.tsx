@@ -9,6 +9,8 @@ import { Spotlight } from './components/spotlight/Spotlight';
 import StyleProvider from './components/StyleProvider';
 import { BoardProvider, useBoard } from './hooks/useBoard/UseBoard';
 import { SettingsProvider, useSettings } from './hooks/UseSettings';
+import { AppShell, useMantineTheme } from '@mantine/core';
+import { NavbarMinimal } from './components/navbar/Navbar';
 
 
 
@@ -19,7 +21,7 @@ function App() {
 				<StyleProvider>
 					<ModalsProvider modals={{ webForm: WebModal, categoryForm: CategoryModal, settings: ModalSettings }}>
 						<Spotlight>
-							<MainContent/>
+							<MainContent />
 						</Spotlight>
 					</ModalsProvider>
 				</StyleProvider>
@@ -34,7 +36,31 @@ export default App
 function MainContent() {
 	const board = useBoard()
 	const settings = useSettings()
+
 	const hasWebs = Object.keys(board.state.webs).length > 0
 	const hasCategories = board.state.categoryOrder.length > 0 && !settings.hideEmptyColumns
-	return (hasWebs || hasCategories) ? <Board/> : <EmptyState/>
+	if (!hasWebs || !hasCategories) return <EmptyState />
+
+	return (
+		<AppShell
+			padding={0}
+			navbar={<NavbarMinimal/>}
+			styles={(theme) => ({
+				root: {
+					height: "100%",
+				},
+				body: {
+					height: "100%",
+				},
+				main: {
+					backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+					width: "auto",
+					height: "100%",
+					minHeight: 0
+				},
+			})}
+		>
+			<Board />
+		</AppShell>
+	)
 }
