@@ -17,6 +17,7 @@
 		"@mantine/modals": "5.3.3",
 		"@mantine/notifications": "5.3.3",
 		"@mantine/spotlight": "5.3.3",
+		"@tabler/icons": "^1.110.0",
 		"@typescript-eslint/eslint-plugin": "^5.37.0",
 		"@typescript-eslint/parser": "^5.37.0",
 		"dayjs": "^1.11.4",
