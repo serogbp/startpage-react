@@ -2,8 +2,8 @@ import { memo } from "react"
 import { Draggable } from "react-beautiful-dnd"
 import { ColumnTitle } from "./ColumnTitle"
 import { useSettings } from "../../hooks/UseSettings"
-import { useMantineTheme, createStyles } from "@mantine/core"
-import { backgroundColorColumn, columnLightBackground, StyleConstants } from "../../Constants"
+import { createStyles } from "@mantine/core"
+import { backgroundColorColumn } from "../../Constants"
 
 
 interface Props {
