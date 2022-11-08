@@ -36,7 +36,7 @@ export function NavbarMinimal() {
 			<Navbar.Section>
 				<Center>
 					<Tooltip label="Startpage" position="right" transitionDuration={0}>
-						<img src={"public/favicon-32x32.png"} />
+						<img width={32} src={"/startpage-react/apple-touch-icon.png"} />
 					</Tooltip>
 				</Center>
 			</Navbar.Section>
