@@ -1,12 +1,12 @@
 import { Image, createStyles } from "@mantine/core"
 import { useState } from "react"
-import { Web } from "../../Types"
-import { getDomain } from "../../utils/utils"
+import { getDomain } from "../../../utils/utils"
 
 interface Props {
 	url: string,
 	size: number
 }
+
 
 const useStyles = createStyles((theme, getRef) => ({
 	image: {

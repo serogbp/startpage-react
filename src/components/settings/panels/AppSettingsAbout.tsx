@@ -1,7 +1,7 @@
 import { Text } from "@mantine/core";
 import {Card, Group, Image, Space, Title } from "@mantine/core";
 
-import Favicon from "../../columnItem/Favicon";
+import Favicon from "../../board/columnItem/Favicon";
 import Changelog from "./Changelog";
 
 

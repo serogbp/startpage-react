@@ -1,7 +1,7 @@
 import { Text, Tooltip, createStyles } from "@mantine/core"
 import { useEffect, useRef, useState } from "react";
-import { useSettings } from "../../hooks/UseSettings";
-import { Web } from "../../Types";
+import { useSettings } from "../../../hooks/UseSettings";
+import { Web } from "../../../Types";
 
 interface Props {
 	web: Web

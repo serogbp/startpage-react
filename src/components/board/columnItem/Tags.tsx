@@ -1,6 +1,6 @@
 import { Group, Text, createStyles } from "@mantine/core"
-import { useSettings } from "../../hooks/UseSettings"
-import { Web } from "../../Types"
+import { useSettings } from "../../../hooks/UseSettings"
+import { Web } from "../../../Types"
 
 interface Props {
 	web: Web
