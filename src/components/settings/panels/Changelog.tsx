@@ -42,17 +42,17 @@ export default function Changelog() {
 				{
 					changelogArray.map(item => {
 						return (
-							<>
+							<Stack key={item.title} mb='xl'>
 								<Text size='xl' weight='bold'>{item.title}</Text>
 								<Divider />
-								<List mb='md'>
+								<List>
 									{
 										item.changes.map((change, index) => {
 											return <List.Item key={index}> {change} </List.Item>
 										})
 									}
 								</List>
-							</>
+							</Stack>
 						)
 					})
 				}
