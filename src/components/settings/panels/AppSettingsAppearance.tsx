@@ -30,7 +30,11 @@ const Theme = () => {
 	const settings = useSettings()
 	return (
 		<MyPanel title={"Theme"}>
-			<Select disabled={settings.useSystemTheme} value={settings.colorScheme} onChange={(value) => settings.setColorScheme(value as ColorScheme)} label="Color scheme"
+			<Select
+				disabled={settings.useSystemTheme}
+				value={settings.colorScheme}
+				onChange={(value) => settings.setColorScheme(value as ColorScheme)}
+				label="Color scheme"
 				data={[
 					{ value: 'light', label: 'Light' },
 					{ value: 'dark', label: 'Dark' },

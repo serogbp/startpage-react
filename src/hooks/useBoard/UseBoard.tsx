@@ -1,4 +1,4 @@
-import { Category, JsonContent, Web, WebStats } from "../../Types"
+import { Category, JsonContent, Web, WebIconType, WebStats, WebStringIcon } from "../../Types"
 import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useContext } from "react"
 import { boardWeb, BoardWeb, } from "./boardWeb"
@@ -71,12 +71,21 @@ const defaultWebStats: WebStats = {
 	lastClickTimestamp: 0
 }
 
+export const defaultWebStringIcon: WebStringIcon = {
+	text: "",
+	// Valores de los array de colores en InputStringIcon.tsx
+	backgroundColor: "blue",
+	textColor: "#f8f9fa"
+}
+
 export const defaultWeb: Web = {
 	id: -1,
 	name: "",
 	url: "",
 	tags: [],
-	stats: defaultWebStats
+	stats: defaultWebStats,
+	stringIcon: defaultWebStringIcon,
+	iconType: WebIconType.none
 }
 
 export const defaultCategory: Category = {

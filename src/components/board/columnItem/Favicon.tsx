@@ -1,10 +1,10 @@
 import { Image, createStyles } from "@mantine/core"
 import { useState } from "react"
+import { useSettings } from "../../../hooks/UseSettings"
 import { getDomain } from "../../../utils/utils"
 
 interface Props {
 	url: string,
-	size: number
 }
 
 
@@ -16,10 +16,12 @@ const useStyles = createStyles((theme, getRef) => ({
 
 
 export default function Favicon(props: Props) {
-	const { url } = props
-	const size = props.size
-	const [error, setError] = useState(false)
+	const settings = useSettings()
 	const { classes } = useStyles()
+	const [error, setError] = useState(false)
+
+	const { url } = props
+	const size = settings.webFaviconSize
 
 	return error ? <></> : <Image
 		radius='sm'

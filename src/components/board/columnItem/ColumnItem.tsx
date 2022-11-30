@@ -1,13 +1,13 @@
-import { Image, ActionIcon, Box, Card, Stack, Text, Tooltip, Group, useMantineTheme, createStyles } from "@mantine/core"
-import { memo, useEffect, useRef, useState } from "react"
+import { ActionIcon, Box, Card, Group, useMantineTheme, createStyles } from "@mantine/core"
+import { memo, useState } from "react"
 import { Pencil } from "tabler-icons-react"
 import { useBoard } from "../../../hooks/useBoard/UseBoard"
 import { useModal } from "../../../hooks/UseModal"
 import { useSettings } from "../../../hooks/UseSettings"
-import { Web } from "../../../Types"
-import { getDomain } from "../../../utils/utils"
+import { Web, WebIconType } from "../../../Types"
 import Body from "./Body"
 import Favicon from "./Favicon"
+import StringIcon from "./StringIcon"
 import Tags from "./Tags"
 
 
@@ -120,10 +120,16 @@ const ColumnItem = memo((props: Props) => {
 				flexWrap: "nowrap",
 
 			}}>
-				{
-					settings.useWebFavicon && <Favicon url={props.web.url} size={settings.webFaviconSize}/>
-				}
-				<Body web={props.web} hover={hover}/>
+				{/* {
+					settings.useWebFavicon && <Favicon url={props.web.url}/>
+				} */}
+				{/* {
+					settings.useWebFavicon && props.iconType === WebIconType.favicon && <StringIcon name={props.web.name} />
+				} */}
+
+				<Icon web={props.web} />
+
+				<Body web={props.web} hover={hover} />
 			</Group>
 
 			<Card.Section><Tags web={props.web} /></Card.Section>
@@ -140,3 +146,22 @@ const ColumnItem = memo((props: Props) => {
 
 ColumnItem.displayName = "ColumnItem"
 export default ColumnItem
+
+interface IconProps {
+	web: Web
+}
+
+function Icon(props: IconProps) {
+	const { web } = props
+	if (!web.iconType) return <></>
+	if (useSettings().useWebFavicon === false) return <></>
+
+	switch (web.iconType) {
+		case WebIconType.stringIcon:
+			return <StringIcon {...web.stringIcon} />
+		case WebIconType.favicon:
+			return <Favicon url={web.url} />
+		default:
+			return <></>
+	}
+}

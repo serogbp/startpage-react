@@ -1,7 +1,7 @@
 import { Button, CloseButton, Group, Popover, Space, Text, createStyles } from "@mantine/core"
 import { memo, useState } from "react";
 import { WebFormMode } from "../../Types";
-import WebForm from "../form/WebForm";
+import WebForm from "../form/web-form/WebForm";
 import { Plus, X } from "tabler-icons-react";
 
 interface Props {

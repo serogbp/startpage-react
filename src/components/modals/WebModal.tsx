@@ -1,6 +1,6 @@
 import { ContextModalProps } from "@mantine/modals"
 import { Web, WebFormMode } from "../../Types"
-import WebForm from "../form/WebForm"
+import WebForm from "../form/web-form/WebForm"
 
 interface Props {
 	mode: WebFormMode,

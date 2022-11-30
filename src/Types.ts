@@ -1,7 +1,7 @@
 export interface JsonContent {
 	webs: Web[],
 	categories: {
-		[key:string]: Category
+		[key: string]: Category
 	},
 	categoryOrder: string[],
 	jsonVersion: number
@@ -19,13 +19,24 @@ export interface Web {
 	id: number,
 	url: string,
 	name: string,
-	// category: string,
-	// image: string,
 	tags: string[],
 	stats: WebStats,
-	// index: number,
+	iconType: WebIconType
+	stringIcon: WebStringIcon,
 }
 
+
+export interface WebStringIcon {
+	text: string,
+	textColor: string,
+	backgroundColor: string,
+}
+
+export enum WebIconType {
+	none = 'None',
+	stringIcon = 'Text Icon',
+	favicon = 'Favicon',
+}
 
 export interface WebStats {
 	timesClicked: number,
@@ -44,7 +55,7 @@ export interface WebsByCategory {
 }
 
 export interface column {
-	[key:string]: Web[]
+	[key: string]: Web[]
 }
 
 export interface WebFilter {
@@ -56,7 +67,11 @@ export interface WebFormValues {
 	url: string,
 	name: string,
 	category: string,
-	tags: string[]
+	tags: string[],
+	iconType: WebIconType,
+	stringIconText: string,
+	stringIconBackground: string,
+	stringIconTextColor: string
 }
 
 export enum WebFormMode {
