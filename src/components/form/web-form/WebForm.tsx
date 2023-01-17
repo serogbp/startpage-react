@@ -153,7 +153,7 @@ const WebForm = memo((props: Props) => {
 	}
 
 
-	const handleSubmit = (values: FormValues, event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (values: WebFormValues, event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		switch (mode) {
 			case WebFormMode.add:

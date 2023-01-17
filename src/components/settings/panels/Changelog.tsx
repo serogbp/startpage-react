@@ -27,6 +27,12 @@ export default function Changelog() {
 				"Added a Navbar."
 			]
 		},
+		{
+			title: "v1.2.0 (2022/11/8)",
+			changes: [
+				"Added text favicons."
+			]
+		},
 
 	]
 
