@@ -30,7 +30,8 @@ export default function Changelog() {
 		{
 			title: "v1.2.0 (2022/11/8)",
 			changes: [
-				"Added text favicons."
+				"Added text favicons.",
+				"Added preview when creating or modifying a web."
 			]
 		},
 
