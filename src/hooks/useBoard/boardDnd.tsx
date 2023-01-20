@@ -11,9 +11,9 @@ export interface BoardDnd {
 
 export function boardDnd(state: JsonContent, setState: (val: JsonContent | ((prevState: JsonContent) => JsonContent)) => void): BoardDnd {
 	const dragStart = (initial: DragStart, provided: ResponderProvided) => {
-		console.log("DRAG START")
-		console.log(initial)
-		console.log(provided)
+		// console.log("DRAG START")
+		// console.log(initial)
+		// console.log(provided)
 	}
 
 

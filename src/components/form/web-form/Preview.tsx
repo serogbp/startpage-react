@@ -8,8 +8,6 @@ interface Props {
 
 export default function Preview(props: Props) {
 	const { web } = props
-	console.log(web)
-
 	return (
 		<>
 			<Text mt='xl'>Preview</Text>
