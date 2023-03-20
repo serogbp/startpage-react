@@ -71,12 +71,13 @@ export function boardCategory(state: JsonContent, setState: (val: JsonContent | 
 		})
 	}
 
+	function getName(web: Web) {
+		return Object.values(state.categories).find(category => category.webIds.includes(web.id))?.id || ""
+	}
 
-	const getName = (web: Web) => Object.values(state.categories).find(category => category.webIds.includes(web.id))?.id || ""
-
-
-	const isDuplicate = (name: string) => Object.values(state.categories).find(category => category.id.toLowerCase() === name.toLowerCase()) !== undefined
-
+	function isDuplicate (name: string) {
+		return Object.keys(state.categories).find(category => category.toLowerCase() === name.toLowerCase()) !== undefined
+	}
 
 	return {
 		add, update, remove, getName, isDuplicate
