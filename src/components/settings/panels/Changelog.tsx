@@ -34,6 +34,12 @@ export default function Changelog() {
 				"Added preview when creating or modifying a web."
 			]
 		},
+		{
+			title: "v1.2.1 (2023/4/15)",
+			changes: [
+				"Fix: error creating new category",
+			]
+		},
 
 	]
 

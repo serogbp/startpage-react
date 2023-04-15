@@ -33,6 +33,7 @@ const Column = memo((props: Props) => {
 	const backgroundColor = backgroundColorColumn()
 	const { classes } = useStyles({ backgroundColor })
 
+	// TODO linea 49 mala practica
 	return (
 		<Draggable draggableId={props.name} index={props.index}>
 			{(provided) => (
@@ -45,7 +46,7 @@ const Column = memo((props: Props) => {
 						className={classes.column}
 						style={{ width: settings.columnWidth }}
 					>
-						<ColumnTitle name={props.name} dragHandleProps={provided.dragHandleProps} />
+						<ColumnTitle name={props.name} dragHandleProps={provided.dragHandleProps!} />
 						{props.children}
 					</div>
 				</div>
