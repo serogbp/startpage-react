@@ -1,10 +1,10 @@
-import { Search, Plus, Settings, Link } from "tabler-icons-react";
-import { SpotlightProvider } from '@mantine/spotlight';
-import type { SpotlightAction } from '@mantine/spotlight';
-import {useBoard } from "../../hooks/useBoard/UseBoard";
-import { useModal } from "../../hooks/UseModal";
-import { CustomAction } from "./CustomAction";
-import fuzzysort from "fuzzysort";
+import { IconSearch, IconPlus, IconSettings, IconLink } from "@tabler/icons"
+import { SpotlightProvider } from '@mantine/spotlight'
+import type { SpotlightAction } from '@mantine/spotlight'
+import {useBoard } from "../../hooks/useBoard/UseBoard"
+import { useModal } from "../../hooks/UseModal"
+import { CustomAction } from "./CustomAction"
+import fuzzysort from "fuzzysort"
 
 
 export function Spotlight(props: any) {
@@ -21,7 +21,7 @@ export function Spotlight(props: any) {
 			description: `${web.url} ${web.tags}`,
 			group: "Webs",
 			onTrigger: () => board.web.open(web, category),
-			icon: <Link size={18} />,
+			icon: <IconLink size={18} />,
 			web: web,
 			category: category,
 		}
@@ -34,21 +34,21 @@ export function Spotlight(props: any) {
 				title: "New web",
 				group: "Actions",
 				onTrigger: modal.webAdd,
-				icon: <Plus size={18} />,
+				icon: <IconPlus size={18} />,
 			},
 			{
 				id: "addColumn",
 				title: "New category",
 				group: "Actions",
 				onTrigger: modal.category,
-				icon: <Plus size={18} />,
+				icon: <IconPlus size={18} />,
 			},
 			{
 				id: "settings",
 				title: "Settings",
 				group: "Actions",
 				onTrigger: modal.settings,
-				icon: <Settings size={18} />,
+				icon: <IconSettings size={18} />,
 			},
 		]
 
@@ -122,12 +122,12 @@ export function Spotlight(props: any) {
 		<SpotlightProvider
 			actions={webActions}
 			actionComponent={CustomAction}
-			searchIcon={<Search size={18} />}
+			searchIcon={<IconSearch size={18} />}
 			searchPlaceholder="Search..."
 			shortcut={['mod + P', 'mod + K', '/']}
 			nothingFoundMessage="Nothing found..."
 			highlightQuery
-			
+
 			limit = {LIMIT_OF_ACTIONS_ON_SCREEN}
 			filter={(query, actions) => customBasicFilter(query, actions)}
 		>

@@ -24,7 +24,6 @@
 		"react-dom": "18.2.0",
 		"react-virtuoso": "4.1.0",
 		"signal-js": "github:Markos-Th09/signal-js",
-		"tabler-icons-react": "1.54.0",
 		"@tabler/icons": "1.110.0"
 	},
 	"devDependencies": {

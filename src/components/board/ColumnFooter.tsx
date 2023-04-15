@@ -2,7 +2,8 @@ import { Button, CloseButton, Group, Popover, Space, Text, createStyles } from "
 import { memo, useState } from "react";
 import { WebFormMode } from "../../Types";
 import WebForm from "../form/web-form/WebForm";
-import { Plus, X } from "tabler-icons-react";
+import { IconPlus, IconX } from "@tabler/icons";
+
 
 interface Props {
 	category: string,
@@ -33,7 +34,7 @@ const ColumnFooter = memo((props: Props) => {
 
 				<Button variant="subtle" color={opened ? "red" : ""} onClick={() => setOpened(!opened)} className={classes.columnFooter_Button}>
 					{
-						opened ? <X /> : <Plus strokeWidth={1.5} />
+						opened ? <IconX /> : <IconPlus strokeWidth={1.5} />
 					}
 				</Button>
 

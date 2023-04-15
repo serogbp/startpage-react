@@ -1,12 +1,12 @@
-import { Button, Text, useMantineTheme, Group, Alert } from "@mantine/core";
-import { Dropzone } from "@mantine/dropzone";
-import { useState } from "react";
-import { AlertTriangle, Download, Upload, X } from "tabler-icons-react";
-import { useBoard } from "../../../hooks/useBoard/UseBoard";
-import { useSettings } from "../../../hooks/UseSettings";
-import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip";
-import MyDivider from "../common/MyDivider";
-import MyPanel from "../common/MyPanel";
+import { Button, Text, useMantineTheme, Group, Alert } from "@mantine/core"
+import { Dropzone } from "@mantine/dropzone"
+import { useState } from "react"
+import { IconAlertTriangle, IconDownload, IconUpload, IconX } from "@tabler/icons"
+import { useBoard } from "../../../hooks/useBoard/UseBoard"
+import { useSettings } from "../../../hooks/UseSettings"
+import { DeleteButtonTooltip } from "../../form/DeleteButtonToolTip"
+import MyDivider from "../common/MyDivider"
+import MyPanel from "../common/MyPanel"
 
 
 export default function AppSettingsData() {
@@ -37,11 +37,11 @@ const Export = () => {
 					{ value: "1", label: 'yyyy-mm-dd-startpage.json' },
 				]}
 			/> */}
-			<Button leftIcon={<Download />} onClick={() => handleClick()}>
+			<Button leftIcon={<IconDownload />} onClick={() => handleClick()}>
 				Export webs
 			</Button>
 			<Text size="xs" color="dimmed">Export your webs in .json format</Text>
-			<Alert color="yellow" icon={<AlertTriangle color={theme.colors.yellow[6]} />} title="Make frequent backups">
+			<Alert color="yellow" icon={<IconAlertTriangle color={theme.colors.yellow[6]} />} title="Make frequent backups">
 				The webs are saved in the localStorage of the browser. It is very easy to lose data in this type of storage (e.g. by clearing the browser cache). So it is advisable to make frequent backups.
 			</Alert>
 		</MyPanel>
@@ -76,19 +76,19 @@ const Import = () => {
 			>
 				<Group position="center" style={{ pointerEvents: 'none' }}>
 					<Dropzone.Accept>
-						<Upload
+						<IconUpload
 							size={24}
 							color={theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]}
 						/>
 					</Dropzone.Accept>
 					<Dropzone.Reject>
-						<X
+						<IconX
 							size={24}
 							color={theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]}
 						/>
 					</Dropzone.Reject>
 					<Dropzone.Idle>
-						<Upload size={24} />
+						<IconUpload size={24} />
 					</Dropzone.Idle>
 
 					<div>

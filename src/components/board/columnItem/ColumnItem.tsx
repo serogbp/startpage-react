@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Card, Group, useMantineTheme, createStyles } from "@mantine/core"
 import { memo, useState } from "react"
-import { Pencil } from "tabler-icons-react"
+import { IconPencil } from "@tabler/icons"
 import { useBoard } from "../../../hooks/useBoard/UseBoard"
 import { useModal } from "../../../hooks/UseModal"
 import { useSettings } from "../../../hooks/UseSettings"
@@ -136,7 +136,7 @@ const ColumnItem = memo((props: Props) => {
 
 			<Box hidden={!hover} className={classes.settings}>
 				<ActionIcon onClick={handleClickSettings} variant="light" >
-					<Pencil size={16} />
+					<IconPencil size={16} />
 				</ActionIcon>
 			</Box>
 

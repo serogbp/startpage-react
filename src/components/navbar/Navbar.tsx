@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Navbar, Text, Stack, useMantineTheme, Center, Tooltip } from '@mantine/core'
-import { IconSettings } from '@tabler/icons'
 import { NavbarLink } from './NavbarLink'
 import { useModal } from '../../hooks/UseModal'
 import { useSettings } from '../../hooks/UseSettings'
 import { backgroundColorColumn } from '../../Constants'
+import { IconSettings } from '@tabler/icons'
 
 const icons = [
 	{ icon: IconSettings, label: 'Settings' },

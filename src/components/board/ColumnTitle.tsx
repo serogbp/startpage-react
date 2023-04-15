@@ -1,7 +1,7 @@
 import { memo, useState } from "react"
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd"
 import { ActionIcon, Box, Popover, Group, Text, CloseButton, Space, createStyles } from "@mantine/core"
-import { Pencil } from "tabler-icons-react"
+import { IconPencil } from "@tabler/icons"
 import CategoryFormUpdate from "../form/CategoryFormUpdate"
 
 interface TitleProps {
@@ -52,7 +52,7 @@ export const ColumnTitle = memo((props: TitleProps) => {
 				>
 					<Box hidden={!hover || opened} className={classes.columnTitle_Settings}>
 						<ActionIcon onClick={handleOpen} variant="light">
-							<Pencil size={16} />
+							<IconPencil size={16} />
 						</ActionIcon>
 					</Box>
 					<p {...props.dragHandleProps} className={[classes.columnTitle, classes.wordBreak].join(" ")}> {props.name} </p>
